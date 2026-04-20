@@ -43,12 +43,15 @@ export default function AboutContent() {
       <section ref={ref} className="relative min-h-[90vh] bg-ink text-bone overflow-hidden" data-surface="dark">
         <motion.div style={{ y: imgY }} className="absolute inset-0 -z-0">
           <Image
-            src="https://images.unsplash.com/photo-1519417108472-cf20b9daa5ca?w=2400&q=85"
-            alt="Soft water falling across hands"
+            src="/product/hero-lifestyle.jpg"
+            alt="Soft water falling in a moody bathroom"
             fill
             priority
-            className="object-cover"
+            className="object-cover object-[55%_center]"
+            sizes="100vw"
           />
+          {/* Mask the FLO logo top-left of source image */}
+          <div className="absolute top-0 left-0 w-[220px] h-[80px] bg-gradient-to-br from-ink/90 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/80" />
         </motion.div>
 

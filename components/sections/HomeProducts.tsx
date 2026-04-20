@@ -24,10 +24,10 @@ export default function HomeProducts() {
             className="relative aspect-[4/5] lg:aspect-[5/6] overflow-hidden rounded-sm bg-water"
           >
             <Image
-              src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=2000&q=90"
-              alt="The Feels Like Om filtered shower head"
+              src="/product/product-bathroom.jpg"
+              alt="The Feels Like Om filtered shower head, shown in a luxe bathroom"
               fill
-              className="object-cover"
+              className="object-cover object-[30%_center]"
               sizes="(max-width: 1024px) 100vw, 60vw"
             />
             {/* Floating label */}

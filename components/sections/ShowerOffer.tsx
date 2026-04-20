@@ -73,28 +73,41 @@ export default function ShowerOffer() {
           <Reveal>
             <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-mist">
               <Image
-                src="https://images.unsplash.com/photo-1610641818989-c2051b5e2cfd?w=1400&q=85"
-                alt="Feels Like Om filtered shower head on a bathroom ledge"
+                src="/product/product-bathroom.jpg"
+                alt="Feels Like Om filtered shower head on a marble bathroom counter"
                 fill
-                className="object-cover"
+                className="object-cover object-[30%_center]"
+                sizes="(max-width: 1024px) 100vw, 40vw"
               />
             </div>
           </Reveal>
           <Reveal delay={0.15}>
             <div className="mt-6 grid grid-cols-3 gap-3">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="relative aspect-square overflow-hidden rounded-sm bg-mist">
+              {[
+                { src: "/product/product-white-composite.jpg", alt: "Chrome filtered shower head" },
+                { src: "/product/product-black-composite.jpg", alt: "Black filtered shower head" },
+                { src: "/product/dimensions.jpg", alt: "Product dimensions" },
+              ].map((img) => (
+                <div key={img.src} className="relative aspect-square overflow-hidden rounded-sm bg-mist">
                   <Image
-                    src={`https://images.unsplash.com/photo-${
-                      i === 1 ? "1552321554-5fefe8c9ef14" : i === 2 ? "1626808642875-0aa545482dfb" : "1584305574647-0cc949a2bb9f"
-                    }?w=600&q=85`}
-                    alt=""
+                    src={img.src}
+                    alt={img.alt}
                     fill
                     className="object-cover"
+                    sizes="200px"
                   />
                 </div>
               ))}
             </div>
+          </Reveal>
+          <Reveal delay={0.25}>
+            <p className="mt-4 overline text-muted flex items-center gap-3">
+              <span className="flex gap-1.5">
+                <span className="h-3 w-3 rounded-full bg-bone border border-ink/30" />
+                <span className="h-3 w-3 rounded-full bg-ink" />
+              </span>
+              Available in chrome &amp; black
+            </p>
           </Reveal>
         </div>
 
