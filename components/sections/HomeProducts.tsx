@@ -2,97 +2,102 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import Reveal from "@/components/Reveal";
-
-const PRODUCTS = [
-  {
-    href: "/shower",
-    eyebrow: "The daily one",
-    title: "Filtered Shower Head",
-    price: 139,
-    subPrice: 125,
-    line: "20-stage media stack. Reduces chlorine, heavy metals, odor, and sediment — at hot-shower temperatures.",
-    bullets: ["6 months / 12,000 gallons per filter", "Installs in under 90 seconds", "Fits standard U.S. thread"],
-    image: "https://images.unsplash.com/photo-1610641818989-c2051b5e2cfd?w=1600&q=85",
-  },
-  {
-    href: "/bath",
-    eyebrow: "The slow one",
-    title: "Bath Water Filter",
-    price: 59,
-    subPrice: 53,
-    line: "A dechlorinating filter that clips to your tap and softens the water before it ever touches your skin.",
-    bullets: ["Catches chlorine + sediment before fill", "No tools, no install", "Designed for long soaks"],
-    image: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1600&q=85",
-  },
-] as const;
+import { PRODUCTS } from "@/lib/checkout";
 
 export default function HomeProducts() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
+
   return (
-    <section className="bg-mist py-32 md:py-44">
-      <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <div className="flex items-end justify-between mb-20 md:mb-28">
-          <Reveal>
-            <div>
-              <p className="overline text-deep mb-6">The collection</p>
-              <h2 className="display text-[11vw] md:text-[6vw] leading-[0.98] max-w-2xl">
-                Two filters.
-                <br />
-                <span className="display-italic text-deep">One quieter routine.</span>
-              </h2>
-            </div>
-          </Reveal>
+    <section ref={ref} className="bg-mist py-32 md:py-48 overflow-hidden">
+      <div className="mx-auto max-w-[1400px] px-5 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-20 items-center">
+        <div className="lg:col-span-7 relative order-2 lg:order-1">
+          <motion.div
+            style={{ y: imgY }}
+            className="relative aspect-[4/5] lg:aspect-[5/6] overflow-hidden rounded-sm bg-water"
+          >
+            <Image
+              src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=2000&q=90"
+              alt="The Feels Like Om filtered shower head"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 60vw"
+            />
+            {/* Floating label */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-15%" }}
+              transition={{ delay: 0.3, duration: 0.7 }}
+              className="absolute bottom-6 left-6 bg-bone/95 backdrop-blur px-5 py-4 rounded-sm shadow-lg shadow-ink/10 max-w-xs"
+            >
+              <p className="overline text-deep mb-1">Chapter one</p>
+              <p className="display text-[22px] text-ink leading-tight">The Filtered Shower Head</p>
+              <p className="text-[12px] text-muted mt-2">20 stages. 6-month filter. 90-second install.</p>
+            </motion.div>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-14">
-          {PRODUCTS.map((p, i) => (
-            <Reveal key={p.href} delay={0.15 * i} y={40}>
-              <Link href={p.href} className="group block">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-water">
-                  <motion.div
-                    className="absolute inset-0"
-                    whileHover={{ scale: 1.04 }}
-                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <Image
-                      src={p.image}
-                      alt={p.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  </motion.div>
-                  <div className="absolute top-5 left-5 overline text-bone bg-ink/40 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                    {p.eyebrow}
-                  </div>
-                  <div className="absolute bottom-5 right-5 h-10 w-10 rounded-full bg-bone text-ink flex items-center justify-center group-hover:bg-deep group-hover:text-bone transition-colors">
-                    →
-                  </div>
-                </div>
+        <div className="lg:col-span-5 order-1 lg:order-2 relative z-10">
+          <Reveal>
+            <p className="overline text-deep mb-6 flex items-center gap-3">
+              <span className="inline-block w-6 h-px bg-deep" />
+              The product
+            </p>
+          </Reveal>
 
-                <div className="mt-8 grid grid-cols-12 gap-4 items-start">
-                  <div className="col-span-8">
-                    <h3 className="display text-[32px] md:text-[38px] leading-tight">{p.title}</h3>
-                    <p className="mt-3 text-[15px] leading-relaxed text-muted max-w-md">{p.line}</p>
-                    <ul className="mt-5 space-y-1.5 text-[13px] text-ink/70">
-                      {p.bullets.map((b) => (
-                        <li key={b} className="flex gap-2">
-                          <span className="text-deep">·</span> {b}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="col-span-4 text-right">
-                    <p className="overline text-muted mb-1">From</p>
-                    <p className="display text-3xl text-ink">${p.subPrice}</p>
-                    <p className="text-[11px] text-muted mt-1">with subscription</p>
-                    <p className="text-[11px] text-muted line-through">${p.price} one-time</p>
-                  </div>
-                </div>
+          <Reveal delay={0.1}>
+            <h2 className="display text-[11vw] md:text-[5.5vw] leading-[0.98]">
+              One filter,
+              <br />
+              <span className="display-italic text-deep">done right.</span>
+            </h2>
+          </Reveal>
+
+          <Reveal delay={0.2}>
+            <p className="mt-8 text-[16px] md:text-[17px] leading-relaxed text-muted max-w-md">
+              Instead of two okay products, we built one exceptional one.
+              Twenty stages of filtration — KDF-55, calcium sulfite, activated
+              carbon — tuned for the way showers actually behave. Hot, high flow,
+              short contact. Reduces chlorine, heavy metals, and odor before they
+              touch your skin.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.3}>
+            <div className="mt-10 flex items-baseline gap-3">
+              <span className="display text-[44px] text-ink leading-none">${PRODUCTS.shower.subscribePrice}</span>
+              <span className="text-muted line-through text-lg">${PRODUCTS.shower.price}</span>
+              <span className="overline text-deep">subscribe</span>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.4}>
+            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+              <Link href="/shower#offer" className="btn-primary">
+                Shop now — 20% off
+                <span aria-hidden>→</span>
               </Link>
-            </Reveal>
-          ))}
+              <Link href="/shower" className="btn-secondary">
+                How it works
+              </Link>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.5}>
+            <div className="mt-10 pt-6 border-t border-ink/15 flex flex-wrap gap-x-5 gap-y-2 text-[11px] tracking-wider uppercase text-muted">
+              <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 100K+ orders shipped</span>
+              <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 5M+ TikTok views</span>
+              <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 60-day returns</span>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

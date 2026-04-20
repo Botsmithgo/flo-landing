@@ -169,12 +169,9 @@ export default function AboutContent() {
             </p>
           </Reveal>
           <Reveal delay={0.3}>
-            <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="mt-12 flex items-center justify-center">
               <Link href="/shower#offer" className="btn-primary !bg-bone !text-ink hover:!bg-sage">
                 Shop the shower filter
-              </Link>
-              <Link href="/bath" className="btn-secondary text-bone">
-                Or the bath filter →
               </Link>
             </div>
           </Reveal>

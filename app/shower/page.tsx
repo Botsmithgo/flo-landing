@@ -4,6 +4,7 @@ import ShowerProof from "@/components/sections/ShowerProof";
 import TikTokProof from "@/components/sections/TikTokProof";
 import ShowerProblem from "@/components/sections/ShowerProblem";
 import ShowerStudy from "@/components/sections/ShowerStudy";
+import BrandCredibility from "@/components/sections/BrandCredibility";
 import ShowerOffer from "@/components/sections/ShowerOffer";
 import ShowerBenefits from "@/components/sections/ShowerBenefits";
 import ShowerScience from "@/components/sections/ShowerScience";
@@ -46,6 +47,9 @@ export default function ShowerPage() {
 
       {/* STUDY — hard proof, numeric, above offer */}
       <ShowerStudy />
+
+      {/* BRAND CREDIBILITY RIBBON — final trust hit before asking for money */}
+      <BrandCredibility />
 
       {/* OFFER — MOVED UP: they're ready to buy by here */}
       <ShowerOffer />

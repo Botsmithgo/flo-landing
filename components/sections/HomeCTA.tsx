@@ -39,10 +39,10 @@ export default function HomeCTA() {
         <Reveal delay={0.3}>
           <div className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/shower#offer" className="btn-primary !bg-bone !text-ink hover:!bg-sage hover:!text-ink">
-              Shop the shower filter
+              Shop now — 20% off first order
             </Link>
-            <Link href="/bath" className="btn-secondary text-bone">
-              Or the bath filter →
+            <Link href="/about" className="btn-secondary text-bone">
+              Our story →
             </Link>
           </div>
         </Reveal>

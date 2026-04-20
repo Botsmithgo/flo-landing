@@ -19,8 +19,8 @@ export default function Footer() {
             <p className="overline text-bone/50 mb-4">Shop</p>
             <ul className="space-y-2 text-[14px]">
               <li><Link href="/shower" className="hover:text-bone transition-colors">Filtered Shower Head</Link></li>
-              <li><Link href="/bath" className="hover:text-bone transition-colors">Bath Water Filter</Link></li>
               <li><Link href="/shower#offer" className="hover:text-bone transition-colors">Subscribe &amp; Save</Link></li>
+              <li><Link href="/shower#science" className="hover:text-bone transition-colors">How it works</Link></li>
             </ul>
           </div>
 

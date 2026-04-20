@@ -49,7 +49,7 @@ export default function ShowerHeroV2() {
               className="absolute bottom-5 right-5 bg-deeper/90 backdrop-blur px-4 py-2.5 rounded-full text-bone text-[11px] tracking-widest uppercase flex items-center gap-2"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-              1M+ on TikTok
+              5M+ views on TikTok
             </motion.div>
           </motion.div>
         </div>
@@ -61,11 +61,17 @@ export default function ShowerHeroV2() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex items-center gap-3 mb-6"
+            className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-6"
           >
-            <span className="text-deep text-base">★★★★★</span>
+            <span className="flex items-center gap-2">
+              <span className="text-deep text-base">★★★★★</span>
+              <span className="text-[13px] text-muted">
+                <span className="text-ink font-medium">4.8</span>
+              </span>
+            </span>
+            <span className="text-[13px] text-muted">·</span>
             <span className="text-[13px] text-muted">
-              <span className="text-ink font-medium">4.8</span> · 1,400+ reviews
+              <span className="text-ink font-medium">100,000+</span> orders shipped
             </span>
           </motion.div>
 
@@ -132,17 +138,17 @@ export default function ShowerHeroV2() {
             </Link>
           </motion.div>
 
-          {/* Trust strip */}
+          {/* Trust strip — real social proof numbers */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.75, duration: 0.7 }}
             className="mt-8 pt-6 border-t border-ink/10 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] tracking-wider uppercase text-muted"
           >
-            <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> Lab-tested</span>
-            <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> KDF-55 + carbon</span>
-            <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 90-second install</span>
-            <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> Fits standard US thread</span>
+            <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 100K+ orders shipped</span>
+            <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 5M+ views on TikTok</span>
+            <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> Independently lab-tested</span>
+            <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 60-day guarantee</span>
           </motion.div>
         </div>
       </div>

@@ -8,19 +8,19 @@ const TIKTOKS = [
     id: "7476519012743056670",
     cite: "https://www.tiktok.com/@feelslikeom.shop/video/7476519012743056670",
     hook: "Hard water might be tough on your pipes — but it&apos;s tougher on your hair.",
-    views: "1M+",
+    label: "Top performer",
   },
   {
     id: "7529031516001815838",
     cite: "https://www.tiktok.com/@feelslikeom.shop/video/7529031516001815838",
     hook: "Give your shower the same standards as your skincare.",
-    views: "500K+",
+    label: "Most shared",
   },
   {
     id: "7473352116153715998",
     cite: "https://www.tiktok.com/@feelslikeom.shop/video/7473352116153715998",
     hook: "Side effects may include: silky hair, clear skin, endless compliments.",
-    views: "300K+",
+    label: "Breakout hit",
   },
 ];
 
@@ -41,6 +41,9 @@ export default function TikTokProof() {
                   <br />
                   <span className="display-italic text-deep">went viral on TikTok.</span>
                 </h2>
+                <p className="mt-6 text-[15px] md:text-[16px] text-muted max-w-lg leading-relaxed">
+                  5 million views. 100,000 orders. No press release required.
+                </p>
               </div>
               <a
                 href="https://www.tiktok.com/@feelslikeom.shop"
@@ -58,7 +61,7 @@ export default function TikTokProof() {
               <Reveal key={t.id} delay={i * 0.08}>
                 <div className="relative rounded-sm bg-mist/50 p-5">
                   <div className="flex items-center justify-between mb-4 text-[11px] tracking-widest uppercase">
-                    <span className="text-deep font-medium">{t.views} views</span>
+                    <span className="text-deep font-medium">{t.label}</span>
                     <span className="text-muted">#{i + 1}</span>
                   </div>
                   <blockquote

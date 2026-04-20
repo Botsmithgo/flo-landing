@@ -41,15 +41,4 @@ export const PRODUCTS = {
       subscription: process.env.NEXT_PUBLIC_SHOPIFY_VARIANT_SHOWER_SUBSCRIPTION ?? "",
     },
   },
-  bath: {
-    name: "Bath Water Filter",
-    price: 59,
-    subscribePrice: 53,
-    firstOrderDiscount: 20,
-    filterLife: "2 months · per filter",
-    variants: {
-      single: process.env.NEXT_PUBLIC_SHOPIFY_VARIANT_BATH_SINGLE ?? "",
-      subscription: process.env.NEXT_PUBLIC_SHOPIFY_VARIANT_BATH_SUBSCRIPTION ?? "",
-    },
-  },
 } as const;

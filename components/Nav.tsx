@@ -6,8 +6,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_LINKS = [
-  { href: "/shower", label: "Shower Filter" },
-  { href: "/bath", label: "Bath Filter" },
+  { href: "/shower", label: "The Shower Filter" },
   { href: "/about", label: "Story" },
 ];
 
