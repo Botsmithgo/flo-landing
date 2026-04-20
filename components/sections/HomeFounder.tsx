@@ -20,8 +20,8 @@ export default function HomeFounder() {
         <div className="md:col-span-5 relative aspect-[4/5] overflow-hidden rounded-sm">
           <motion.div style={{ y: imgY }} className="absolute inset-0 scale-110">
             <Image
-              src="/product/hero-lifestyle.jpg"
-              alt="Soft shower water and steam"
+              src="/product/hair-lifestyle.jpg"
+              alt="Soft, healthy hair — the quiet result of cleaner water"
               fill
               className="object-cover object-[55%_center]"
               sizes="(max-width: 1024px) 100vw, 40vw"

@@ -19,28 +19,48 @@ export default function HomeProducts() {
     <section ref={ref} className="bg-mist py-32 md:py-48 overflow-hidden">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-20 items-center">
         <div className="lg:col-span-7 relative order-2 lg:order-1">
+          {/* Dark editorial panel — the cutaway floats in darkness for drama */}
           <motion.div
             style={{ y: imgY }}
-            className="relative aspect-[4/5] lg:aspect-[5/6] overflow-hidden rounded-sm bg-water"
+            className="relative aspect-[4/5] lg:aspect-[5/6] overflow-hidden rounded-sm bg-ink"
+            data-surface="dark"
           >
-            <Image
-              src="/product/product-bathroom.jpg"
-              alt="The Feels Like Om filtered shower head, shown in a luxe bathroom"
-              fill
-              className="object-cover object-[30%_center]"
-              sizes="(max-width: 1024px) 100vw, 60vw"
-            />
+            {/* Ambient blue glow behind filter */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="absolute w-[70%] h-[70%] rounded-full bg-deep/30 blur-[100px]" />
+            </div>
+            {/* Concentric ripples for premium motion */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="absolute w-[55%] h-[55%] rounded-full border border-bone/10 ripple" />
+              <div className="absolute w-[55%] h-[55%] rounded-full border border-bone/8 ripple" style={{ animationDelay: "1.8s" }} />
+            </div>
+            {/* Cutaway image — subtly breathing */}
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center p-10"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
+            >
+              <div className="relative w-full h-full">
+                <Image
+                  src="/product/filter-cutaway.png"
+                  alt="20-stage filter cutaway — KDF, calcium sulfite, activated carbon, mineral stones"
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                />
+              </div>
+            </motion.div>
             {/* Floating label */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-15%" }}
               transition={{ delay: 0.3, duration: 0.7 }}
-              className="absolute bottom-6 left-6 bg-bone/95 backdrop-blur px-5 py-4 rounded-sm shadow-lg shadow-ink/10 max-w-xs"
+              className="absolute bottom-6 left-6 bg-bone/95 backdrop-blur px-5 py-4 rounded-sm shadow-lg shadow-ink/40 max-w-xs"
             >
-              <p className="overline text-deep mb-1">Chapter one</p>
-              <p className="display text-[22px] text-ink leading-tight">The Filtered Shower Head</p>
-              <p className="text-[12px] text-muted mt-2">20 stages. 6-month filter. 90-second install.</p>
+              <p className="overline text-deep mb-1">The stack</p>
+              <p className="display text-[22px] text-ink leading-tight">20 media stages</p>
+              <p className="text-[12px] text-muted mt-2">KDF-55 · calcium sulfite · activated carbon · mineral stones.</p>
             </motion.div>
           </motion.div>
         </div>
