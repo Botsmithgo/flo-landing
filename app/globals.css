@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+/* =======================================================
+   FLO — Brand tokens
+   Clean water → spa mist → eucalyptus — warm, soft, confident
+   ======================================================= */
+
+:root {
+  --ink: #14231C;         /* deep eucalyptus-charcoal — primary text */
+  --ink-2: #1D2E26;       /* secondary ink for layered dark surfaces */
+  --bone: #F7F3EC;        /* warm cream — primary light bg */
+  --mist: #ECEFEA;        /* pale eucalyptus mist — alt bg */
+  --water: #DDE7E6;       /* water wash — tertiary bg */
+  --sage: #7C9A8A;        /* sage green — secondary accent */
+  --deep: #2E4D44;        /* deep teal — primary CTA / italic accents */
+  --gold: #C9A96E;        /* hairline accent */
+  --muted: #647067;       /* muted text */
+
+  --background: var(--bone);
+  --foreground: var(--ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-bone: var(--bone);
+  --color-mist: var(--mist);
+  --color-water: var(--water);
+  --color-sage: var(--sage);
+  --color-deep: var(--deep);
+  --color-gold: var(--gold);
+  --color-muted: var(--muted);
+
+  --font-sans: var(--font-sans-flo);
+  --font-serif: var(--font-serif-flo);
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans-flo), system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--deep);
+  color: var(--bone);
+}
+
+/* Hairline divider */
+.hairline {
+  height: 1px;
+  background: currentColor;
+  opacity: 0.18;
+}
+
+/* Overline caps label */
+.overline {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Editorial serif display */
+.display {
+  font-family: var(--font-serif-flo), Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+}
+
+.display-italic {
+  font-family: var(--font-serif-flo), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* Infinite marquee */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee-x 45s linear infinite;
+}
+
+/* Breathing water gradient (used on hero backgrounds) */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50%      { transform: scale(1.05); opacity: 1; }
+}
+
+.breathe {
+  animation: breathe 10s ease-in-out infinite;
+}
+
+/* Subtle grain overlay */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* Water ripple animation — used on hero image masks */
+@keyframes ripple {
+  0%   { transform: scale(0.95); opacity: 0; }
+  50%  { opacity: 0.3; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.ripple {
+  animation: ripple 4s ease-out infinite;
+}
+
+/* Primary CTA pill */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 1.75rem;
+  border-radius: 999px;
+  background: var(--deep);
+  color: var(--bone);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background 0.3s ease, transform 0.3s ease;
+  will-change: transform;
+}
+.btn-primary:hover {
+  background: var(--ink);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: opacity 0.3s ease;
+}
+.btn-secondary:hover {
+  opacity: 0.7;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
