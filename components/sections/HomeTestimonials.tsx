@@ -2,6 +2,14 @@
 
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
+import { FaceIcon, FollicleIcon, HairIcon, DropletIcon } from "@/components/icons/StudyIcons";
+
+const STUDY_STATS = [
+  { n: "91%", l: "Reduced acne & skin irritation", Icon: FaceIcon },
+  { n: "82%", l: "Noticed less dryness & breakage", Icon: FollicleIcon },
+  { n: "87%", l: "Experienced less hair frizz", Icon: HairIcon },
+  { n: "90%", l: "Felt better water pressure", Icon: DropletIcon },
+];
 
 const TESTIMONIALS = [
   {
@@ -37,18 +45,26 @@ export default function HomeTestimonials() {
           </div>
         </Reveal>
 
-        {/* 4-week perception study stats */}
+        {/* 4-week perception study stats — illustrated */}
+        <Reveal delay={0.05}>
+          <p className="display italic text-2xl md:text-3xl text-deep mb-10 max-w-2xl leading-snug">
+            Results from a consumer perception study with all hair types, after 4 weeks.
+          </p>
+        </Reveal>
         <Reveal delay={0.1}>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-6 py-14 border-y border-ink/10">
-            <Stat number="91%" label="reported reduced skin irritation" />
-            <Stat number="87%" label="noticed less hair frizz" />
-            <Stat number="82%" label="felt less dryness & breakage" />
-            <Stat number="90%" label="preferred the water pressure" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8 py-10 border-y border-ink/10">
+            {STUDY_STATS.map((s) => (
+              <div key={s.n} className="flex flex-col items-start">
+                <s.Icon className="text-deep mb-4" size={52} />
+                <p className="display text-4xl md:text-[56px] leading-none text-deep">{s.n}</p>
+                <p className="text-[12px] md:text-[13px] mt-3 text-muted leading-snug max-w-[200px]">{s.l}</p>
+              </div>
+            ))}
           </div>
         </Reveal>
         <Reveal delay={0.15}>
-          <p className="mt-4 text-[12px] text-muted max-w-lg">
-            Four-week consumer perception study, self-reported. Individual results vary.
+          <p className="mt-4 text-[11px] text-muted max-w-lg">
+            *Results from a 4-week consumer perception study. Self-reported. Individual outcomes vary.
           </p>
         </Reveal>
 
@@ -81,14 +97,5 @@ export default function HomeTestimonials() {
         </div>
       </div>
     </section>
-  );
-}
-
-function Stat({ number, label }: { number: string; label: string }) {
-  return (
-    <div>
-      <p className="display text-4xl md:text-[56px] leading-none text-deep">{number}</p>
-      <p className="text-[12px] md:text-[13px] mt-3 text-muted leading-snug">{label}</p>
-    </div>
   );
 }
