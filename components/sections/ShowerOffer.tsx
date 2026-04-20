@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { buildCheckoutUrl, PRODUCTS } from "@/lib/checkout";
 
 type Plan = "subscribe" | "single";
+type Color = "chrome" | "black";
 
 type PlanOption = {
   id: Plan;
@@ -47,9 +48,39 @@ const PLANS: PlanOption[] = [
   },
 ];
 
+const COLORS: Record<Color, {
+  label: string;
+  swatch: string;
+  hero: string;
+  thumbs: string[];
+}> = {
+  chrome: {
+    label: "Chrome",
+    swatch: "bg-gradient-to-br from-bone to-water",
+    hero: "/product/product-bathroom.jpg",
+    thumbs: [
+      "/product/product-white-composite.jpg",
+      "/product/product-white-face.jpg",
+      "/product/dimensions.jpg",
+    ],
+  },
+  black: {
+    label: "Matte Black",
+    swatch: "bg-gradient-to-br from-ink-2 to-ink",
+    hero: "/product/product-black-composite.jpg",
+    thumbs: [
+      "/product/product-black-face.jpg",
+      "/product/hero-lifestyle.jpg",
+      "/product/dimensions.jpg",
+    ],
+  },
+};
+
 export default function ShowerOffer() {
   const [plan, setPlan] = useState<Plan>("subscribe");
+  const [color, setColor] = useState<Color>("chrome");
   const selected = PLANS.find((p) => p.id === plan)!;
+  const cw = COLORS[color];
 
   const variantId =
     plan === "subscribe"
@@ -62,36 +93,70 @@ export default function ShowerOffer() {
           variantId,
           quantity: 1,
           discount: plan === "subscribe" ? process.env.NEXT_PUBLIC_FIRST_ORDER_DISCOUNT : undefined,
+          attributes: { color: cw.label },
         })
       : "https://feelslikeom.shop";
 
   return (
     <section id="offer" className="bg-bone py-32 md:py-44 scroll-mt-24">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-start">
-        {/* Left: visual */}
+        {/* LEFT — product imagery + colorway */}
         <div className="lg:col-span-5 lg:sticky lg:top-28">
           <Reveal>
             <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-mist">
-              <Image
-                src="/product/product-bathroom.jpg"
-                alt="Feels Like Om filtered shower head on a marble bathroom counter"
-                fill
-                className="object-cover object-[30%_center]"
-                sizes="(max-width: 1024px) 100vw, 40vw"
-              />
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={color}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={cw.hero}
+                    alt={`Feels Like Om filtered shower head — ${cw.label}`}
+                    fill
+                    className="object-cover object-[30%_center]"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
           </Reveal>
-          <Reveal delay={0.15}>
+
+          {/* Colorway selector */}
+          <Reveal delay={0.1}>
+            <div className="mt-6">
+              <p className="overline text-muted mb-3 flex items-center justify-between">
+                <span>Colorway</span>
+                <span className="text-ink normal-case tracking-normal text-[13px]">
+                  {cw.label}
+                </span>
+              </p>
+              <div className="flex gap-3">
+                {(Object.keys(COLORS) as Color[]).map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => setColor(c)}
+                    aria-label={`Select ${COLORS[c].label} colorway`}
+                    className={`h-11 w-11 rounded-full border border-ink/20 transition-all ${COLORS[c].swatch} ${
+                      color === c ? "ring-2 ring-offset-2 ring-offset-bone ring-deep" : ""
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Thumbnail gallery */}
+          <Reveal delay={0.2}>
             <div className="mt-6 grid grid-cols-3 gap-3">
-              {[
-                { src: "/product/product-white-composite.jpg", alt: "Chrome filtered shower head" },
-                { src: "/product/product-black-composite.jpg", alt: "Black filtered shower head" },
-                { src: "/product/dimensions.jpg", alt: "Product dimensions" },
-              ].map((img) => (
-                <div key={img.src} className="relative aspect-square overflow-hidden rounded-sm bg-mist">
+              {cw.thumbs.map((src, i) => (
+                <div key={`${color}-${i}`} className="relative aspect-square overflow-hidden rounded-sm bg-mist">
                   <Image
-                    src={img.src}
-                    alt={img.alt}
+                    src={src}
+                    alt={`${cw.label} ${i === 0 ? "product shot" : i === 1 ? "specs and trust badges" : "dimensions"}`}
                     fill
                     className="object-cover"
                     sizes="200px"
@@ -100,18 +165,9 @@ export default function ShowerOffer() {
               ))}
             </div>
           </Reveal>
-          <Reveal delay={0.25}>
-            <p className="mt-4 overline text-muted flex items-center gap-3">
-              <span className="flex gap-1.5">
-                <span className="h-3 w-3 rounded-full bg-bone border border-ink/30" />
-                <span className="h-3 w-3 rounded-full bg-ink" />
-              </span>
-              Available in chrome &amp; black
-            </p>
-          </Reveal>
         </div>
 
-        {/* Right: offer */}
+        {/* RIGHT — offer */}
         <div className="lg:col-span-7">
           <Reveal>
             <p className="overline text-deep mb-6">Choose your plan</p>
@@ -178,7 +234,7 @@ export default function ShowerOffer() {
             })}
           </div>
 
-          {/* Primary CTA */}
+          {/* Primary CTA — includes selected colorway */}
           <motion.a
             href={checkoutUrl}
             className="btn-primary w-full justify-center !py-5 mt-8 text-[14px]"
@@ -186,8 +242,8 @@ export default function ShowerOffer() {
             whileTap={{ scale: 0.99 }}
           >
             {plan === "subscribe"
-              ? `Subscribe — $${selected.price} (20% off first order)`
-              : `Add to cart — $${selected.price}`}
+              ? `Subscribe — $${selected.price} · ${cw.label}`
+              : `Add to cart — $${selected.price} · ${cw.label}`}
             <span aria-hidden>→</span>
           </motion.a>
 
