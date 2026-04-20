@@ -6,15 +6,20 @@
    ======================================================= */
 
 :root {
-  --ink: #14231C;         /* deep eucalyptus-charcoal — primary text */
-  --ink-2: #1D2E26;       /* secondary ink for layered dark surfaces */
+  /* v2 palette — dusty blue on warm bone
+     Blue is the signature: #5C7A9A primary, deeper variant for emphasis.
+     Mist + water are pale/mid dusty blues to pair with the warm bone bg.
+  */
+  --ink: #141C22;         /* cool-leaning charcoal — primary text + dark surfaces */
+  --ink-2: #1A2530;       /* secondary ink for layered dark surfaces */
   --bone: #F7F3EC;        /* warm cream — primary light bg */
-  --mist: #ECEFEA;        /* pale eucalyptus mist — alt bg */
-  --water: #DDE7E6;       /* water wash — tertiary bg */
-  --sage: #7C9A8A;        /* sage green — secondary accent */
-  --deep: #2E4D44;        /* deep teal — primary CTA / italic accents */
-  --gold: #C9A96E;        /* hairline accent */
-  --muted: #647067;       /* muted text */
+  --mist: #E6ECEF;        /* pale dusty blue — alt bg */
+  --water: #CDD8E0;       /* mid dusty blue — tertiary bg */
+  --sage: #8FA8BA;        /* lighter dusty blue — tertiary accent */
+  --deep: #5C7A9A;        /* brand blue — primary CTA, italic accents */
+  --deeper: #374F66;      /* deeper blue — used on dark sections */
+  --gold: #C9A96E;        /* warm hairline accent — kept for contrast */
+  --muted: #64707A;       /* cool muted text */
 
   --background: var(--bone);
   --foreground: var(--ink);
@@ -30,6 +35,7 @@
   --color-water: var(--water);
   --color-sage: var(--sage);
   --color-deep: var(--deep);
+  --color-deeper: var(--deeper);
   --color-gold: var(--gold);
   --color-muted: var(--muted);
 
