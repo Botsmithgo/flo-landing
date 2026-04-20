@@ -23,22 +23,21 @@ export default function HomeHero() {
       className="relative h-screen min-h-[720px] w-full overflow-hidden bg-ink text-bone"
       data-surface="dark"
     >
-      {/* Background image — real lifestyle shot */}
+      {/* Background image — clean editorial bathroom scene */}
       <motion.div
         style={{ y: imgY }}
         className="absolute inset-0 -z-0"
       >
         <Image
-          src="/product/hero-lifestyle.jpg"
-          alt="Soft falling water in a moody bathroom"
+          src="/product/bathroom-scene.jpg"
+          alt="A quiet luxury bathroom in warm morning light"
           fill
           priority
-          className="object-cover object-[60%_center]"
+          className="object-cover object-[35%_center]"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/40 to-ink/80" />
-        {/* Top-left logo mask — the image has FLO logo baked in that area */}
-        <div className="absolute top-0 left-0 w-[180px] h-[60px] bg-gradient-to-br from-ink/85 to-transparent" />
+        {/* Darker gradient at the bottom for text legibility; top stays natural */}
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/25 via-ink/35 to-ink/75" />
       </motion.div>
 
       {/* Soft ripple blobs */}
