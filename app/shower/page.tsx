@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import ShowerHeroV2 from "@/components/sections/ShowerHeroV2";
-import ShowerProof from "@/components/sections/ShowerProof";
 import TikTokProof from "@/components/sections/TikTokProof";
 import ShowerProblem from "@/components/sections/ShowerProblem";
 import ShowerStudy from "@/components/sections/ShowerStudy";
@@ -40,9 +39,6 @@ export default function ShowerPage() {
 
       {/* BRAND CREDIBILITY RIBBON — big numbers right after hero, lock trust fast */}
       <BrandCredibility />
-
-      {/* TRUST STRIPE — stars + press */}
-      <ShowerProof />
 
       {/* TIKTOK SOCIAL PROOF — the viral hook */}
       <TikTokProof />
