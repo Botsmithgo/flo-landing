@@ -8,6 +8,7 @@ import BrandCredibility from "@/components/sections/BrandCredibility";
 import ShowerBeforeAfter from "@/components/sections/ShowerBeforeAfter";
 import ShowerOffer from "@/components/sections/ShowerOffer";
 import ShowerBenefits from "@/components/sections/ShowerBenefits";
+import RitualMoment from "@/components/sections/RitualMoment";
 import ShowerScience from "@/components/sections/ShowerScience";
 import ShowerReviews from "@/components/sections/ShowerReviews";
 import ShowerComparison from "@/components/sections/ShowerComparison";
@@ -60,6 +61,10 @@ export default function ShowerPage() {
 
       {/* Everything below is for the skeptics who keep reading */}
       <ShowerBenefits />
+
+      {/* Editorial breathing moment — Nano Banana Pro composite */}
+      <RitualMoment />
+
       <ShowerScience />
       <ShowerReviews />
       <ShowerComparison />
