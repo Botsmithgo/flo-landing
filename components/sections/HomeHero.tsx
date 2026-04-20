@@ -67,7 +67,7 @@ export default function HomeHero() {
           transition={{ delay: 1.2, duration: 0.8 }}
           className="mt-10 max-w-lg text-[15px] md:text-[17px] leading-relaxed text-bone/75"
         >
-          Shower and bath filters that quietly take the edge off your water —
+          A filtered shower head that quietly takes the edge off your water —
           chlorine, heavy metals, the chemicals that dry your hair and irritate your skin.
         </motion.p>
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
+import { track } from "@/lib/analytics";
 
 const FAQ = [
   {
@@ -75,7 +76,11 @@ export default function ShowerFAQ() {
                 <div key={item.q}>
                   <button
                     className="w-full flex items-center justify-between gap-6 py-6 md:py-7 text-left group"
-                    onClick={() => setOpen(isOpen ? null : i)}
+                    onClick={() => {
+                      const next = isOpen ? null : i;
+                      setOpen(next);
+                      if (next !== null) track("faq_expand", { question: item.q, position: i + 1 });
+                    }}
                     aria-expanded={isOpen}
                   >
                     <span className="display text-xl md:text-2xl text-ink group-hover:text-deep transition-colors">

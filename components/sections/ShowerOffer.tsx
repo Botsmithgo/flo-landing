@@ -5,6 +5,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { buildCheckoutUrl, PRODUCTS } from "@/lib/checkout";
+import { track } from "@/lib/analytics";
 
 type Plan = "subscribe" | "single";
 type Color = "chrome" | "black";
@@ -138,7 +139,10 @@ export default function ShowerOffer() {
                 {(Object.keys(COLORS) as Color[]).map((c) => (
                   <button
                     key={c}
-                    onClick={() => setColor(c)}
+                    onClick={() => {
+                      setColor(c);
+                      track("color_switch", { color: c });
+                    }}
                     aria-label={`Select ${COLORS[c].label} colorway`}
                     className={`h-11 w-11 rounded-full border border-ink/20 transition-all ${COLORS[c].swatch} ${
                       color === c ? "ring-2 ring-offset-2 ring-offset-bone ring-deep" : ""
@@ -187,7 +191,10 @@ export default function ShowerOffer() {
               return (
                 <button
                   key={p.id}
-                  onClick={() => setPlan(p.id)}
+                  onClick={() => {
+                    setPlan(p.id);
+                    track("plan_switch", { plan: p.id });
+                  }}
                   className={`relative w-full text-left p-6 md:p-8 rounded-sm border transition-all ${
                     active
                       ? "border-deep bg-mist/40 shadow-md shadow-ink/5"
@@ -237,6 +244,15 @@ export default function ShowerOffer() {
           {/* Primary CTA — includes selected colorway */}
           <motion.a
             href={checkoutUrl}
+            onClick={() =>
+              track("begin_checkout", {
+                plan,
+                color,
+                price: selected.price,
+                value: selected.price,
+                currency: "USD",
+              })
+            }
             className="btn-primary w-full justify-center !py-5 mt-8 text-[14px]"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}

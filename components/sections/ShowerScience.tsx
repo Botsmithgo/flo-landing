@@ -4,27 +4,32 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Reveal from "@/components/Reveal";
+import Tooltip from "@/components/Tooltip";
 
 const STAGES = [
   {
     n: "KDF-55",
     title: "Chlorine reduction",
     body: "Copper-zinc redox media. Converts free chlorine to chloride through an electrochemical reaction. The workhorse of the stack.",
+    glossary: "KDF (Kinetic Degradation Fluxion) is a copper-zinc alloy media. It uses an electrochemical redox reaction — copper donates electrons, zinc receives — to convert free chlorine (Cl2) into harmless chloride ions (Cl−). Independently benchmarked at 85–95% free chlorine reduction at rated flow.",
   },
   {
     n: "Calcium sulfite",
     title: "Hot-water performance",
     body: "Unlike most media, calcium sulfite holds its effectiveness at shower temperatures (up to ~110°F). Picks up what KDF leaves behind.",
+    glossary: "Calcium sulfite (CaSO3) neutralizes free chlorine via a reduction reaction. Most dechlorination media lose effectiveness at shower temperatures (95–110°F); calcium sulfite holds its performance, which is why premium shower filters pair it with KDF for a dual-temperature stack.",
   },
   {
     n: "Activated carbon",
     title: "Odor & taste reduction",
     body: "Porous coconut-shell carbon adsorbs lingering odor and VOCs. Doesn&apos;t lead the stack — but polishes it.",
+    glossary: "Coconut-shell activated carbon has millions of microscopic pores that physically adsorb odor molecules and some volatile organic compounds (VOCs). Shower contact time is short (~1 second), so we don't lead with carbon — it's a polishing stage, not the hero.",
   },
   {
     n: "Mineral stones",
     title: "Conditioning feel",
     body: "Tourmaline and germanium stones add a bright, softer-feeling finish to the water without altering pH in any meaningful way.",
+    glossary: "Tourmaline and germanium are naturally occurring minerals. They release negative ions when water passes through them, which some users perceive as a brighter, softer-feeling water quality. We don't claim pH alteration or 'ionization benefits' — those are marketing terms without consistent science.",
   },
 ];
 
@@ -78,7 +83,10 @@ export default function ShowerScience() {
               <div className="grid grid-cols-12 gap-6 pt-8 border-t border-ink/15">
                 <div className="col-span-12 md:col-span-4">
                   <p className="overline text-deep mb-2">Stage {i + 1}</p>
-                  <p className="display text-2xl md:text-[28px] text-ink">{s.n}</p>
+                  <div className="flex items-center gap-2 text-ink">
+                    <p className="display text-2xl md:text-[28px]">{s.n}</p>
+                    <Tooltip label={`More about ${s.n}`}>{s.glossary}</Tooltip>
+                  </div>
                 </div>
                 <div className="col-span-12 md:col-span-8">
                   <h3 className="text-[17px] text-ink font-medium">{s.title}</h3>

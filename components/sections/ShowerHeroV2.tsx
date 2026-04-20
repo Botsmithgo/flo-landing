@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { PRODUCTS } from "@/lib/checkout";
+import { track } from "@/lib/analytics";
 
 export default function ShowerHeroV2() {
   const ref = useRef<HTMLDivElement>(null);
@@ -15,7 +16,7 @@ export default function ShowerHeroV2() {
   const productY = useTransform(scrollYProgress, [0, 1], ["0%", "-18%"]);
 
   return (
-    <section ref={ref} className="relative bg-bone pt-24 md:pt-28 pb-16 md:pb-24 overflow-hidden">
+    <section ref={ref} className="relative bg-bone pt-32 md:pt-36 pb-16 md:pb-24 overflow-hidden">
       {/* Ambient gradient wash — dusty blue bloom */}
       <div className="absolute inset-0 -z-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[65%] h-full bg-gradient-to-bl from-water/70 via-mist/50 to-transparent" />
@@ -173,7 +174,11 @@ export default function ShowerHeroV2() {
             transition={{ delay: 0.55, duration: 0.6 }}
             className="mt-6 flex flex-col sm:flex-row gap-3"
           >
-            <a href="#offer" className="btn-primary flex-1 sm:flex-none justify-center">
+            <a
+              href="#offer"
+              onClick={() => track("shop_now_hero")}
+              className="btn-primary flex-1 sm:flex-none justify-center"
+            >
               Shop now — 20% off
               <span aria-hidden>→</span>
             </a>

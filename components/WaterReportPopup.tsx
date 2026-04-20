@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState, FormEvent } from "react";
+import { track } from "@/lib/analytics";
 
 const STORAGE_KEY = "flo_water_report_seen";
 const SHOW_AFTER_MS = 12000;   // first-time page visit: open after 12s
@@ -43,6 +44,7 @@ export default function WaterReportPopup() {
   function close() {
     setOpen(false);
     markSeen();
+    track("water_report_dismiss");
   }
 
   async function onSubmit(e: FormEvent) {
@@ -63,16 +65,10 @@ export default function WaterReportPopup() {
       // If no endpoint set, we still succeed-state the user and Youssef captures from server logs later.
       setState("success");
       markSeen();
-
-      // Fire GA4/Meta/TikTok event if present
-      const w = window as unknown as {
-        gtag?: (...a: unknown[]) => void;
-        fbq?: (...a: unknown[]) => void;
-        ttq?: { track: (e: string, p?: unknown) => void };
-      };
-      w.gtag?.("event", "water_report_lead", { email_domain: email.split("@")[1], zip });
-      w.fbq?.("track", "Lead", { content_name: "water_report" });
-      w.ttq?.track("SubmitForm", { content_name: "water_report" });
+      track("water_report_lead", {
+        email_domain: email.split("@")[1],
+        zip,
+      });
     } catch {
       setState("error");
     }

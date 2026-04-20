@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import AnnouncementBar from "@/components/AnnouncementBar";
 
 const NAV_LINKS = [
   { href: "/shower", label: "The Shower Filter" },
@@ -30,8 +31,10 @@ export default function Nav() {
 
   return (
     <>
+      <div className="fixed inset-x-0 top-0 z-40">
+        <AnnouncementBar />
       <header
-        className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${
+        className={`transition-all duration-500 ${
           scrolled ? "bg-bone/85 backdrop-blur-md border-b border-ink/5" : "bg-transparent"
         }`}
       >
@@ -83,6 +86,7 @@ export default function Nav() {
           </div>
         </div>
       </header>
+      </div>
 
       <AnimatePresence>
         {menuOpen && (

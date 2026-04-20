@@ -7,6 +7,7 @@ import BrandCredibility from "@/components/sections/BrandCredibility";
 import ShowerBeforeAfter from "@/components/sections/ShowerBeforeAfter";
 import ShowerOffer from "@/components/sections/ShowerOffer";
 import ShowerBenefits from "@/components/sections/ShowerBenefits";
+import ShowerHonesty from "@/components/sections/ShowerHonesty";
 import RitualMoment from "@/components/sections/RitualMoment";
 import ShowerScience from "@/components/sections/ShowerScience";
 import ShowerReviews from "@/components/sections/ShowerReviews";
@@ -83,6 +84,9 @@ export default function ShowerPage() {
 
       {/* Everything below is for the skeptics who keep reading */}
       <ShowerBenefits />
+
+      {/* Radical honesty — what this won't do (category-unique trust lever) */}
+      <ShowerHonesty />
 
       {/* Editorial breathing moment — clean bathroom atmosphere */}
       <RitualMoment />

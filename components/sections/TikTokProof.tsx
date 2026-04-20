@@ -2,6 +2,7 @@
 
 import Script from "next/script";
 import Reveal from "@/components/Reveal";
+import { track } from "@/lib/analytics";
 
 const TIKTOKS = [
   {
@@ -49,6 +50,7 @@ export default function TikTokProof() {
                 href="https://www.tiktok.com/@feelslikeom.shop"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => track("tiktok_click", { source: "proof_header" })}
                 className="btn-secondary self-start md:self-end"
               >
                 @feelslikeom.shop →
