@@ -37,9 +37,9 @@ export default function TikTokProof() {
                   Seen on TikTok
                 </p>
                 <h2 className="display text-[10vw] md:text-[5vw] leading-[0.98] max-w-3xl">
-                  Over <span className="display-italic text-deep">1.8 million people</span>
+                  The shower head that
                   <br />
-                  saw it before you did.
+                  <span className="display-italic text-deep">went viral on TikTok.</span>
                 </h2>
               </div>
               <a
