@@ -8,6 +8,7 @@ import BrandCredibility from "@/components/sections/BrandCredibility";
 import ShowerBeforeAfter from "@/components/sections/ShowerBeforeAfter";
 import ShowerOffer from "@/components/sections/ShowerOffer";
 import ShowerBenefits from "@/components/sections/ShowerBenefits";
+import RitualMoment from "@/components/sections/RitualMoment";
 import ShowerScience from "@/components/sections/ShowerScience";
 import ShowerReviews from "@/components/sections/ShowerReviews";
 import ShowerComparison from "@/components/sections/ShowerComparison";
@@ -34,23 +35,23 @@ export default function ShowerPage() {
 
   return (
     <>
-      {/* HERO — benefit-forward, product + price + proof visible in one viewport */}
+      {/* HERO */}
       <ShowerHeroV2 />
 
-      {/* TRUST STRIPE — stars + press, immediately */}
+      {/* BRAND CREDIBILITY RIBBON — big numbers right after hero, lock trust fast */}
+      <BrandCredibility />
+
+      {/* TRUST STRIPE — stars + press */}
       <ShowerProof />
 
-      {/* TIKTOK SOCIAL PROOF — the 1M+ viewer hook */}
+      {/* TIKTOK SOCIAL PROOF — the viral hook */}
       <TikTokProof />
 
-      {/* PROBLEM — now they're ready to care why */}
+      {/* PROBLEM */}
       <ShowerProblem />
 
-      {/* STUDY — hard proof, numeric, above offer */}
+      {/* STUDY — hard proof, numeric */}
       <ShowerStudy />
-
-      {/* BRAND CREDIBILITY RIBBON */}
-      <BrandCredibility />
 
       {/* BEFORE/AFTER — strongest visual proof, right before the ask */}
       <ShowerBeforeAfter />
@@ -60,6 +61,10 @@ export default function ShowerPage() {
 
       {/* Everything below is for the skeptics who keep reading */}
       <ShowerBenefits />
+
+      {/* Editorial breathing moment — clean bathroom atmosphere */}
+      <RitualMoment />
+
       <ShowerScience />
       <ShowerReviews />
       <ShowerComparison />

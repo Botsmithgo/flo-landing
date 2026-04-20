@@ -17,8 +17,8 @@ export default function RitualMoment() {
     <section ref={ref} className="relative w-full h-[70vh] md:h-[85vh] min-h-[500px] overflow-hidden bg-ink" data-surface="dark">
       <motion.div style={{ y: imgY }} className="absolute inset-0 scale-110">
         <Image
-          src="/product/bathroom-with-product.jpg"
-          alt="The Feels Like Om filtered shower head — quiet ritual, every morning"
+          src="/product/bathroom-scene.jpg"
+          alt="A quiet luxury bathroom in warm morning light"
           fill
           className="object-cover"
           sizes="100vw"
@@ -33,13 +33,13 @@ export default function RitualMoment() {
       <div className="absolute inset-0 flex items-end pb-16 md:pb-24">
         <div className="mx-auto max-w-[1400px] w-full px-5 md:px-10">
           <Reveal>
-            <p className="overline text-bone/70 mb-4">The quiet ritual</p>
+            <p className="overline text-bone/70 mb-4">Before skincare</p>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="display text-[8vw] md:text-[4.5vw] leading-[1] text-bone max-w-3xl">
-              Every morning.
+              Water is the quietest ingredient.
               <br />
-              <span className="display-italic text-bone/80">On the wall. Quietly doing its work.</span>
+              <span className="display-italic text-bone/80">Make it count.</span>
             </p>
           </Reveal>
         </div>
