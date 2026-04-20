@@ -142,22 +142,37 @@ If an ID is missing, that pixel silently doesn't load.
 
 ---
 
-## Pre-launch punch list (priority order)
+## Pre-launch punch list
 
-1. 🔴 **Decide checkout path** (Amazon redirect recommended) — 5 min to wire
-2. 🔴 **Replace placeholder testimonials with real Amazon reviews** — mine top 6 + objections, 30 min
-3. 🔴 **Verify or remove press logos** ("Vogue, Byrdie, Allure" etc in `ShowerProof`) — FTC risk if fake
-4. 🟠 **Analytics pixel IDs** (Youssef's task) — 15 min, then I wire events
-5. 🟠 **Exit-intent email capture popup** — 45 min to build
-6. 🟠 **Domain wire** (e.g., `go.feelslikeom.shop` or `www.feelslikeom.com`) — 10 min once decided
-7. 🟡 **Real hero product shot** (designer, not Claude) — out of my hands
-8. 🟡 **Sitemap + robots.txt + real OG image** — 20 min
-9. 🟡 **Accessibility pass** (contrast, alt, keyboard nav) — 30 min
-10. 🟡 **Verify "Independently lab-tested" / "up to 95% free chlorine" claims** — need actual lab report or swap copy
+### ✅ Done in latest sprint
+- Checkout routing: `NEXT_PUBLIC_CHECKOUT_MODE=amazon` now returns Amazon listing; flip to `shopify` + populate variant IDs when ready
+- Fake press logos removed (cut `ShowerProof` entirely — component file kept in repo)
+- Water quality report popup (email + zip capture, 12s timer + exit-intent, value-forward not discount-forward)
+- SEO infrastructure: `app/sitemap.ts`, `app/robots.ts`, Product + FAQ + Organization JSON-LD via `components/StructuredData.tsx`
+- OG image wired to `bathroom-scene.jpg` in root metadata
+- Skip-to-offer floating pill on `/shower` (desktop only, visible between hero and offer)
+- `BrandCredibility` lifted to position 2 on `/shower` (right after hero)
+- `RitualMoment` (clean bathroom, no product) slotted between Benefits and Science
 
-**Total launch-ready time: ~3–4 hours** (items 1–6 are the critical path).
+### 🔴 Still blocking launch
+- **Real testimonials** — replace placeholders ("Jenna K." etc.) with real Amazon review export. 30 min once user sends CSV.
+- **Analytics pixel IDs** — user to grab from GA4, Meta, TikTok → drop into Vercel env vars → I wire events (`water_report_lead`, `begin_checkout`, etc.)
+- **Domain wire** — point `go.feelslikeom.shop` or `www.feelslikeom.com` at Vercel project
+- **Water report endpoint** — `NEXT_PUBLIC_WATER_REPORT_ENDPOINT` is empty; popup shows success state but doesn't persist. Pick Formspree/Klaviyo/custom API, set the env var.
 
-**Confidence check at this writing: 75% launch-ready.** Brand, design, copy are done. Plumbing (checkout, analytics, real testimonials, domain) is the gap.
+### 🟠 High-value polish
+- **Image optimization** — logged for when final images are locked in. Flip `unoptimized: true` → `false` in `next.config.ts`, convert to WebP/AVIF, add proper `srcset`, enable lazy-load on below-fold. ~45 min. Expected LCP improvement 1–2s on mobile 4G.
+- **Real hero product shot** — Youssef owns this (designer workflow). Current hero uses `bathroom-scene.jpg` (AI-generated clean bathroom); swap to designer composite when ready, no code change needed beyond image path.
+- **Verify review count "1,400+"** — match the actual number on Amazon + Shopify listings (currently hardcoded in multiple places).
+- **Verify "up to 95% free chlorine" + "independently lab-tested"** — need actual lab report name on file, or swap copy to softer claim per `/research/benchmarks-compliance.md`.
+
+### 🟡 Nice-to-have
+- Accessibility audit (contrast ratios on mist/bone backgrounds, keyboard nav on colorway swatches + offer plan cards, screen-reader coverage on animated sections)
+- Video testimonials embedded (real customer TikToks reacting to FLO, beyond the 3 FLO-owned ads already embedded)
+- Quiz flow ("What's your biggest water issue?" → personalize offer) — 4–6 hr scope
+- A/B tests via Vercel flags (hero headline, CTA copy, offer order)
+
+**Launch readiness:** ~90% after this sprint. Critical path remaining = real reviews + analytics IDs + domain + water-report backend endpoint. All four are user-dependent, not code-dependent.
 
 ---
 

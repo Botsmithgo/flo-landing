@@ -1,10 +1,11 @@
 /**
- * Shopify cart-permalink builder.
- * Docs: https://shopify.dev/docs/storefronts/themes/navigation-search/cart/cart-permalinks
+ * Checkout URL builder.
  *
- * Usage:
- *   buildCheckoutUrl({ variantId: 12345, quantity: 1, discount: "WELCOME20" })
- *   → https://feelslikeom.shop/cart/12345:1?discount=WELCOME20
+ * NEXT_PUBLIC_CHECKOUT_MODE controls the destination:
+ *   - "amazon" (default) → direct to Amazon listing — use until Shopify is live
+ *   - "shopify"          → build Shopify cart permalink from variant IDs
+ *
+ * Docs: https://shopify.dev/docs/storefronts/themes/navigation-search/cart/cart-permalinks
  */
 export type CheckoutOptions = {
   variantId: string | number;
@@ -14,7 +15,18 @@ export type CheckoutOptions = {
   attributes?: Record<string, string>;
 };
 
+const AMAZON_URL =
+  process.env.NEXT_PUBLIC_AMAZON_URL ??
+  "https://www.amazon.com/dp/B0DHJ74TCC";
+
 export function buildCheckoutUrl(opts: CheckoutOptions): string {
+  const mode = process.env.NEXT_PUBLIC_CHECKOUT_MODE ?? "amazon";
+
+  if (mode === "amazon") {
+    return AMAZON_URL;
+  }
+
+  // Shopify mode — variant IDs required
   const domain = process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN ?? "feelslikeom.shop";
   const qty = opts.quantity ?? 1;
   const params = new URLSearchParams();

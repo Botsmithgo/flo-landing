@@ -14,7 +14,18 @@ import ShowerComparison from "@/components/sections/ShowerComparison";
 import ShowerFAQ from "@/components/sections/ShowerFAQ";
 import HomeCTA from "@/components/sections/HomeCTA";
 import StickyATC from "@/components/StickyATC";
+import SkipToOffer from "@/components/SkipToOffer";
+import { ProductSchema, FAQSchema } from "@/components/StructuredData";
 import { PRODUCTS, buildCheckoutUrl } from "@/lib/checkout";
+
+const FAQ_FOR_SCHEMA = [
+  { q: "How does installation work?", a: "Unscrew your current shower head, screw on the FLO, tighten by hand. Total time under 90 seconds. Fits every standard U.S. shower arm." },
+  { q: "How often do I replace the filter?", a: "Every six months, or 12,000 gallons, whichever comes first. Subscribers get replacements auto-shipped." },
+  { q: "Will this lower my water pressure?", a: "No. The 20-stage filter is designed with a wide flow path so you get full-pressure showers." },
+  { q: "Does it remove chloramine?", a: "Chloramine is harder to reduce than free chlorine. We've seen meaningful reduction in independent testing but if you live in a chloramine-heavy city, we recommend also using our bath filter for longest-contact exposure." },
+  { q: "Will it soften my hard water?", a: "A shower-head filter can't do true softening (that requires whole-home ion exchange). What it does is take out the chlorine edge that dries your hair and irritates skin." },
+  { q: "Return policy?", a: "60 days, full refund. If the water isn't better than what you had, we don't want your money." },
+];
 
 export const metadata: Metadata = {
   title: "Filtered Shower Head — Softer hair, calmer skin",
@@ -24,16 +35,31 @@ export const metadata: Metadata = {
 };
 
 export default function ShowerPage() {
-  const checkoutHref = PRODUCTS.shower.variants.subscription
-    ? buildCheckoutUrl({
-        variantId: PRODUCTS.shower.variants.subscription,
-        quantity: 1,
-        discount: process.env.NEXT_PUBLIC_FIRST_ORDER_DISCOUNT,
-      })
-    : "#offer";
+  // buildCheckoutUrl returns Amazon URL in Amazon mode (no variant IDs needed);
+  // switches to Shopify permalink when NEXT_PUBLIC_CHECKOUT_MODE=shopify + variants set.
+  const checkoutHref = buildCheckoutUrl({
+    variantId: PRODUCTS.shower.variants.subscription,
+    quantity: 1,
+    discount: process.env.NEXT_PUBLIC_FIRST_ORDER_DISCOUNT,
+  });
 
   return (
     <>
+      <ProductSchema
+        name="Feels Like Om Filtered Shower Head (20-Stage)"
+        description="20-stage filtered shower head that reduces chlorine, heavy metals, and the chemicals that dry hair and irritate skin. Independently lab-tested. 6-month filter, 90-second install, 60-day guarantee."
+        image={[
+          "https://feelslikeom.shop/product/product-white-composite.jpg",
+          "https://feelslikeom.shop/product/product-black-composite.jpg",
+          "https://feelslikeom.shop/product/bathroom-scene.jpg",
+        ]}
+        sku="B0DHJ74TCC"
+        brand="Feels Like Om"
+        price={PRODUCTS.shower.subscribePrice}
+        aggregateRating={{ ratingValue: 4.8, reviewCount: 1400 }}
+      />
+      <FAQSchema questions={FAQ_FOR_SCHEMA} />
+
       {/* HERO */}
       <ShowerHeroV2 />
 
@@ -73,6 +99,7 @@ export default function ShowerPage() {
         subscribePrice={PRODUCTS.shower.subscribePrice}
         href={checkoutHref}
       />
+      <SkipToOffer />
     </>
   );
 }

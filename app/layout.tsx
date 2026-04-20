@@ -4,6 +4,8 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import Analytics from "@/components/Analytics";
+import WaterReportPopup from "@/components/WaterReportPopup";
+import { OrganizationSchema } from "@/components/StructuredData";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -27,15 +29,25 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Feels Like Om — Cleaner water, softer skin.",
     description:
-      "Filtered shower head and bath water filter for softer hair, calmer skin, and a quieter daily ritual.",
+      "A 20-stage filtered shower head. Reduces chlorine, heavy metals, and the chemicals that dry your hair and irritate your skin. Independently lab-tested.",
     type: "website",
     siteName: "Feels Like Om",
+    url: "https://feelslikeom.shop",
+    images: [
+      {
+        url: "/product/bathroom-scene.jpg",
+        width: 1344,
+        height: 768,
+        alt: "A luxury bathroom in warm morning light — Feels Like Om",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Feels Like Om",
     description:
-      "Filtered shower head and bath filter for softer hair and calmer skin.",
+      "Filtered shower head for softer hair and calmer skin. 100K+ orders, 4.8★, lab-tested.",
+    images: ["/product/bathroom-scene.jpg"],
   },
 };
 
@@ -48,11 +60,13 @@ export default function RootLayout({
     <html lang="en" className={`${fraunces.variable} ${interTight.variable} antialiased`}>
       <body className="min-h-screen bg-bone text-ink grain">
         <Analytics />
+        <OrganizationSchema />
         <SmoothScroll>
           <Nav />
           <main className="relative">{children}</main>
           <Footer />
         </SmoothScroll>
+        <WaterReportPopup />
       </body>
     </html>
   );
