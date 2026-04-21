@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
-import { buildCheckoutUrl, PRODUCTS } from "@/lib/checkout";
+import { PRODUCTS } from "@/lib/checkout";
 import { track } from "@/lib/analytics";
 
 type Plan = "subscribe" | "single";
@@ -83,18 +83,9 @@ export default function ShowerOffer() {
   const selected = PLANS.find((p) => p.id === plan)!;
   const cw = COLORS[color];
 
-  const variantId =
-    plan === "subscribe"
-      ? PRODUCTS.shower.variants.subscription
-      : PRODUCTS.shower.variants.single;
-
-  const checkoutUrl = buildCheckoutUrl({
-    variantId,
-    quantity: 1,
-    discount: plan === "subscribe" ? process.env.NEXT_PUBLIC_FIRST_ORDER_DISCOUNT : undefined,
-    attributes: { color: cw.label },
-    variant: { plan, color },
-  });
+  // Route to FLO's own /checkout page (not directly to Stripe/Amazon)
+  // — captures email + branded order summary before payment redirect
+  const checkoutUrl = `/checkout?plan=${plan}&color=${color}`;
 
   return (
     <section id="offer" className="bg-bone py-32 md:py-44 scroll-mt-24">

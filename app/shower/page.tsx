@@ -18,7 +18,7 @@ import HomeCTA from "@/components/sections/HomeCTA";
 import StickyATC from "@/components/StickyATC";
 import SkipToOffer from "@/components/SkipToOffer";
 import { ProductSchema, FAQSchema } from "@/components/StructuredData";
-import { PRODUCTS, buildCheckoutUrl } from "@/lib/checkout";
+import { PRODUCTS } from "@/lib/checkout";
 
 const FAQ_FOR_SCHEMA = [
   { q: "How does installation work?", a: "Unscrew your current shower head, screw on the FLO, tighten by hand. Total time under 90 seconds. Fits every standard U.S. shower arm." },
@@ -37,13 +37,9 @@ export const metadata: Metadata = {
 };
 
 export default function ShowerPage() {
-  // buildCheckoutUrl returns Amazon URL in Amazon mode (no variant IDs needed);
-  // switches to Shopify permalink when NEXT_PUBLIC_CHECKOUT_MODE=shopify + variants set.
-  const checkoutHref = buildCheckoutUrl({
-    variantId: PRODUCTS.shower.variants.subscription,
-    quantity: 1,
-    discount: process.env.NEXT_PUBLIC_FIRST_ORDER_DISCOUNT,
-  });
+  // Route to FLO's own /checkout page (branded order summary + email capture
+  // before Stripe/Amazon payment redirect)
+  const checkoutHref = "/checkout?plan=subscribe&color=chrome";
 
   return (
     <>
