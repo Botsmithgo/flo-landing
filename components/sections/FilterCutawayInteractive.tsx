@@ -62,13 +62,21 @@ const STAGES: Stage[] = [
   },
 ];
 
-export default function FilterCutawayInteractive() {
+type Props = {
+  /** Home page uses compact=true so the whole block fits in one viewport without scrolling. */
+  compact?: boolean;
+};
+
+export default function FilterCutawayInteractive({ compact = false }: Props) {
   const [active, setActive] = useState<number | null>(null);
+  // Desktop container aspect ratio. Default is tall portrait (matches image natural aspect).
+  // Compact shortens it ~18% so the home page block fits above the fold alongside the copy.
+  const desktopAspect = compact ? "666 / 880" : "666 / 1076";
 
   return (
     <div className="relative w-full">
       {/* DESKTOP — image with hotspots + side-positioned labels */}
-      <div className="hidden lg:block relative" style={{ aspectRatio: "666 / 1076" }}>
+      <div className="hidden lg:block relative" style={{ aspectRatio: desktopAspect }}>
         {/* Image container (centered, ~60% width — image is tall portrait with chrome housing above + base below the cartridge) */}
         <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[60%]">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

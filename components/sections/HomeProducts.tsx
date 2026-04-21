@@ -25,7 +25,7 @@ export default function HomeProducts() {
             className="relative rounded-sm bg-ink p-6 md:p-8 lg:p-10"
             data-surface="dark"
           >
-            <FilterCutawayInteractive />
+            <FilterCutawayInteractive compact />
           </motion.div>
         </div>
 
