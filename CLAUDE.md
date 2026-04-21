@@ -1,36 +1,35 @@
 # FLO Landing — Project Context for Claude Code
 
-_Last updated: 2026-04-21 (sprint 2). Read this first whenever you open this project._
+_Last updated: 2026-04-21 (sprint 3: SEO/GEO hardening). Read this first whenever you open this project._
 
 ---
 
 ## Next-session quick-start (read first if picking up from a break)
 
-**Where we are:** launch-ready ~93%. Site is live at https://flo-landing-six.vercel.app with the full `/shower` conversion funnel, `/`, `/about`, `/checkout`, `/sitemap.xml`, `/robots.txt`. Design, copy, compliance, architecture all done. Remaining blockers are all user-dependent (real reviews, pixel IDs, domain, Stripe setup, water-report backend, designer photography).
+**Where we are:** **launch-ready ~96%.** Site live at https://flo-landing-six.vercel.app. Design, copy, compliance, architecture, SEO, GEO (AI-search), and Core Web Vitals all done. Remaining blockers are all user-dependent: real Amazon reviews, analytics pixel IDs, domain wire, Stripe setup, water-report backend, designer product photography.
 
-**Last things we shipped (2026-04-21):**
-1. ShowerResults consolidation (merged BeforeAfter + Study → one "Healthier skin and hair start here" panel)
-2. ShowerScienceInteractive replaced text ShowerScience (exploded filter interactive, capped max-w-[460px])
-3. ShowerProblem rewritten with EPA/CDC/EWG research framing
-4. TikTokProof demoted to position 10 (bottom social cluster)
-5. Logo PNG swapped in Nav + Footer (adaptive invert on dark hero)
-6. Transparent comparison image split into 2 stacked panels
-7. Hero made self-sufficient (offer inline — no scroll-to-buy)
-8. FLO asset library (9 files) wired: illus-hair/skin, line icons, comparison-clean
+**Last sprint shipped (2026-04-21, sprint 3 — Phase 1 SEO/GEO hardening + audit fixes):**
+1. **Compliance sweep** — removed every remaining "independently tested" / "lab-tested" / "bath filter" leak across 6 files (`aae9949`). Deleted orphan `ShowerScience.tsx`.
+2. **ICP audit 6-item punch list** (`f76942b`) — benefits headline 6→7, honest Jolie-wins rows added to comparison, stat alignment, #offer anchor fix, RitualMoment copy rewrite, express-pay icons bumped 15%.
+3. **SEO/GEO Tier 1 buildout** — 9 commits shipping: `lib/site.ts` centralizing SITE_URL via env var, per-route OG+Twitter on /shower and /about, full Organization schema (description/founding/address/contact), AI-crawler-explicit robots.txt (14 AI bots), WebSite+Breadcrumb+HowTo schemas, `/llms.txt` brand digest, Product schema with MerchantReturnPolicy+ShippingDetails, FAQ `<h3>` wrappers for rich-snippet parser, image optimization flipped back ON (AVIF/WebP served, 3MB hero JPGs → ~200KB).
+4. **HomePromise headline rewrite** — "Water is the quietest ingredient / Make it count" → "Water is the most overlooked part / Make it work for you" (+ smaller type).
+5. **Home filter image shrink** — FilterCutawayInteractive gained `compact` prop; home desktop uses 666/880 aspect (~18% shorter) so the section fits one viewport.
 
 **Youssef's partner-mode preferences** (important — see §Preferences below for full detail):
 - Make decisions on reversible things, don't ask permission 3 times
 - Ship, show, iterate
 - Push back honestly when he asks — he explicitly wants expert opinions, not yes-man
+- Talk before building on strategic moves; execute without asking on tactical ones
 - Git push for deploys (Vercel CLI is flaky)
-- Compliance discipline is non-negotiable — do NOT port Amazon copy that contains "water softener," "99% chlorine," "toxic," "pH balance," or "thrive" language
+- Compliance discipline is non-negotiable — do NOT port Amazon copy that contains "water softener," "99% chlorine," "toxic," "pH balance," or "thrive" language. Also do NOT re-introduce "independently tested" / "lab-tested" / "bath filter" language — we just swept those out.
 
 **If Youssef asks you to pick up where we left off, the most likely next moves are:**
-- Workshop the technology section name ("One filter, done right" vs alternatives) — tabled last session
-- Hero product image swap (waiting on designer-supplied clean chrome shot; there's a `product-black-clean.png` held for a "listing images" folder he'll deliver)
-- Real Amazon reviews swap into AmazonReviewsGrid (see "How to swap real reviews" below)
+- Real Amazon reviews swap into AmazonReviewsGrid → unblocks deferred ReviewSchema JSON-LD (see "How to swap real reviews" below)
 - Connect Stripe + Amazon MCF (his task — see §Checkout architecture)
 - Analytics pixel IDs (his task — see §Analytics wiring)
+- Domain cutover: update `NEXT_PUBLIC_SITE_URL` in Vercel + add 301s from flo-landing-six.vercel.app
+- Tier 2 editorial scaffold (`/journal` MDX) — deferred; trigger is first real article in FLO voice
+- Confirm Venice, CA / 2022 founding story is factually true before ad-spend scales (currently in OrganizationSchema + /about copy — flagged 2026-04-21)
 
 **Git rollback tags:** `v1` (pre-pivot editorial), `pre-consolidation` (before ShowerResults merge on 2026-04-21)
 
@@ -52,7 +51,9 @@ _Last updated: 2026-04-21 (sprint 2). Read this first whenever you open this pro
 - **Tailwind v4** (`@theme inline` tokens in `app/globals.css`)
 - **Framer Motion** (reveals, parallax, transitions) + **Lenis** (smooth scroll)
 - **Fraunces** (serif display) + **Inter Tight** (sans) via `next/font/google`
-- **Shopify checkout permalinks** via `lib/checkout.ts` (currently broken — see blockers)
+- **Stripe Payment Links** via `lib/checkout.ts` (wired, env-var gated — see §Checkout)
+- **Image optimization ON** (`next.config.ts` `unoptimized: false`, formats: [avif, webp]) — as of sprint 3
+- **Canonical URL centralized** in `lib/site.ts` reading `NEXT_PUBLIC_SITE_URL` — changing the production domain is a 1-line env var flip in Vercel
 - **Vercel Git integration** for deploys (CLI is flaky, push to main = auto-deploy)
 
 ---
@@ -193,6 +194,82 @@ For V1 launch: process Stripe orders manually in Seller Central → Create order
 
 ---
 
+## SEO + GEO (AI-search) infrastructure
+
+Full buildout shipped 2026-04-21. See commits `6a4d1e6` → `491469f` for the 9-commit sprint.
+
+### What's live
+
+| Surface | State |
+|---|---|
+| `metadataBase` + canonical | `SITE_URL` from env var (via `lib/site.ts`) |
+| Per-route metadata | `/`, `/shower`, `/about` all have title + description + OG + Twitter |
+| `/checkout` | `robots: { index: false, follow: false }` + robots.txt disallow |
+| `sitemap.ts` | 3 public routes (excludes `/checkout`) |
+| `robots.ts` | Explicit allows for 14 AI crawlers (GPTBot, OAI-SearchBot, PerplexityBot, ClaudeBot, Google-Extended, Applebot-Extended, Meta-ExternalAgent, Bytespider, Amazonbot, CCBot, etc.) + 6 traditional bots |
+| `/llms.txt` | Machine-readable brand digest, cached 24h |
+| Structured data | Product, FAQ, Organization, WebSite, Breadcrumb, HowTo |
+| ProductSchema | Includes MerchantReturnPolicy (60-day), OfferShippingDetails (free US), priceValidUntil, itemCondition, seller |
+| OrganizationSchema | description, alternateName "FLO", foundingDate 2022, address (Venice CA US), contactPoint, sameAs (TikTok + Amazon) |
+| FAQ rich-snippet eligibility | `<h3>` wrappers on question text |
+| Image optimization | ON (`unoptimized: false`, formats avif+webp, responsive srcset) |
+
+### Schema helpers (`components/StructuredData.tsx`)
+
+- `ProductSchema({ name, description, image[], sku, brand, price, aggregateRating? })` — rich Google Shopping
+- `FAQSchema({ questions: { q, a }[] })` — FAQPage JSON-LD
+- `OrganizationSchema()` — renders once globally, full Organization block
+- `WebSiteSchema()` — renders once globally (no SearchAction — intentional)
+- `BreadcrumbSchema({ items: { name, url }[] })` — per-page; wired on /shower + /about
+- `HowToSchema()` — 4-step 90-second install; wired on /shower
+
+### Deferred schema
+
+- **`ReviewSchema`** — NOT SHIPPED. Individual Amazon reviews schema is ready to build but placeholder review data in `AmazonReviewsGrid.tsx` is FTC risk. Ship when user provides real Amazon review export (see "How to swap real reviews").
+
+### Tier 2 (editorial content) — DEFERRED to post-launch
+
+Plan lives in the session plan file. Trigger: first real article written in FLO voice. Scaffold builds a `/journal/[slug]` MDX route with `ArticleSchema` + per-post FAQ. Cornerstone article roadmap:
+1. "Is chlorine in shower water bad for your skin?" (EPA/CDC-cited)
+2. "Do shower filters actually work? What 20 stages of filtration mean"
+3. "Shower filter vs whole-home filter vs water softener: an honest comparison"
+4. "How often should you replace a shower filter?"
+5. "Filtered shower for curly hair / color-treated hair / eczema" (long-tail)
+
+### Tier 3 (post-launch, user owns)
+
+1. Google Search Console — verify domain, submit `/sitemap.xml`
+2. Bing Webmaster Tools — same (Bing feeds ChatGPT Search citations)
+3. IndexNow protocol — automate via Vercel cron once articles ship
+4. Lighthouse audit on prod once domain is cut over
+5. Backlink outreach (wellness publications: Byrdie, Well+Good, Allure)
+6. Perplexity Merchant Program (unlocked by T1-G ProductSchema with return policy)
+7. AI search monitoring cadence — weekly queries: "best shower filter 2026", "shower filter for eczema", "Jolie vs FLO", "does a shower filter remove chloramine", "Feels Like Om reviews" → log whether FLO is cited
+8. Vercel env var audit — confirm GA4, Meta Pixel, TikTok Pixel, water report endpoint, Stripe links, checkout mode set on production scope
+9. Domain cutover — set `NEXT_PUBLIC_SITE_URL` in Vercel to new domain + add 301s from flo-landing-six.vercel.app
+
+### Verification commands (run after any SEO change)
+
+```bash
+# Confirm /llms.txt renders correctly
+curl -s https://<prod>/llms.txt | head -40
+
+# Confirm robots.txt has all AI crawler allows
+curl -s https://<prod>/robots.txt
+
+# Rich Results test URL (opens in browser)
+# https://search.google.com/test/rich-results?url=https://<prod>/shower
+
+# Schema validator
+# https://validator.schema.org/#url=https%3A%2F%2F<prod>%2Fshower
+
+# Social card validators
+# https://developers.facebook.com/tools/debug/?q=<prod>/shower
+# https://cards-dev.twitter.com/validator (deprecated but still works)
+```
+
+---
+
 ## Analytics wiring
 
 `components/Analytics.tsx` is ready — reads from env:
@@ -273,6 +350,21 @@ If an ID is missing, that pixel silently doesn't load.
 
 ## Pre-launch punch list
 
+### ✅ Done in sprint 3 (2026-04-21, afternoon — audit + SEO/GEO)
+
+- **Compliance sweep** (commits `aae9949` + `f76942b`) — purged every remaining "independently tested" / "lab-tested" / "bath filter" leak. Deleted orphan `components/sections/ShowerScience.tsx` (superseded by Interactive). Affected 6 files: `app/layout.tsx` (meta description), `app/shower/page.tsx` (JSON-LD FAQ chloramine), `components/sections/ShowerFAQ.tsx` (visible chloramine FAQ), `components/sections/FilterCutawayInteractive.tsx` (KDF-55 hotspot), `app/about/AboutContent.tsx` (Principle II + "we test what we sell" paragraph).
+- **ICP audit 6-item punch list** (`f76942b`):
+  - ShowerBenefits: "Six quiet shifts" → "Seven small shifts" (killed "quiet" voice, matched 7-item count)
+  - ShowerComparison: added 2 honest Jolie-wins rows (NSF/ANSI 177 cert, 5-color finish range) so the "we'll tell you where competition wins" headline delivers
+  - ShowerHeroV2 subhead: 91% stat aligned with Results panel ("calmer skin" → "less acne and skin irritation")
+  - Added `id="offer"` to ShowerHeroV2 `<section>` so Nav/Footer/HomeCTA `#offer` anchors work
+  - RitualMoment copy: "Water is the quietest ingredient / Make it count" → "Before every serum, every mask / there's the water"
+  - Express-pay pills: bumped `h-6 → h-7`, `px-2 → px-2.5`, icons `h-3.5 → h-4` (~14% larger on mobile)
+- **HomePromise headline rewrite**: "Water is the quietest ingredient in your routine. Make it count." → "Water is the most overlooked part of your routine. Make it work for you." (+ type size shrunk 10vw/5.5vw → 8.5vw/4.2vw)
+- **HomeProducts filter image shrink**: added `compact` prop to `FilterCutawayInteractive`; home desktop uses `aspectRatio: 666/880` (~18% shorter) so the section fits one viewport alongside copy. `/shower` Science interactive uses default tall aspect.
+- **Payment brand icons everywhere** — `components/icons/PaymentIcons.tsx` with ApplePay, GooglePay, PayPal, CreditCard inline SVGs. Wired into `/checkout` payment buttons + `/shower` hero express-pay row.
+- **SEO/GEO Tier 1 buildout** (9 commits) — see §SEO + GEO section above for the full shipped list.
+
 ### ✅ Done in sprint 2 (2026-04-21)
 - **ShowerResults consolidation**: merged ShowerBeforeAfter + ShowerStudy into one panel. Layout iterated multiple times → final is headline+subhead+2x2 stats LEFT (col-span-7), comparison images (split from transparent PNG) stacked RIGHT (col-span-5) top-flush with headline.
 - **ShowerScienceInteractive**: replaced text-heavy ShowerScience with interactive exploded filter cutaway. Copy: "20-Stage Filtration" overline + "Engineered for how showers actually behave" headline + POV-flip subhead (most filters use drinking-filter chemistry; we built for shower physics: 105°F, 8gpm, 1-sec contact) + "What it won't do" callout.
@@ -323,12 +415,14 @@ If an ID is missing, that pixel silently doesn't load.
 4. CustomerUGC section auto-appears on `/shower` once at least one URL is set; auto-hides when all empty
 
 ### 🟠 High-value polish (or pending clarification)
-- **Image optimization** — flip `unoptimized: true` → `false` in `next.config.ts`, convert to WebP/AVIF, add proper `srcset`, enable lazy-load. ~45 min. Expected LCP improvement 1–2s on mobile 4G. Waiting on finalized imagery before locking.
+- **Image optimization** — ✅ SHIPPED sprint 3. `unoptimized: false`, formats avif+webp served by Vercel, responsive srcset, native lazy-load. Hero JPGs go from 3MB → ~200KB.
 - **Real hero product shot** — Youssef's graphic designer is supplying cleaner product photography. Current chrome hero uses `product-white-composite.jpg` (composite w/ packaging + splash). When clean shot lands, swap via one-line src change in ShowerHeroV2 and home.
 - **Clean black product** — `product-black-clean.png` exists in public/ but HELD from use per Youssef until he delivers his organized "listing images" folder.
-- **Review count "1,400+"** — hardcoded in multiple places (hero star strip, AmazonReviewsGrid header, ProductSchema structuredData). Match to Amazon's actual live review count when we swap real reviews.
-- **"Up to 95% free chlorine" claim** — need actual lab report on file. Current copy in ShowerScienceInteractive callout mentions this but we confirmed FLO doesn't have independent lab testing yet. **If a visitor or FTC pressed: the "95% at rated flow" claim is industry-typical for KDF-55 media published by media vendors, but FLO itself doesn't have a commissioned test.** Mitigation options: (a) commission one ($15-25K per compliance brief), (b) reword to "engineered to reduce free chlorine using industry-benchmarked KDF-55 media" (weaker but compliant), (c) leave as-is and risk-accept.
+- **Review count "1,400+"** — hardcoded in multiple places (hero star strip, AmazonReviewsGrid header, ProductSchema aggregateRating). Match to Amazon's actual live review count when we swap real reviews.
+- **"95% chlorine reduction" claim** — ✅ SWEPT in sprint 3 compliance purge. Was in `FilterCutawayInteractive.tsx` KDF-55 hotspot; replaced with "The workhorse of our stack — most of the chlorine reduction happens here." No numeric claim now.
+- **Venice, CA / 2022 founding story** — 🟡 **confirm with Youssef before ad spend scales.** Currently in `app/about/AboutContent.tsx:88` ("started in a bathroom in Venice, California, in 2022") AND in `OrganizationSchema` (address.addressLocality "Venice", foundingDate "2022"). Originally written by Claude during sprint 1 — may be fiction. Options: (a) confirm true → leave, (b) swap to real founding city/year, (c) remove from schema + /about copy entirely. Low-urgency but flagged to avoid future trust issues.
 - **Compliance landmines NOT pulled from Amazon listing** — "water softener shower head system," "removes 99% of chlorine," "toxic chemicals and harmful contaminants," "restore pH balance," "watch your hair and skin thrive." All FTC-flagged in `/research/benchmarks-compliance.md`. Do NOT port these from Amazon copy even if tempting.
+- **Superlative claims in llms.txt / meta** — avoid "best," "#1," "number one," "leading" without substantiation. LLMs discount puffery; FTC flags unsupported superlatives. Use scoped factual claims instead ("100,000+ orders shipped since 2022", "4.8★ across 1,400+ Amazon reviews", "20-stage — deepest in the category").
 
 ### 🟡 Nice-to-have
 - Accessibility audit (contrast ratios on mist/bone backgrounds, keyboard nav on colorway swatches + offer plan cards, screen-reader coverage on animated sections)
