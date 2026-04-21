@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AboutContent from "./AboutContent";
+import { BreadcrumbSchema } from "@/components/StructuredData";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -32,5 +33,15 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return <AboutContent />;
+  return (
+    <>
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Our Story", url: "/about" },
+        ]}
+      />
+      <AboutContent />
+    </>
+  );
 }

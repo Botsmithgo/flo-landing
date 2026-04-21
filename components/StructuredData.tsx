@@ -74,6 +74,109 @@ export function FAQSchema({ questions }: FAQSchemaProps) {
   );
 }
 
+/**
+ * WebSite schema — renders once globally. Enables Google sitelinks and gives
+ * AI crawlers a canonical pointer to the site entity.
+ * SearchAction is intentionally omitted (no /search route; schema shouldn't lie).
+ */
+export function WebSiteSchema() {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    url: SITE_URL,
+    name: "Feels Like Om",
+    alternateName: "FLO",
+    publisher: {
+      "@type": "Organization",
+      name: "Feels Like Om",
+      url: SITE_URL,
+    },
+    inLanguage: "en-US",
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+/**
+ * BreadcrumbList schema — rendered per-page. Improves rich-result eligibility
+ * and gives crawlers explicit hierarchy signals.
+ */
+type BreadcrumbItem = { name: string; url: string };
+export function BreadcrumbSchema({ items }: { items: BreadcrumbItem[] }) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: item.url.startsWith("http") ? item.url : `${SITE_URL}${item.url}`,
+    })),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+/**
+ * HowTo schema for the 3-minute install. Content derived verbatim from the
+ * existing FAQ answer — no new claims introduced.
+ */
+export function HowToSchema() {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to install the Feels Like Om Filtered Shower Head",
+    description:
+      "Install the Feels Like Om filtered shower head in under 90 seconds. Fits every standard U.S. shower arm. No plumber, no tools.",
+    totalTime: "PT90S",
+    tool: [{ "@type": "HowToTool", name: "Your hand (no wrench required)" }],
+    supply: [
+      { "@type": "HowToSupply", name: "Feels Like Om shower head" },
+      { "@type": "HowToSupply", name: "Teflon tape (included)" },
+    ],
+    step: [
+      {
+        "@type": "HowToStep",
+        position: 1,
+        name: "Remove your current shower head",
+        text: "Unscrew your existing shower head counter-clockwise by hand. Most come off without tools.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 2,
+        name: "Wrap the shower arm threads",
+        text: "Wrap the included Teflon tape around the exposed shower arm threads two or three times, clockwise.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 3,
+        name: "Screw on the Feels Like Om",
+        text: "Thread the new shower head onto the arm clockwise until snug.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 4,
+        name: "Hand-tighten and test",
+        text: "Tighten by hand until fully seated. Turn on the water and check for leaks — retighten if needed.",
+      },
+    ],
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
 export function OrganizationSchema() {
   const data = {
     "@context": "https://schema.org",

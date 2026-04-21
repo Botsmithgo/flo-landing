@@ -6,7 +6,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Analytics from "@/components/Analytics";
 import WaterReportPopup from "@/components/WaterReportPopup";
 import ScrollDepthTracker from "@/components/ScrollDepthTracker";
-import { OrganizationSchema } from "@/components/StructuredData";
+import { OrganizationSchema, WebSiteSchema } from "@/components/StructuredData";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -62,6 +62,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-bone text-ink grain">
         <Analytics />
         <OrganizationSchema />
+        <WebSiteSchema />
         <ScrollDepthTracker />
         <SmoothScroll>
           <Nav />

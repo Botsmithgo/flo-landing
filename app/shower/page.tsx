@@ -14,7 +14,7 @@ import ShowerFAQ from "@/components/sections/ShowerFAQ";
 import RitualMoment from "@/components/sections/RitualMoment";
 import HomeCTA from "@/components/sections/HomeCTA";
 import StickyATC from "@/components/StickyATC";
-import { ProductSchema, FAQSchema } from "@/components/StructuredData";
+import { ProductSchema, FAQSchema, BreadcrumbSchema, HowToSchema } from "@/components/StructuredData";
 import { PRODUCTS } from "@/lib/checkout";
 import { SITE_URL } from "@/lib/site";
 
@@ -77,6 +77,13 @@ export default function ShowerPage() {
         aggregateRating={{ ratingValue: 4.8, reviewCount: 1400 }}
       />
       <FAQSchema questions={FAQ_FOR_SCHEMA} />
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "The Shower Filter", url: "/shower" },
+        ]}
+      />
+      <HowToSchema />
 
       {/* HERO — inline offer + buy CTA above the fold */}
       <ShowerHeroV2 />
