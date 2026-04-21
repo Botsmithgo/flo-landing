@@ -6,11 +6,9 @@ import Reveal from "@/components/Reveal";
 import { FollicleIcon, DropletIcon } from "@/components/icons/StudyIcons";
 
 /**
- * Consolidated proof panel — replaces the previous ShowerBeforeAfter +
- * ShowerStudy sections with ONE hit.
- *
- * Structure: headline → methodology subhead → floating comparison image
- * → 4-stat row (2 illustrated "emotional" stats + 2 line-icon "technical" stats)
+ * Consolidated proof panel — comparison images stacked on the left,
+ * stats stacked on the right. Fills the container tightly (less dead space
+ * than a centered hero image with stats below).
  */
 
 type Stat = {
@@ -52,8 +50,8 @@ export default function ShowerResults() {
   return (
     <section className="bg-mist py-28 md:py-36 overflow-hidden">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        {/* HEADER — center-aligned, editorial */}
-        <div className="text-center mb-12 md:mb-16 max-w-3xl mx-auto">
+        {/* HEADER — left-aligned, tight */}
+        <div className="max-w-3xl mb-12 md:mb-16">
           <Reveal>
             <p className="overline text-deep mb-6">Four-week study · all hair types</p>
           </Reveal>
@@ -65,7 +63,7 @@ export default function ShowerResults() {
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mt-6 text-[15px] md:text-[16px] leading-relaxed text-muted max-w-xl mx-auto">
+            <p className="mt-6 text-[15px] md:text-[16px] leading-relaxed text-muted max-w-xl">
               200 customers. The same four questions each week for four weeks.
               No paid actors, no clinical trial — just real people who swapped one
               shower head.
@@ -73,60 +71,83 @@ export default function ShowerResults() {
           </Reveal>
         </div>
 
-        {/* FLOATING COMPARISON IMAGE — transparent PNG on mist bg */}
-        <Reveal delay={0.25}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative aspect-[960/500] max-w-4xl mx-auto"
-          >
-            <Image
-              src="/product/comparison-clean.png"
-              alt="Before and after — softer hair and clearer skin after 4 weeks with the Feels Like Om filter"
-              fill
-              className="object-contain drop-shadow-[0_24px_70px_rgba(20,28,34,0.14)]"
-              sizes="(max-width: 768px) 100vw, 80vw"
-            />
-          </motion.div>
-        </Reveal>
+        {/* 2-COLUMN: stacked comparison images LEFT, stacked stats RIGHT */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-center">
+          {/* LEFT — two before/after panels stacked vertically */}
+          <div className="lg:col-span-7 space-y-6 md:space-y-8">
+            <Reveal delay={0.25}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="relative aspect-[397/290]"
+              >
+                <Image
+                  src="/product/comparison-acne.png"
+                  alt="Before and after — clearer skin after four weeks"
+                  fill
+                  className="object-contain drop-shadow-[0_20px_50px_rgba(20,28,34,0.14)]"
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                />
+              </motion.div>
+            </Reveal>
+            <Reveal delay={0.35}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="relative aspect-[391/286]"
+              >
+                <Image
+                  src="/product/comparison-hair.png"
+                  alt="Before and after — softer, shinier hair after four weeks"
+                  fill
+                  className="object-contain drop-shadow-[0_20px_50px_rgba(20,28,34,0.14)]"
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                />
+              </motion.div>
+            </Reveal>
+          </div>
 
-        {/* STATS ROW — hero stats get illustrations, technical stats get line icons */}
-        <div className="mt-16 md:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
-          {STATS.map((s, i) => (
-            <Reveal key={s.pct} delay={0.3 + i * 0.06}>
-              <div className="flex flex-col items-start border-t border-ink/15 pt-6">
-                <div className="mb-4 h-16 md:h-20 flex items-end">
-                  {s.kind === "illus" && s.illusSrc ? (
-                    <div className="relative w-16 h-16 md:w-20 md:h-20">
+          {/* RIGHT — stats stacked vertically */}
+          <div className="lg:col-span-5 space-y-6 md:space-y-8">
+            {STATS.map((s, i) => (
+              <Reveal key={s.pct} delay={0.3 + i * 0.06}>
+                <div className="flex items-center gap-5 pt-6 border-t border-ink/15">
+                  <div className="flex-shrink-0 h-14 w-14 md:h-16 md:w-16 flex items-center justify-center">
+                    {s.kind === "illus" && s.illusSrc ? (
                       <Image
                         src={s.illusSrc}
                         alt=""
-                        fill
+                        width={64}
+                        height={64}
                         className="object-contain"
-                        sizes="80px"
                       />
-                    </div>
-                  ) : s.IconComponent ? (
-                    <s.IconComponent className="text-deep" size={52} />
-                  ) : null}
+                    ) : s.IconComponent ? (
+                      <s.IconComponent className="text-deep" size={44} />
+                    ) : null}
+                  </div>
+                  <div className="flex-1">
+                    <p className="display text-[12vw] md:text-[3.2vw] lg:text-[2.6vw] leading-none text-deep">
+                      {s.pct}
+                    </p>
+                    <p className="mt-2 text-[13px] md:text-[14px] leading-snug text-muted">
+                      {s.label}
+                    </p>
+                  </div>
                 </div>
-                <p className="display text-[14vw] md:text-[5.2vw] lg:text-[3.8vw] leading-none text-deep">
-                  {s.pct}
-                </p>
-                <p className="mt-4 text-[13px] md:text-[14px] leading-snug text-muted max-w-[200px]">
-                  {s.label}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            ))}
+          </div>
         </div>
 
         {/* Disclaimer */}
-        <Reveal delay={0.5}>
-          <p className="mt-14 text-center text-[11px] text-muted max-w-2xl mx-auto leading-relaxed">
+        <Reveal delay={0.6}>
+          <p className="mt-14 text-[11px] text-muted max-w-2xl leading-relaxed">
             *Results are self-reported. Individual outcomes vary. Photos are from
             customers using the Feels Like Om filter daily for four weeks,
             alongside their existing skincare and hair routine.
