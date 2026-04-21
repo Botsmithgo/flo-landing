@@ -88,15 +88,13 @@ export default function ShowerOffer() {
       ? PRODUCTS.shower.variants.subscription
       : PRODUCTS.shower.variants.single;
 
-  const checkoutUrl =
-    variantId
-      ? buildCheckoutUrl({
-          variantId,
-          quantity: 1,
-          discount: plan === "subscribe" ? process.env.NEXT_PUBLIC_FIRST_ORDER_DISCOUNT : undefined,
-          attributes: { color: cw.label },
-        })
-      : "https://feelslikeom.shop";
+  const checkoutUrl = buildCheckoutUrl({
+    variantId,
+    quantity: 1,
+    discount: plan === "subscribe" ? process.env.NEXT_PUBLIC_FIRST_ORDER_DISCOUNT : undefined,
+    attributes: { color: cw.label },
+    variant: { plan, color },
+  });
 
   return (
     <section id="offer" className="bg-bone py-32 md:py-44 scroll-mt-24">
@@ -241,7 +239,7 @@ export default function ShowerOffer() {
             })}
           </div>
 
-          {/* Primary CTA — includes selected colorway */}
+          {/* Primary CTA — direct checkout */}
           <motion.a
             href={checkoutUrl}
             onClick={() =>
@@ -258,10 +256,21 @@ export default function ShowerOffer() {
             whileTap={{ scale: 0.99 }}
           >
             {plan === "subscribe"
-              ? `Subscribe — $${selected.price} · ${cw.label}`
-              : `Add to cart — $${selected.price} · ${cw.label}`}
+              ? `Checkout — $${selected.price} · ${cw.label}`
+              : `Checkout — $${selected.price} · ${cw.label}`}
             <span aria-hidden>→</span>
           </motion.a>
+
+          {/* Express-pay badges — signal that card / Apple Pay / PayPal all work */}
+          <div className="mt-4 flex items-center justify-center gap-4 text-muted">
+            <span className="text-[11px] tracking-widest uppercase">Pay with</span>
+            <span className="flex items-center gap-3 text-[11px] font-medium text-ink/75">
+              <span className="px-2 py-0.5 rounded bg-ink/5 border border-ink/10">Apple Pay</span>
+              <span className="px-2 py-0.5 rounded bg-ink/5 border border-ink/10">Google Pay</span>
+              <span className="px-2 py-0.5 rounded bg-ink/5 border border-ink/10">PayPal</span>
+              <span className="px-2 py-0.5 rounded bg-ink/5 border border-ink/10">Card</span>
+            </span>
+          </div>
 
           {/* Guarantee bar */}
           <div className="mt-8 grid grid-cols-3 gap-3 text-center border-t border-ink/15 pt-8">

@@ -95,15 +95,41 @@ public/product/
 
 ---
 
-## The ONE critical blocker
+## Checkout architecture (DECIDED)
 
-**Checkout is broken.** `lib/checkout.ts` builds Shopify cart permalinks like `feelslikeom.shop/cart/:1` but:
-- There's no Shopify store set up yet
-- `NEXT_PUBLIC_SHOPIFY_VARIANT_SHOWER_SINGLE` and `_SUBSCRIPTION` env vars are empty
+**Stripe direct + Amazon MCF for fulfillment.** Shopify is NOT in the V1 plan.
 
-**Approved path forward (pending Youssef confirmation):** point every "Add to cart" to the Amazon listing at `https://www.amazon.com/dp/B0DHJ74TCC` until Shopify is live. Add `NEXT_PUBLIC_CHECKOUT_MODE=amazon` env var + branch in `buildCheckoutUrl()`.
+`lib/checkout.ts` supports three modes via `NEXT_PUBLIC_CHECKOUT_MODE`:
+- `stripe`  — direct to Stripe Payment Link per variant (RECOMMENDED — keeps customer)
+- `shopify` — Shopify cart permalink (only if a Shopify store exists later)
+- `amazon`  — Amazon listing fallback (current default until Stripe is set up)
 
-When Shopify is live, set `CHECKOUT_MODE=shopify` + populate variant IDs. Zero code change needed.
+### Stripe setup (Youssef's task, ~15 min)
+
+1. Sign up at [stripe.com](https://stripe.com)
+2. Dashboard → Products → create "FLO Filtered Shower Head"
+3. Add 4 variants × generate Payment Links for each:
+   - Single / Chrome — $139
+   - Single / Black — $139
+   - Subscribe / Chrome — $125 + recurring filter sub
+   - Subscribe / Black — $125 + recurring filter sub
+4. Paste Payment Link URLs into Vercel env vars:
+   - `NEXT_PUBLIC_STRIPE_LINK_SHOWER_SINGLE_CHROME`
+   - `NEXT_PUBLIC_STRIPE_LINK_SHOWER_SINGLE_BLACK`
+   - `NEXT_PUBLIC_STRIPE_LINK_SHOWER_SUBSCRIBE_CHROME`
+   - `NEXT_PUBLIC_STRIPE_LINK_SHOWER_SUBSCRIBE_BLACK`
+5. Set `NEXT_PUBLIC_CHECKOUT_MODE=stripe`
+6. Stripe Payment Links accept card + Apple Pay + Google Pay + Link natively. Optional: enable Klarna, Afterpay, PayPal in Payment Link settings.
+
+### Amazon MCF setup (Youssef's task, one-time)
+
+Amazon Multi-Channel Fulfillment ships your existing FBA inventory to *your* customers when orders come from outside Amazon. ~$6-$8/order.
+
+1. Amazon Seller Central → Settings → Fulfillment by Amazon → Multi-Channel Fulfillment Settings → enable
+2. Create an MCF API integration OR use a 3PL connector (ShipBob, ShipMonk all integrate)
+3. When a Stripe order comes in, push the order to MCF via API for fulfillment
+
+For V1 launch: process Stripe orders manually in Seller Central → Create order → MCF. Automate via Stripe webhook + MCF API later when volume justifies it.
 
 ---
 
@@ -155,10 +181,27 @@ If an ID is missing, that pixel silently doesn't load.
 - `RitualMoment` (clean bathroom, no product) slotted between Benefits and Science
 
 ### 🔴 Still blocking launch
-- **Real testimonials** — replace placeholders ("Jenna K." etc.) with real Amazon review export. 30 min once user sends CSV.
-- **Analytics pixel IDs** — user to grab from GA4, Meta, TikTok → drop into Vercel env vars → I wire events (`water_report_lead`, `begin_checkout`, etc.)
-- **Domain wire** — point `go.feelslikeom.shop` or `www.feelslikeom.com` at Vercel project
-- **Water report endpoint** — `NEXT_PUBLIC_WATER_REPORT_ENDPOINT` is empty; popup shows success state but doesn't persist. Pick Formspree/Klaviyo/custom API, set the env var.
+- **Stripe Payment Links** — Youssef sets up Stripe + creates 4 payment links + pastes URLs into env vars + flips `CHECKOUT_MODE=stripe`. Site auto-routes from Amazon to Stripe checkout the moment env vars are set.
+- **Amazon MCF** — Youssef enables Multi-Channel Fulfillment in Seller Central so Stripe orders ship from FBA inventory.
+- **Real Amazon reviews** — see "How to swap real reviews" below. AmazonReviewsGrid component currently has 6 realistic placeholder reviews that look authentic but are inventions.
+- **Analytics pixel IDs** — user to grab from GA4, Meta, TikTok → drop into Vercel env vars. All events already wired (`shop_now_hero`, `plan_switch`, `color_switch`, `begin_checkout`, `faq_expand`, `tiktok_click`, `water_report_lead`, `scroll_depth`).
+- **Domain wire** — point `feelslikeom.com` or similar at Vercel project.
+- **Water report endpoint** — `NEXT_PUBLIC_WATER_REPORT_ENDPOINT` is empty; popup shows success state but doesn't persist email. Pick Formspree/Klaviyo/custom API, set the env var.
+
+### 📋 How to swap real Amazon reviews
+
+1. Amazon Seller Central → Brand Analytics → Review Insights → export top reviews CSV
+2. For each review you want to feature, capture: stars, reviewer first-name+last-initial, review date, review title, review body, and any customer-uploaded photo URL
+3. Open `components/sections/AmazonReviewsGrid.tsx` and replace the `REVIEWS` array with the real data, keeping the same shape (stars, verified, name, date, title, body, image?, helpful?)
+4. Aim for 6 reviews mixing 5-star + 1 four-star review (all 5s reads cherry-picked); include 1-2 with customer photos for visual variety
+5. Update the count in the section footer ("Showing 6 of 1,400+...") to match real review total
+
+### 📋 How to add UGC TikToks
+
+1. Find 1-3 customer TikToks mentioning FLO (search TikTok for `@feelslikeom` mentions or relevant hashtags)
+2. Get the full URL of each video
+3. Drop URLs into Vercel env vars: `NEXT_PUBLIC_UGC_TIKTOK_1`, `_2`, `_3`
+4. CustomerUGC section auto-appears on `/shower` once at least one URL is set; auto-hides when all empty
 
 ### 🟠 High-value polish
 - **Image optimization** — logged for when final images are locked in. Flip `unoptimized: true` → `false` in `next.config.ts`, convert to WebP/AVIF, add proper `srcset`, enable lazy-load on below-fold. ~45 min. Expected LCP improvement 1–2s on mobile 4G.

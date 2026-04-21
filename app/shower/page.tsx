@@ -10,7 +10,8 @@ import ShowerBenefits from "@/components/sections/ShowerBenefits";
 import ShowerHonesty from "@/components/sections/ShowerHonesty";
 import RitualMoment from "@/components/sections/RitualMoment";
 import ShowerScience from "@/components/sections/ShowerScience";
-import ShowerReviews from "@/components/sections/ShowerReviews";
+import AmazonReviewsGrid from "@/components/sections/AmazonReviewsGrid";
+import CustomerUGC from "@/components/sections/CustomerUGC";
 import ShowerComparison from "@/components/sections/ShowerComparison";
 import ShowerFAQ from "@/components/sections/ShowerFAQ";
 import HomeCTA from "@/components/sections/HomeCTA";
@@ -92,7 +93,8 @@ export default function ShowerPage() {
       <RitualMoment />
 
       <ShowerScience />
-      <ShowerReviews />
+      <AmazonReviewsGrid />
+      <CustomerUGC />
       <ShowerComparison />
       <ShowerFAQ />
       <HomeCTA />
