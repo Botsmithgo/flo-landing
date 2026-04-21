@@ -14,8 +14,8 @@ const PRINCIPLES = [
   },
   {
     n: "II",
-    title: "Test before you market.",
-    body: "Every claim on this site is backed by a third-party lab report. Where we&apos;re not sure, we say so. Where our media can&apos;t do something, we tell you.",
+    title: "Claim less. Deliver more.",
+    body: "We don&apos;t run clinical trials — we run a customer perception study. Self-reported observation, not a cure. Where we don&apos;t know, we say so. Where our filter can&apos;t do something, we tell you.",
   },
   {
     n: "III",
@@ -110,9 +110,9 @@ export default function AboutContent() {
             </Reveal>
             <Reveal delay={0.15}>
               <p>
-                We&apos;re a small company. We test what we sell. We publish the
-                numbers. We say what the product can&apos;t do. And we believe
-                quiet, honest products always outlast loud ones.
+                We&apos;re a small company. We listen to customers. We publish
+                what they tell us. We say what the product can&apos;t do. And we
+                believe honest products outlast loud ones.
               </p>
             </Reveal>
             <Reveal delay={0.2}>

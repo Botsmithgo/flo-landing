@@ -21,7 +21,7 @@ const FAQ_FOR_SCHEMA = [
   { q: "How does installation work?", a: "Unscrew your current shower head, screw on the FLO, tighten by hand. Total time under 90 seconds. Fits every standard U.S. shower arm." },
   { q: "How often do I replace the filter?", a: "Every six months, or 12,000 gallons, whichever comes first. Subscribers get replacements auto-shipped." },
   { q: "Will this lower my water pressure?", a: "No. The 20-stage filter is designed with a wide flow path so you get full-pressure showers." },
-  { q: "Does it remove chloramine?", a: "Chloramine is harder to reduce than free chlorine. We've seen meaningful reduction in independent testing but if you live in a chloramine-heavy city, we recommend also using our bath filter for longest-contact exposure." },
+  { q: "Does it remove chloramine?", a: "Chloramine is harder to reduce than free chlorine — it's more stable in water. Our 20-stage stack reduces some chloramine, but expect partial reduction rather than complete removal, especially if you live in a chloramine-heavy city (parts of CA, Denver, DC, Philly)." },
   { q: "Will it soften my hard water?", a: "A shower-head filter can't do true softening (that requires whole-home ion exchange). What it does is take out the chlorine edge that dries your hair and irritates skin." },
   { q: "Return policy?", a: "60 days, full refund. If the water isn't better than what you had, we don't want your money." },
 ];

@@ -35,7 +35,7 @@ const STAGES: Stage[] = [
     name: "KDF-55",
     subtitle: "Chlorine reduction",
     body:
-      "Copper-zinc redox media. Converts free chlorine to chloride via electrochemical reaction. Independently tested at 85–95% chlorine reduction.",
+      "Copper-zinc redox media. Converts free chlorine to chloride via electrochemical reaction. The workhorse of our stack — most of the chlorine reduction happens here.",
     dotY: 55,
     side: "right",
     labelY: 36,

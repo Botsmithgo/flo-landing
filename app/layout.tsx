@@ -16,11 +16,10 @@ export const metadata: Metadata = {
     template: "%s — Feels Like Om",
   },
   description:
-    "Independently-tested shower and bath filters that reduce chlorine, heavy metals, and the chemicals that dry your hair and irritate your skin. A small ritual, repeated daily.",
+    "A 20-stage filtered shower head that reduces chlorine, heavy metals, and the chemicals that dry your hair and irritate your skin. A small ritual, repeated daily.",
   keywords: [
     "filtered shower head",
     "shower filter",
-    "bath water filter",
     "chlorine filter shower",
     "hard water shower head",
     "wellness shower",
@@ -47,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Feels Like Om",
     description:
-      "Filtered shower head for softer hair and calmer skin. 100K+ orders, 4.8★, customer-tested.",
+      "Filtered shower head for softer hair and calmer skin. 100K+ orders, 4.8★ avg rating.",
     images: ["/product/bathroom-scene.jpg"],
   },
 };

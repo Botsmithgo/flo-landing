@@ -20,7 +20,7 @@ const FAQ = [
   },
   {
     q: "Does it remove chloramine?",
-    a: "Chloramine is harder to reduce than free chlorine — NSF 177 doesn't test for it. We've seen meaningful reduction in independent testing, but if you live in a chloramine-heavy city (parts of CA, Denver, DC, Philly), we recommend using our bath filter as well for the longest-contact exposure.",
+    a: "Chloramine is harder to reduce than free chlorine — it's more stable in water and doesn't off-gas. Our 20-stage stack reduces some chloramine, but expect partial reduction rather than complete removal, especially if you live in a chloramine-heavy city (parts of CA, Denver, DC, Philly).",
   },
   {
     q: "Will it soften my hard water?",
