@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -39,22 +40,30 @@ export default function Nav() {
         }`}
       >
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 md:px-10 h-16 md:h-20">
-          <Link href="/" className="flex items-center gap-2 group">
-            <span className="display text-[22px] md:text-[26px] text-ink tracking-tight">
-              Feels Like Om
-            </span>
+          <Link href="/" className="flex items-center group" aria-label="Feels Like Om — Home">
+            <Image
+              src="/logo.png"
+              alt="Feels Like Om"
+              width={645}
+              height={158}
+              priority
+              className={`h-[22px] md:h-[26px] w-auto transition-[filter] duration-500 ${
+                scrolled ? "" : "invert brightness-[1.08]"
+              }`}
+            />
           </Link>
 
           <nav className="hidden md:flex items-center gap-10">
             {NAV_LINKS.map((link) => {
               const active = pathname === link.href;
+              const base = scrolled
+                ? active ? "text-ink" : "text-ink/70 hover:text-ink"
+                : active ? "text-bone" : "text-bone/75 hover:text-bone";
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative text-[13px] tracking-wide transition-colors ${
-                    active ? "text-ink" : "text-ink/70 hover:text-ink"
-                  }`}
+                  className={`relative text-[13px] tracking-wide transition-colors ${base}`}
                 >
                   {link.label}
                   {active && (
@@ -80,8 +89,8 @@ export default function Nav() {
               onClick={() => setMenuOpen((v) => !v)}
               className="md:hidden flex flex-col gap-[5px] w-8 h-8 items-center justify-center"
             >
-              <span className={`block w-5 h-px bg-ink transition-transform duration-300 ${menuOpen ? "translate-y-[3px] rotate-45" : ""}`} />
-              <span className={`block w-5 h-px bg-ink transition-transform duration-300 ${menuOpen ? "-translate-y-[3px] -rotate-45" : ""}`} />
+              <span className={`block w-5 h-px transition-all duration-300 ${scrolled || menuOpen ? "bg-ink" : "bg-bone"} ${menuOpen ? "translate-y-[3px] rotate-45" : ""}`} />
+              <span className={`block w-5 h-px transition-all duration-300 ${scrolled || menuOpen ? "bg-ink" : "bg-bone"} ${menuOpen ? "-translate-y-[3px] -rotate-45" : ""}`} />
             </button>
           </div>
         </div>

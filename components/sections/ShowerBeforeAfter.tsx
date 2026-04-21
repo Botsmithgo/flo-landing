@@ -64,21 +64,25 @@ export default function ShowerBeforeAfter() {
           <div className="lg:col-span-7">
             <Reveal delay={0.15}>
               <motion.div
-                whileHover={{ scale: 1.01 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                whileHover={{ y: -4 }}
                 transition={{ duration: 0.6 }}
-                className="relative aspect-[960/370] rounded-sm overflow-hidden"
+                className="relative aspect-[960/500]"
               >
+                {/* Transparent PNG floats on the section's mist bg — no container */}
                 <Image
                   src="/product/comparison-clean.png"
                   alt="Before and after — softer hair and clearer skin after 4 weeks with the Feels Like Om filter"
                   fill
-                  className="object-contain"
+                  className="object-contain drop-shadow-[0_20px_60px_rgba(20,28,34,0.12)]"
                   sizes="(max-width: 1024px) 100vw, 60vw"
                 />
               </motion.div>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="mt-4 text-[11px] text-muted leading-relaxed">
+              <p className="mt-6 text-[11px] text-muted leading-relaxed text-center lg:text-left">
                 *Individual results vary. Photos are from customers using the
                 Feels Like Om filter daily for four weeks, alongside their
                 existing skincare and hair routine.

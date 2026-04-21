@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -6,8 +7,14 @@ export default function Footer() {
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 pt-24 pb-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-16">
           <div className="col-span-2">
-            <Link href="/" className="display text-4xl md:text-5xl text-bone tracking-tight">
-              Feels Like Om
+            <Link href="/" className="inline-block" aria-label="Feels Like Om — Home">
+              <Image
+                src="/logo.png"
+                alt="Feels Like Om"
+                width={645}
+                height={158}
+                className="h-[38px] md:h-[44px] w-auto invert brightness-[1.08]"
+              />
             </Link>
             <p className="mt-6 max-w-sm text-[14px] leading-relaxed text-bone/60">
               Cleaner water for softer hair, calmer skin, and quieter mornings.
