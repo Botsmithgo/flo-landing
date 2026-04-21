@@ -3,60 +3,35 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
-import { FollicleIcon, DropletIcon } from "@/components/icons/StudyIcons";
 
 /**
- * Consolidated proof panel — comparison images stacked on the left,
- * stats stacked on the right. Fills the container tightly (less dead space
- * than a centered hero image with stats below).
+ * Consolidated proof panel — stats anchor the LEFT column (big numbers,
+ * clean text, no icons), comparison panels float on the RIGHT.
+ *
+ * Headline sizes capped with clamp so they don't explode on wide viewports.
  */
 
-type Stat = {
-  pct: string;
-  label: string;
-  kind: "illus" | "icon";
-  illusSrc?: string;
-  IconComponent?: typeof FollicleIcon;
-};
-
-const STATS: Stat[] = [
-  {
-    pct: "91%",
-    label: "Reduced acne & skin irritation",
-    kind: "illus",
-    illusSrc: "/product/illus-skin.png",
-  },
-  {
-    pct: "87%",
-    label: "Experienced less hair frizz",
-    kind: "illus",
-    illusSrc: "/product/illus-hair.png",
-  },
-  {
-    pct: "82%",
-    label: "Noticed less dryness & breakage",
-    kind: "icon",
-    IconComponent: FollicleIcon,
-  },
-  {
-    pct: "90%",
-    label: "Felt better water pressure",
-    kind: "icon",
-    IconComponent: DropletIcon,
-  },
+const STATS = [
+  { pct: "91%", label: "Reduced acne & skin irritation" },
+  { pct: "87%", label: "Experienced less hair frizz" },
+  { pct: "82%", label: "Noticed less dryness & breakage" },
+  { pct: "90%", label: "Felt better water pressure" },
 ];
 
 export default function ShowerResults() {
   return (
     <section className="bg-mist py-28 md:py-36 overflow-hidden">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        {/* HEADER — left-aligned, tight */}
-        <div className="max-w-3xl mb-12 md:mb-16">
+        {/* HEADER — capped size so it never explodes on wide viewports */}
+        <div className="max-w-3xl mb-14 md:mb-20">
           <Reveal>
             <p className="overline text-deep mb-6">Four-week study · all hair types</p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="display text-[11vw] md:text-[5.4vw] leading-[0.98]">
+            <h2
+              className="display leading-[0.98]"
+              style={{ fontSize: "clamp(36px, 6vw, 76px)" }}
+            >
               Healthier skin and hair
               <br />
               <span className="display-italic text-deep">start here.</span>
@@ -71,16 +46,35 @@ export default function ShowerResults() {
           </Reveal>
         </div>
 
-        {/* 2-COLUMN: stacked comparison images LEFT, stacked stats RIGHT */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-center">
-          {/* LEFT — two before/after panels stacked vertically */}
-          <div className="lg:col-span-7 space-y-6 md:space-y-8">
-            <Reveal delay={0.25}>
+        {/* 2-COLUMN: stats LEFT (hero numbers), images RIGHT (smaller, stacked) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-start">
+          {/* LEFT — 4 stacked stats, big numbers, no icons */}
+          <div className="lg:col-span-7 grid grid-cols-2 gap-x-8 gap-y-12 md:gap-y-16">
+            {STATS.map((s, i) => (
+              <Reveal key={s.pct} delay={0.25 + i * 0.08}>
+                <div className="pt-5 border-t border-ink/15">
+                  <p
+                    className="display leading-none text-deep"
+                    style={{ fontSize: "clamp(56px, 6vw, 86px)" }}
+                  >
+                    {s.pct}
+                  </p>
+                  <p className="mt-4 text-[13px] md:text-[14px] leading-snug text-muted max-w-[220px]">
+                    {s.label}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          {/* RIGHT — 2 before/after panels stacked, smaller */}
+          <div className="lg:col-span-5 space-y-5 md:space-y-6 lg:sticky lg:top-32">
+            <Reveal delay={0.3}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
-                whileHover={{ y: -4 }}
+                whileHover={{ y: -3 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="relative aspect-[397/290]"
               >
@@ -88,17 +82,17 @@ export default function ShowerResults() {
                   src="/product/comparison-acne.png"
                   alt="Before and after — clearer skin after four weeks"
                   fill
-                  className="object-contain drop-shadow-[0_20px_50px_rgba(20,28,34,0.14)]"
-                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-contain drop-shadow-[0_16px_40px_rgba(20,28,34,0.12)]"
+                  sizes="(max-width: 1024px) 100vw, 35vw"
                 />
               </motion.div>
             </Reveal>
-            <Reveal delay={0.35}>
+            <Reveal delay={0.4}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
-                whileHover={{ y: -4 }}
+                whileHover={{ y: -3 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="relative aspect-[391/286]"
               >
@@ -106,42 +100,11 @@ export default function ShowerResults() {
                   src="/product/comparison-hair.png"
                   alt="Before and after — softer, shinier hair after four weeks"
                   fill
-                  className="object-contain drop-shadow-[0_20px_50px_rgba(20,28,34,0.14)]"
-                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-contain drop-shadow-[0_16px_40px_rgba(20,28,34,0.12)]"
+                  sizes="(max-width: 1024px) 100vw, 35vw"
                 />
               </motion.div>
             </Reveal>
-          </div>
-
-          {/* RIGHT — stats stacked vertically */}
-          <div className="lg:col-span-5 space-y-6 md:space-y-8">
-            {STATS.map((s, i) => (
-              <Reveal key={s.pct} delay={0.3 + i * 0.06}>
-                <div className="flex items-center gap-5 pt-6 border-t border-ink/15">
-                  <div className="flex-shrink-0 h-14 w-14 md:h-16 md:w-16 flex items-center justify-center">
-                    {s.kind === "illus" && s.illusSrc ? (
-                      <Image
-                        src={s.illusSrc}
-                        alt=""
-                        width={64}
-                        height={64}
-                        className="object-contain"
-                      />
-                    ) : s.IconComponent ? (
-                      <s.IconComponent className="text-deep" size={44} />
-                    ) : null}
-                  </div>
-                  <div className="flex-1">
-                    <p className="display text-[12vw] md:text-[3.2vw] lg:text-[2.6vw] leading-none text-deep">
-                      {s.pct}
-                    </p>
-                    <p className="mt-2 text-[13px] md:text-[14px] leading-snug text-muted">
-                      {s.label}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
           </div>
         </div>
 
