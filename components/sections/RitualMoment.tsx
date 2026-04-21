@@ -37,9 +37,9 @@ export default function RitualMoment() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="display text-[8vw] md:text-[4.5vw] leading-[1] text-bone max-w-3xl">
-              Water is the quietest ingredient.
+              Before every serum, every mask —
               <br />
-              <span className="display-italic text-bone/80">Make it count.</span>
+              <span className="display-italic text-bone/80">there&rsquo;s the water.</span>
             </p>
           </Reveal>
         </div>

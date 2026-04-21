@@ -78,6 +78,7 @@ export default function ShowerHeroV2() {
 
   return (
     <section
+      id="offer"
       ref={ref}
       className="relative bg-bone pt-32 md:pt-36 pb-16 md:pb-24 overflow-hidden"
     >
@@ -242,7 +243,7 @@ export default function ShowerHeroV2() {
             activated carbon</span> — that reduces chlorine, heavy metals, and the
             chemicals customers say were drying their hair and clouding their skin.
             In a 4-week customer study, <span className="text-ink">91% reported
-            calmer skin</span>. Three-minute install. 60-day money-back.
+            less acne and skin irritation</span>. Three-minute install. 60-day money-back.
           </motion.p>
 
           {/* INLINE OFFER — plan picker (vertical stack, larger cards) */}
@@ -371,18 +372,18 @@ export default function ShowerHeroV2() {
           >
             <span className="tracking-widest uppercase">Pay with</span>
             <span className="flex items-center gap-2">
-              <span className="h-6 px-2 rounded bg-ink/5 border border-ink/10 flex items-center">
-                <ApplePayIcon className="h-3.5 w-auto" monochrome />
+              <span className="h-7 px-2.5 rounded bg-ink/5 border border-ink/10 flex items-center">
+                <ApplePayIcon className="h-4 w-auto" monochrome />
               </span>
-              <span className="h-6 px-2 rounded bg-ink/5 border border-ink/10 flex items-center">
-                <GooglePayIcon className="h-3.5 w-auto" />
+              <span className="h-7 px-2.5 rounded bg-ink/5 border border-ink/10 flex items-center">
+                <GooglePayIcon className="h-4 w-auto" />
               </span>
-              <span className="h-6 px-2 rounded bg-ink/5 border border-ink/10 flex items-center">
-                <PayPalIcon className="h-3.5 w-auto" />
+              <span className="h-7 px-2.5 rounded bg-ink/5 border border-ink/10 flex items-center">
+                <PayPalIcon className="h-4 w-auto" />
               </span>
-              <span className="h-6 px-2 rounded bg-ink/5 border border-ink/10 flex items-center gap-1 text-ink/65">
-                <CreditCardIcon className="h-3 w-auto" />
-                <span className="text-[10px]">Card</span>
+              <span className="h-7 px-2.5 rounded bg-ink/5 border border-ink/10 flex items-center gap-1 text-ink/65">
+                <CreditCardIcon className="h-3.5 w-auto" />
+                <span className="text-[11px]">Card</span>
               </span>
             </span>
           </motion.div>

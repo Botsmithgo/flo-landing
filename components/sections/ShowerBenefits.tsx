@@ -19,7 +19,7 @@ export default function ShowerBenefits() {
         </Reveal>
         <Reveal delay={0.1}>
           <h2 className="display text-[10vw] md:text-[5.5vw] leading-[0.98] max-w-4xl">
-            Six quiet shifts,
+            Seven small shifts,
             <br />
             <span className="display-italic text-deep">by the end of week one.</span>
           </h2>
