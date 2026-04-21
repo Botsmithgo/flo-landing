@@ -95,9 +95,8 @@ export default function HomeHero() {
         >
           <span className="flex items-center gap-2">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.8 4 4.2.4-3.2 2.8 1 4.2L7 10l-3.8 2.4 1-4.2L1 5.4l4.2-.4L7 1z" fill="currentColor"/></svg>
-            Independently lab-tested
+            100,000+ orders shipped
           </span>
-          <span>Prop 65 compliant brass</span>
           <span>Free U.S. shipping over $49</span>
           <span>60-day returns</span>
         </motion.div>

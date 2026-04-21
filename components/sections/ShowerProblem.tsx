@@ -29,6 +29,13 @@ export default function ShowerProblem() {
           </p>
         </Reveal>
 
+        <Reveal delay={0.35}>
+          <p className="mt-6 display italic text-xl md:text-2xl text-sage max-w-2xl leading-snug">
+            Tired of acne you can&apos;t explain, hair that keeps breaking,
+            water with a smell you&apos;ve stopped noticing?
+          </p>
+        </Reveal>
+
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 border-t border-bone/10 pt-14">
           {WHAT_IS_IN_WATER.map((w, i) => (
             <Reveal key={w.n} delay={i * 0.08}>

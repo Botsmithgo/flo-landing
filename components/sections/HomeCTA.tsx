@@ -25,9 +25,9 @@ export default function HomeCTA() {
         </Reveal>
         <Reveal delay={0.1}>
           <h2 className="display text-[13vw] md:text-[8vw] leading-[0.95] max-w-5xl mx-auto">
-            Cleaner water —
+            Pure water
             <br />
-            <span className="display-italic text-sage">by your next shower.</span>
+            for a <span className="display-italic text-sage">pure you.</span>
           </h2>
         </Reveal>
         <Reveal delay={0.2}>

@@ -229,7 +229,8 @@ export default function ShowerHeroV2() {
             className="mt-5 text-[14px] md:text-[15px] leading-relaxed text-muted max-w-lg"
           >
             A 20-stage filter that reduces chlorine, heavy metals, and the
-            chemicals that dry your hair. Independently lab-tested · 90-second install.
+            chemicals customers say were drying their hair and clouding their skin.
+            Three-minute install. Lab-tested.
           </motion.p>
 
           {/* INLINE OFFER — plan picker (vertical stack, larger cards) */}

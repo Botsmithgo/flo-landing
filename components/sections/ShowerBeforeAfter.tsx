@@ -27,14 +27,34 @@ export default function ShowerBeforeAfter() {
                 change their shower head.
               </p>
             </Reveal>
+
+            {/* Stats with brand illustrations */}
             <Reveal delay={0.3}>
-              <div className="mt-10 grid grid-cols-2 gap-6 pt-8 border-t border-ink/15">
-                <div>
-                  <p className="display text-2xl md:text-3xl text-deep">91%</p>
+              <div className="mt-10 grid grid-cols-2 gap-4 md:gap-6 pt-8 border-t border-ink/15">
+                <div className="flex flex-col items-start">
+                  <div className="relative w-16 h-16 md:w-20 md:h-20 mb-3">
+                    <Image
+                      src="/product/illus-skin.png"
+                      alt=""
+                      fill
+                      className="object-contain"
+                      sizes="80px"
+                    />
+                  </div>
+                  <p className="display text-2xl md:text-3xl text-deep leading-none">91%</p>
                   <p className="text-[12px] text-muted mt-2 leading-snug">Reduced acne &amp; skin irritation</p>
                 </div>
-                <div>
-                  <p className="display text-2xl md:text-3xl text-deep">87%</p>
+                <div className="flex flex-col items-start">
+                  <div className="relative w-16 h-16 md:w-20 md:h-20 mb-3">
+                    <Image
+                      src="/product/illus-hair.png"
+                      alt=""
+                      fill
+                      className="object-contain"
+                      sizes="80px"
+                    />
+                  </div>
+                  <p className="display text-2xl md:text-3xl text-deep leading-none">87%</p>
                   <p className="text-[12px] text-muted mt-2 leading-snug">Experienced less hair frizz</p>
                 </div>
               </div>
@@ -46,13 +66,13 @@ export default function ShowerBeforeAfter() {
               <motion.div
                 whileHover={{ scale: 1.01 }}
                 transition={{ duration: 0.6 }}
-                className="relative aspect-[960/560] rounded-sm overflow-hidden bg-bone shadow-xl shadow-ink/10"
+                className="relative aspect-[960/370] rounded-sm overflow-hidden"
               >
                 <Image
-                  src="/product/before-after.jpg"
+                  src="/product/comparison-clean.png"
                   alt="Before and after — softer hair and clearer skin after 4 weeks with the Feels Like Om filter"
                   fill
-                  className="object-cover object-left"
+                  className="object-contain"
                   sizes="(max-width: 1024px) 100vw, 60vw"
                 />
               </motion.div>

@@ -38,7 +38,7 @@ export default function ShowerStudy() {
             {STATS.map((s, i) => (
               <Reveal key={s.n} delay={i * 0.08}>
                 <div className="pt-6 border-t border-bone/20">
-                  <s.Icon className="text-sage mb-5" size={52} />
+                  <s.Icon className="text-sage mb-5" size={52} dark />
                   <p className="display text-[14vw] md:text-[6vw] leading-none text-sage">{s.n}</p>
                   <p className="mt-5 text-[14px] md:text-[15px] leading-snug text-bone/80 max-w-xs">{s.l}</p>
                 </div>

@@ -4,9 +4,10 @@ const BENEFITS = [
   { n: "01", title: "Softer-feeling hair", line: "Without the chlorine edge, your hair dries lighter. Most people feel it by day 7." },
   { n: "02", title: "Calmer skin", line: "Users commonly report less post-shower tightness. In our 4-week study, 91% reported reduced irritation." },
   { n: "03", title: "Less pressure loss", line: "A wide flow path across 20 stages — no pressure tax for the filtration." },
-  { n: "04", title: "90-second install", line: "Unscrews your old head, screws the new one on. No plumber. No tools." },
+  { n: "04", title: "Three-minute install", line: "Unscrews your old head, screws the new one on. No plumber. No tools." },
   { n: "05", title: "Six-month cartridge", line: "One filter per half-year of daily showers. Replacements auto-ship with your subscription." },
   { n: "06", title: "Fits standard thread", line: "Compatible with every standard U.S. shower arm. Takes a hand-tight seal." },
+  { n: "07", title: "Modern, classy design", line: "Polished chrome or matte black. Sits flush on the wall, reads like something you'd see in a hotel bathroom." },
 ];
 
 export default function ShowerBenefits() {

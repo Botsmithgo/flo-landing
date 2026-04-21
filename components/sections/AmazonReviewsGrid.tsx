@@ -29,9 +29,9 @@ const REVIEWS: Review[] = [
     verified: true,
     name: "Alyssa M.",
     date: "March 12, 2026",
-    title: "Actually felt the difference in 3 days",
+    title: "No regular shower head",
     body:
-      "I live in LA where the water is brutal. I bought this skeptical — my hair has been frizzy for years. Three days in, my hair air-dries smooth. I ordered one for my sister in Phoenix.",
+      "Guys — this is not your regular shower head. Three minutes to install, no joke. A week in my curls feel shinier than ever and my skin actually looks clear. I blamed the weather for years. Turns out it was the water.",
     helpful: 847,
   },
   {
