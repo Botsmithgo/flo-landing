@@ -183,14 +183,12 @@ export default function CheckoutContent() {
               </label>
             </form>
 
-            {/* Stripe-not-set notice */}
-            {!stripeReady && (
+            {/* Stripe-not-set notice — DEV ONLY (hidden in production builds) */}
+            {!stripeReady && process.env.NODE_ENV === "development" && (
               <div className="mb-6 p-4 rounded-sm bg-gold/10 border border-gold/30 text-[12px] text-ink/80 leading-relaxed">
-                <strong className="text-deep">Heads up:</strong> Stripe isn&apos;t
-                wired yet — clicking any payment method below will route to our
-                Amazon listing for now. Once Stripe Payment Links are added (15
-                min of setup), every option below will complete checkout
-                directly on FLO.
+                <strong className="text-deep">Dev notice:</strong> Stripe isn&apos;t
+                wired — buttons currently route to Amazon. Set NEXT_PUBLIC_CHECKOUT_MODE=stripe
+                + Payment Link env vars to activate.
               </div>
             )}
 
