@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import ShowerHeroV2 from "@/components/sections/ShowerHeroV2";
 import BrandCredibility from "@/components/sections/BrandCredibility";
 import ShowerResults from "@/components/sections/ShowerResults";
-import TikTokProof from "@/components/sections/TikTokProof";
 import ShowerProblem from "@/components/sections/ShowerProblem";
-import ShowerScience from "@/components/sections/ShowerScience";
+import ShowerScienceInteractive from "@/components/sections/ShowerScienceInteractive";
 import ShowerBenefits from "@/components/sections/ShowerBenefits";
 import ShowerHonesty from "@/components/sections/ShowerHonesty";
 import AmazonReviewsGrid from "@/components/sections/AmazonReviewsGrid";
 import CustomerUGC from "@/components/sections/CustomerUGC";
+import TikTokProof from "@/components/sections/TikTokProof";
 import ShowerComparison from "@/components/sections/ShowerComparison";
 import ShowerFAQ from "@/components/sections/ShowerFAQ";
 import RitualMoment from "@/components/sections/RitualMoment";
@@ -64,37 +64,38 @@ export default function ShowerPage() {
       {/* 2. RESULTS — consolidated panel: comparison image + 4-week study stats */}
       <ShowerResults />
 
-      {/* 3. TIKTOK PROOF — social momentum */}
-      <TikTokProof />
-
-      {/* 5. PROBLEM — agitation for those still scrolling */}
+      {/* 3. PROBLEM — research-backed agitation (EPA, CDC, EWG framed) */}
       <ShowerProblem />
 
-      {/* 6. SCIENCE — how it works (with glossary tooltips) */}
-      <ShowerScience />
+      {/* 4. SCIENCE — interactive exploded filter with hover glossary */}
+      <ShowerScienceInteractive />
 
-      {/* 7. BENEFITS — six tangible shifts */}
+      {/* 5. BENEFITS — six tangible shifts */}
       <ShowerBenefits />
 
-      {/* 8. HONESTY — radical transparency, converts skeptics */}
+      {/* 6. HONESTY — radical transparency, converts skeptics */}
       <ShowerHonesty />
 
-      {/* 9. AMAZON REVIEWS — long-form verified proof */}
+      {/* 7. AMAZON REVIEWS — long-form verified proof */}
       <AmazonReviewsGrid />
 
-      {/* 10. CUSTOMER UGC — auto-hides until URLs are added */}
+      {/* 8. CUSTOMER UGC — auto-hides until URLs are added */}
       <CustomerUGC />
 
-      {/* 11. COMPARISON vs Jolie */}
+      {/* 9. TIKTOK — demoted to 'social cluster' at bottom; view count is
+            already in BrandCredibility, this is supplementary reach proof now */}
+      <TikTokProof />
+
+      {/* 10. COMPARISON vs Jolie */}
       <ShowerComparison />
 
-      {/* 12. FAQ — objection handling */}
+      {/* 11. FAQ — objection handling */}
       <ShowerFAQ />
 
-      {/* 13. RITUAL MOMENT — cinematic breath before the final ask */}
+      {/* 12. RITUAL MOMENT — cinematic breath before the final ask */}
       <RitualMoment />
 
-      {/* 14. CLOSING CTA */}
+      {/* 13. CLOSING CTA */}
       <HomeCTA />
 
       <StickyATC
