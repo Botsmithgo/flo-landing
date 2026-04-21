@@ -20,6 +20,11 @@ type ProductSchemaProps = {
 };
 
 export function ProductSchema(p: ProductSchemaProps) {
+  // priceValidUntil defaults to Dec 31 of current year — long enough that the
+  // offer card stays eligible for rich results without over-committing.
+  const year = new Date().getUTCFullYear();
+  const priceValidUntil = `${year}-12-31`;
+
   const data = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -32,8 +37,36 @@ export function ProductSchema(p: ProductSchemaProps) {
       "@type": "Offer",
       price: p.price.toFixed(2),
       priceCurrency: p.priceCurrency ?? "USD",
+      priceValidUntil,
       availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
       url: `${SITE_URL}/shower`,
+      seller: { "@type": "Organization", name: "Feels Like Om" },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "US",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 60,
+        returnMethod: "https://schema.org/ReturnByMail",
+        returnFees: "https://schema.org/FreeReturn",
+      },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: "0",
+          currency: "USD",
+        },
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "US",
+        },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 1, unitCode: "DAY" },
+          transitTime: { "@type": "QuantitativeValue", minValue: 2, maxValue: 5, unitCode: "DAY" },
+        },
+      },
     },
     ...(p.aggregateRating && {
       aggregateRating: {
