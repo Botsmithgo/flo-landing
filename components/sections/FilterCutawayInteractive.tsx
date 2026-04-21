@@ -56,7 +56,7 @@ const STAGES: Stage[] = [
     subtitle: "Conditioning feel",
     body:
       "Tourmaline and germanium stones release negative ions. Some users report a brighter, softer water feel — perceptual, not pH-altering.",
-    dotY: 71,
+    dotY: 68,
     side: "right",
     labelY: 82,
   },

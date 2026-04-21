@@ -109,7 +109,7 @@ export default function ShowerHeroV2() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
         {/* LEFT — main product image + thumbnail gallery */}
-        <div className="lg:col-span-5 order-2 lg:order-1 relative">
+        <div className="lg:col-span-5 relative">
           <motion.div
             style={{ y: productY }}
             initial={{ opacity: 0, scale: 0.96 }}
@@ -196,7 +196,7 @@ export default function ShowerHeroV2() {
         </div>
 
         {/* RIGHT — copy + INLINE OFFER + CTA above the fold */}
-        <div className="lg:col-span-7 order-1 lg:order-2 relative z-10">
+        <div className="lg:col-span-7 relative z-10">
           {/* Star rating + orders — DESKTOP ONLY (mobile shows this above the image) */}
           <motion.div
             initial={{ opacity: 0, y: 8 }}
