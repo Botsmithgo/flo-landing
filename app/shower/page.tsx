@@ -16,6 +16,7 @@ import HomeCTA from "@/components/sections/HomeCTA";
 import StickyATC from "@/components/StickyATC";
 import { ProductSchema, FAQSchema } from "@/components/StructuredData";
 import { PRODUCTS } from "@/lib/checkout";
+import { SITE_URL } from "@/lib/site";
 
 const FAQ_FOR_SCHEMA = [
   { q: "How does installation work?", a: "Unscrew your current shower head, screw on the FLO, tighten by hand. Total time under 90 seconds. Fits every standard U.S. shower arm." },
@@ -44,9 +45,9 @@ export default function ShowerPage() {
         name="Feels Like Om Filtered Shower Head (20-Stage)"
         description="20-stage filtered shower head that reduces chlorine, heavy metals, and the chemicals that dry hair and irritate skin. 6-month filter, three-minute install, 60-day guarantee."
         image={[
-          "https://feelslikeom.shop/product/product-white-composite.jpg",
-          "https://feelslikeom.shop/product/product-black-composite.jpg",
-          "https://feelslikeom.shop/product/bathroom-scene.jpg",
+          `${SITE_URL}/product/product-white-composite.jpg`,
+          `${SITE_URL}/product/product-black-composite.jpg`,
+          `${SITE_URL}/product/bathroom-scene.jpg`,
         ]}
         sku="B0DHJ74TCC"
         brand="Feels Like Om"

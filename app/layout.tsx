@@ -7,10 +7,11 @@ import Analytics from "@/components/Analytics";
 import WaterReportPopup from "@/components/WaterReportPopup";
 import ScrollDepthTracker from "@/components/ScrollDepthTracker";
 import { OrganizationSchema } from "@/components/StructuredData";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://feelslikeom.shop"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Feels Like Om — Cleaner water for softer hair, calmer skin.",
     template: "%s — Feels Like Om",
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
       "A 20-stage filtered shower head. Reduces chlorine, heavy metals, and the chemicals that dry your hair and irritate your skin. Trusted by 100,000+ customers.",
     type: "website",
     siteName: "Feels Like Om",
-    url: "https://feelslikeom.shop",
+    url: SITE_URL,
     images: [
       {
         url: "/product/bathroom-scene.jpg",
