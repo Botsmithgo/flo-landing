@@ -79,9 +79,28 @@ export function OrganizationSchema() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Feels Like Om",
+    alternateName: "FLO",
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
-    sameAs: ["https://www.tiktok.com/@feelslikeom.shop"],
+    description:
+      "A 20-stage filtered shower head that reduces chlorine, heavy metals, and the chemicals that dry your hair and irritate your skin. A small ritual, repeated daily.",
+    foundingDate: "2022",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Venice",
+      addressRegion: "CA",
+      addressCountry: "US",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: "hello@feelslikeom.shop",
+      availableLanguage: ["English"],
+    },
+    sameAs: [
+      "https://www.tiktok.com/@feelslikeom.shop",
+      "https://www.amazon.com/dp/B0DHJ74TCC",
+    ],
   };
   return (
     <script
