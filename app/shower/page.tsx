@@ -1,22 +1,20 @@
 import type { Metadata } from "next";
 import ShowerHeroV2 from "@/components/sections/ShowerHeroV2";
-import TikTokProof from "@/components/sections/TikTokProof";
-import ShowerProblem from "@/components/sections/ShowerProblem";
-import ShowerStudy from "@/components/sections/ShowerStudy";
 import BrandCredibility from "@/components/sections/BrandCredibility";
 import ShowerBeforeAfter from "@/components/sections/ShowerBeforeAfter";
-import ShowerOffer from "@/components/sections/ShowerOffer";
+import ShowerStudy from "@/components/sections/ShowerStudy";
+import TikTokProof from "@/components/sections/TikTokProof";
+import ShowerProblem from "@/components/sections/ShowerProblem";
+import ShowerScience from "@/components/sections/ShowerScience";
 import ShowerBenefits from "@/components/sections/ShowerBenefits";
 import ShowerHonesty from "@/components/sections/ShowerHonesty";
-import RitualMoment from "@/components/sections/RitualMoment";
-import ShowerScience from "@/components/sections/ShowerScience";
 import AmazonReviewsGrid from "@/components/sections/AmazonReviewsGrid";
 import CustomerUGC from "@/components/sections/CustomerUGC";
 import ShowerComparison from "@/components/sections/ShowerComparison";
 import ShowerFAQ from "@/components/sections/ShowerFAQ";
+import RitualMoment from "@/components/sections/RitualMoment";
 import HomeCTA from "@/components/sections/HomeCTA";
 import StickyATC from "@/components/StickyATC";
-import SkipToOffer from "@/components/SkipToOffer";
 import { ProductSchema, FAQSchema } from "@/components/StructuredData";
 import { PRODUCTS } from "@/lib/checkout";
 
@@ -58,41 +56,49 @@ export default function ShowerPage() {
       />
       <FAQSchema questions={FAQ_FOR_SCHEMA} />
 
-      {/* HERO */}
+      {/* HERO — inline offer + buy CTA above the fold */}
       <ShowerHeroV2 />
 
-      {/* BRAND CREDIBILITY RIBBON — big numbers right after hero, lock trust fast */}
+      {/* 1. TRUST RIBBON — quick numeric trust hit */}
       <BrandCredibility />
 
-      {/* TIKTOK SOCIAL PROOF — the viral hook */}
-      <TikTokProof />
-
-      {/* PROBLEM */}
-      <ShowerProblem />
-
-      {/* STUDY — hard proof, numeric */}
-      <ShowerStudy />
-
-      {/* BEFORE/AFTER — strongest visual proof, right before the ask */}
+      {/* 2. BEFORE/AFTER — visual proof right after credibility (the section that tipped ICP) */}
       <ShowerBeforeAfter />
 
-      {/* OFFER */}
-      <ShowerOffer />
+      {/* 3. STUDY — backs the visual with numbers */}
+      <ShowerStudy />
 
-      {/* Everything below is for the skeptics who keep reading */}
+      {/* 4. TIKTOK PROOF — social momentum */}
+      <TikTokProof />
+
+      {/* 5. PROBLEM — agitation for those still scrolling */}
+      <ShowerProblem />
+
+      {/* 6. SCIENCE — how it works (with glossary tooltips) */}
+      <ShowerScience />
+
+      {/* 7. BENEFITS — six tangible shifts */}
       <ShowerBenefits />
 
-      {/* Radical honesty — what this won't do (category-unique trust lever) */}
+      {/* 8. HONESTY — radical transparency, converts skeptics */}
       <ShowerHonesty />
 
-      {/* Editorial breathing moment — clean bathroom atmosphere */}
+      {/* 9. AMAZON REVIEWS — long-form verified proof */}
+      <AmazonReviewsGrid />
+
+      {/* 10. CUSTOMER UGC — auto-hides until URLs are added */}
+      <CustomerUGC />
+
+      {/* 11. COMPARISON vs Jolie */}
+      <ShowerComparison />
+
+      {/* 12. FAQ — objection handling */}
+      <ShowerFAQ />
+
+      {/* 13. RITUAL MOMENT — cinematic breath before the final ask */}
       <RitualMoment />
 
-      <ShowerScience />
-      <AmazonReviewsGrid />
-      <CustomerUGC />
-      <ShowerComparison />
-      <ShowerFAQ />
+      {/* 14. CLOSING CTA */}
       <HomeCTA />
 
       <StickyATC
@@ -101,7 +107,6 @@ export default function ShowerPage() {
         subscribePrice={PRODUCTS.shower.subscribePrice}
         href={checkoutHref}
       />
-      <SkipToOffer />
     </>
   );
 }
