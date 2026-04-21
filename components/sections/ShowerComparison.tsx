@@ -5,7 +5,7 @@ const ROWS: [string, string, string, string][] = [
   ["Subscription filter price", "$33 / 6 mo", "$33 / 3 mo", "Varies wildly"],
   ["Media stack", "20-stage", "10-stage", "2–5 stage"],
   ["Hot-water performance", "Calcium sulfite", "Calcium sulfite", "Rarely"],
-  ["Independently lab-tested", "Yes — reports available", "Yes", "Usually no"],
+  ["4-week customer study", "200 customers", "Not published", "Not published"],
   ["Filter life", "6 months / 12,000 gal", "3 months", "1–3 months"],
   ["U.S. support", "Yes", "Yes", "Seller-dependent"],
 ];

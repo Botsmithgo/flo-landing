@@ -213,7 +213,8 @@ export default function ShowerHeroV2() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="display text-[10vw] lg:text-[4.6vw] leading-[0.98]"
+            className="display leading-[0.98]"
+            style={{ fontSize: "clamp(40px, 4.2vw, 58px)" }}
           >
             Softer hair.
             <br />
@@ -228,9 +229,11 @@ export default function ShowerHeroV2() {
             transition={{ delay: 0.25, duration: 0.6 }}
             className="mt-5 text-[14px] md:text-[15px] leading-relaxed text-muted max-w-lg"
           >
-            A 20-stage filter — KDF-55 + activated carbon — that reduces
-            chlorine, heavy metals, and the chemicals customers say were drying
-            their hair. Three-minute install. Lab-tested.
+            A 20-stage filter — <span className="text-ink">KDF-55, calcium sulfite,
+            activated carbon</span> — that reduces chlorine, heavy metals, and the
+            chemicals customers say were drying their hair and clouding their skin.
+            In a 4-week customer study, <span className="text-ink">91% reported
+            calmer skin</span>. Three-minute install. 60-day money-back.
           </motion.p>
 
           {/* INLINE OFFER — plan picker (vertical stack, larger cards) */}
@@ -375,7 +378,7 @@ export default function ShowerHeroV2() {
           >
             <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 100K+ orders shipped</span>
             <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 5M+ TikTok views</span>
-            <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> Lab-tested</span>
+            <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 4-week customer study</span>
             <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 60-day guarantee</span>
           </motion.div>
         </div>

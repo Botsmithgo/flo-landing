@@ -3,18 +3,18 @@ import Reveal from "@/components/Reveal";
 const PROMISE = [
   {
     eyebrow: "Tested",
-    title: "Independently verified",
-    body: "Our media is benchmarked by third-party labs — not marketing claims. We publish the numbers, not the vibes.",
+    title: "Based on real customer results",
+    body: "In a 4-week customer study, 91% reported calmer skin and 87% experienced less hair frizz. Self-reported — not a clinical trial. Real people swapping one shower head.",
   },
   {
     eyebrow: "Formulated",
-    title: "A media stack, not a novelty",
-    body: "KDF-55 for chlorine reduction. Calcium sulfite for hot-water performance. Activated carbon for odor. The media does the work.",
+    title: "A real filtration stack",
+    body: "KDF-55 reduces chlorine. Calcium sulfite holds its performance in hot water. Activated carbon handles odor. The materials do the work — no decorative extras.",
   },
   {
-    eyebrow: "Made quietly",
-    title: "Designed to disappear",
-    body: "Brass where it matters, soft lines everywhere else. It looks like it belongs in the bathroom you already loved.",
+    eyebrow: "Designed",
+    title: "Made to disappear",
+    body: "Polished chrome or matte black. Finished to sit flush on your shower arm and read like hotel bathroom hardware, not a gadget. Your shower was already beautiful.",
   },
 ];
 

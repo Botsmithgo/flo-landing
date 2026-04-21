@@ -29,7 +29,7 @@ const FAQ_FOR_SCHEMA = [
 export const metadata: Metadata = {
   title: "Filtered Shower Head — Softer hair, calmer skin",
   description:
-    "The filtered shower head trusted by 1,400+ verified reviewers. 91% reported calmer skin in 4 weeks. 20-stage, lab-tested. 20% off first order + free shipping.",
+    "The filtered shower head trusted by 1,400+ verified reviewers. 91% reported calmer skin in a 4-week customer study. 20-stage filtration. 20% off first order + free shipping.",
   alternates: { canonical: "/shower" },
 };
 
@@ -42,7 +42,7 @@ export default function ShowerPage() {
     <>
       <ProductSchema
         name="Feels Like Om Filtered Shower Head (20-Stage)"
-        description="20-stage filtered shower head that reduces chlorine, heavy metals, and the chemicals that dry hair and irritate skin. Independently lab-tested. 6-month filter, 90-second install, 60-day guarantee."
+        description="20-stage filtered shower head that reduces chlorine, heavy metals, and the chemicals that dry hair and irritate skin. 6-month filter, three-minute install, 60-day guarantee."
         image={[
           "https://feelslikeom.shop/product/product-white-composite.jpg",
           "https://feelslikeom.shop/product/product-black-composite.jpg",

@@ -36,7 +36,7 @@ const FAQ = [
   },
   {
     q: "Is the housing safe?",
-    a: "Body is lead-free brass with a satin chrome finish, compliant with NSF/ANSI 372 material standards. A California Prop 65 notice ships with the product — that's a disclosure, not a safety concern.",
+    a: "The housing is a polished chrome finish with a cream filter face. A California Prop 65 notice ships with the product — that's a broad disclosure required on most metal fixtures in California, not a safety concern specific to this product.",
   },
 ];
 

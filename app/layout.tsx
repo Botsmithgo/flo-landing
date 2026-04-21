@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Feels Like Om — Cleaner water, softer skin.",
     description:
-      "A 20-stage filtered shower head. Reduces chlorine, heavy metals, and the chemicals that dry your hair and irritate your skin. Independently lab-tested.",
+      "A 20-stage filtered shower head. Reduces chlorine, heavy metals, and the chemicals that dry your hair and irritate your skin. Trusted by 100,000+ customers.",
     type: "website",
     siteName: "Feels Like Om",
     url: "https://feelslikeom.shop",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Feels Like Om",
     description:
-      "Filtered shower head for softer hair and calmer skin. 100K+ orders, 4.8★, lab-tested.",
+      "Filtered shower head for softer hair and calmer skin. 100K+ orders, 4.8★, customer-tested.",
     images: ["/product/bathroom-scene.jpg"],
   },
 };
