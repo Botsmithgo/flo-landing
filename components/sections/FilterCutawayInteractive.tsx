@@ -17,6 +17,8 @@ type Stage = {
   labelY: number;
 };
 
+// Dot Y positions match the visible media bands in the new exploded image
+// (cartridge sits mid-frame between chrome housing on top + chrome base on bottom)
 const STAGES: Stage[] = [
   {
     n: "01",
@@ -24,9 +26,9 @@ const STAGES: Stage[] = [
     subtitle: "Odor & taste",
     body:
       "Coconut-shell carbon adsorbs lingering odor and VOCs. The polishing stage — not the hero, but it's what removes the chemical smell.",
-    dotY: 22,
+    dotY: 47,
     side: "left",
-    labelY: 8,
+    labelY: 14,
   },
   {
     n: "02",
@@ -34,9 +36,9 @@ const STAGES: Stage[] = [
     subtitle: "Chlorine reduction",
     body:
       "Copper-zinc redox media. Converts free chlorine to chloride via electrochemical reaction. Independently tested at 85–95% chlorine reduction.",
-    dotY: 38,
+    dotY: 55,
     side: "right",
-    labelY: 28,
+    labelY: 36,
   },
   {
     n: "03",
@@ -44,9 +46,9 @@ const STAGES: Stage[] = [
     subtitle: "Hot-water performance",
     body:
       "Most dechlorination media lose effectiveness at shower temperatures (95–110°F). Calcium sulfite holds its performance — picks up what KDF leaves.",
-    dotY: 60,
+    dotY: 63,
     side: "left",
-    labelY: 56,
+    labelY: 60,
   },
   {
     n: "04",
@@ -54,9 +56,9 @@ const STAGES: Stage[] = [
     subtitle: "Conditioning feel",
     body:
       "Tourmaline and germanium stones release negative ions. Some users report a brighter, softer water feel — perceptual, not pH-altering.",
-    dotY: 82,
+    dotY: 71,
     side: "right",
-    labelY: 78,
+    labelY: 82,
   },
 ];
 
@@ -66,25 +68,21 @@ export default function FilterCutawayInteractive() {
   return (
     <div className="relative w-full">
       {/* DESKTOP — image with hotspots + side-positioned labels */}
-      <div className="hidden lg:block relative aspect-[4/5]">
-        {/* Image container (centered, ~55% width to leave room for labels on both sides) */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[55%]">
+      <div className="hidden lg:block relative" style={{ aspectRatio: "666 / 1076" }}>
+        {/* Image container (centered, ~60% width — image is tall portrait with chrome housing above + base below the cartridge) */}
+        <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[60%]">
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="absolute w-[70%] h-[70%] rounded-full bg-deep/30 blur-[100px]" />
-          </div>
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="absolute w-[55%] h-[55%] rounded-full border border-bone/10 ripple" />
-            <div className="absolute w-[55%] h-[55%] rounded-full border border-bone/8 ripple" style={{ animationDelay: "1.8s" }} />
+            <div className="absolute w-[70%] h-[35%] rounded-full bg-deep/30 blur-[100px]" />
           </div>
           <motion.div
-            className="absolute inset-0 flex items-center justify-center p-4"
+            className="absolute inset-0 flex items-center justify-center"
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
           >
             <div className="relative w-full h-full">
               <Image
-                src="/product/filter-cutaway.png"
-                alt="20-stage filter cutaway showing media bands"
+                src="/product/filter-exploded-cutaway.png"
+                alt="Exploded shower head — chrome housing, 20-stage filter cartridge, chrome base, with water swirl"
                 fill
                 className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 35vw"
@@ -92,7 +90,7 @@ export default function FilterCutawayInteractive() {
             </div>
           </motion.div>
 
-          {/* Hotspot dots positioned over the image */}
+          {/* Hotspot dots — clustered on the cartridge's visible media bands (mid-frame) */}
           {STAGES.map((s, i) => (
             <button
               key={`dot-${i}`}
@@ -100,18 +98,18 @@ export default function FilterCutawayInteractive() {
               onMouseLeave={() => setActive(null)}
               onClick={() => setActive(active === i ? null : i)}
               aria-label={`Stage ${s.n}: ${s.name}`}
-              className={`absolute z-10 ${s.side === "left" ? "left-[15%]" : "right-[15%]"}`}
+              className={`absolute z-10 ${s.side === "left" ? "left-[35%]" : "right-[35%]"}`}
               style={{ top: `${s.dotY}%`, transform: "translate(-50%, -50%)" }}
             >
               <span className="relative flex">
                 {/* Pulsing ping */}
                 <span
-                  className={`absolute inline-flex h-full w-full rounded-full bg-deep opacity-40 ${active === i ? "animate-ping" : "animate-pulse"}`}
+                  className={`absolute inline-flex h-full w-full rounded-full bg-deep opacity-50 ${active === i ? "animate-ping" : "animate-pulse"}`}
                 />
                 {/* Solid dot */}
                 <span
                   className={`relative inline-flex h-3 w-3 rounded-full transition-all ${
-                    active === i ? "bg-bone ring-2 ring-deep scale-125" : "bg-deep ring-2 ring-bone/30"
+                    active === i ? "bg-bone ring-2 ring-deep scale-125" : "bg-deep ring-2 ring-bone/40"
                   }`}
                 />
               </span>
@@ -119,15 +117,14 @@ export default function FilterCutawayInteractive() {
           ))}
         </div>
 
-        {/* Connecting lines — SVG overlay covering full panel */}
+        {/* Connecting lines — SVG overlay covering full panel
+            Inner container is 60% wide, centered → left edge 20%, right edge 80%.
+            Dot X = 35% from inner edge → left dot at 20 + 35%*0.60 = 41%, right dot at 100-41 = 59%. */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
           {STAGES.map((s, i) => {
-            const dotXPct = s.side === "left" ? 22.5 + 15 * 0.55 / 2 : 100 - (22.5 + 15 * 0.55 / 2);
-            // Image is 55% wide centered → image left edge at 22.5%, right edge at 77.5%
-            // Dot offset: 15% from inside edge → left dot at 22.5 + 15%*0.55 = 30.75%, right dot at 100-30.75 = 69.25%
-            const dotXReal = s.side === "left" ? 30.75 : 69.25;
+            const dotXReal = s.side === "left" ? 41 : 59;
             const labelXReal = s.side === "left" ? 14 : 86;
-            const lineColor = active === i ? "var(--color-bone)" : "rgba(247,243,236,0.25)";
+            const lineColor = active === i ? "var(--color-bone)" : "rgba(247,243,236,0.28)";
             return (
               <line
                 key={`line-${i}`}
@@ -136,14 +133,12 @@ export default function FilterCutawayInteractive() {
                 x2={`${labelXReal}%`}
                 y2={`${s.labelY + 4}%`}
                 stroke={lineColor}
-                strokeWidth={active === i ? "1.2" : "1"}
+                strokeWidth={active === i ? "1.3" : "1"}
                 strokeDasharray={active === i ? "0" : "3 3"}
                 style={{ transition: "stroke 0.3s, stroke-width 0.3s" }}
               />
             );
           })}
-          {/* Force re-render — bonus dotXPct ref to silence unused */}
-          <line x1={0} y1={0} x2={0} y2={0} stroke="transparent" data-x={STAGES.map((s) => (s.side === "left" ? 0 : 0)).join(",")} />
         </svg>
 
         {/* Side-positioned label cards */}
@@ -209,19 +204,19 @@ export default function FilterCutawayInteractive() {
 
       {/* MOBILE — image stacked, labels in 2x2 grid below */}
       <div className="lg:hidden">
-        <div className="relative aspect-[4/5] mb-6">
+        <div className="relative mb-6" style={{ aspectRatio: "666 / 1076" }}>
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="absolute w-[70%] h-[70%] rounded-full bg-deep/30 blur-[100px]" />
+            <div className="absolute w-[70%] h-[35%] rounded-full bg-deep/30 blur-[100px]" />
           </div>
           <motion.div
-            className="absolute inset-0 flex items-center justify-center p-8"
+            className="absolute inset-0 flex items-center justify-center"
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
           >
             <div className="relative w-full h-full">
               <Image
-                src="/product/filter-cutaway.png"
-                alt="20-stage filter cutaway showing media bands"
+                src="/product/filter-exploded-cutaway.png"
+                alt="Exploded shower head — chrome housing, 20-stage filter cartridge, chrome base"
                 fill
                 className="object-contain"
                 sizes="100vw"
