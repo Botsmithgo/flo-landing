@@ -26,9 +26,9 @@ export default function HomePromise() {
           <p className="overline text-muted mb-6">The promise</p>
         </Reveal>
         <Reveal delay={0.1}>
-          <h2 className="display text-[10vw] md:text-[5.5vw] leading-[0.98] max-w-4xl">
-            Water is the quietest ingredient in your routine.{" "}
-            <span className="display-italic text-deep">Make it count.</span>
+          <h2 className="display text-[8.5vw] md:text-[4.2vw] leading-[1.02] max-w-[960px]">
+            Water is the most overlooked part of your routine.{" "}
+            <span className="display-italic text-deep">Make it work for you.</span>
           </h2>
         </Reveal>
 
