@@ -18,7 +18,7 @@ export default function HomeProducts() {
   return (
     <section ref={ref} className="bg-mist py-32 md:py-48 overflow-hidden">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-20 items-center">
-        <div className="lg:col-span-7 relative order-2 lg:order-1">
+        <div className="lg:col-span-7 relative lg:order-1">
           {/* Dark editorial panel — interactive filter cutaway with hover labels */}
           <motion.div
             style={{ y: imgY }}
@@ -29,7 +29,7 @@ export default function HomeProducts() {
           </motion.div>
         </div>
 
-        <div className="lg:col-span-5 order-1 lg:order-2 relative z-10">
+        <div className="lg:col-span-5 lg:order-2 relative z-10">
           <Reveal>
             <p className="overline text-deep mb-6 flex items-center gap-3">
               <span className="inline-block w-6 h-px bg-deep" />
