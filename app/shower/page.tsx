@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import ShowerHeroV2 from "@/components/sections/ShowerHeroV2";
 import BrandCredibility from "@/components/sections/BrandCredibility";
-import ShowerBeforeAfter from "@/components/sections/ShowerBeforeAfter";
-import ShowerStudy from "@/components/sections/ShowerStudy";
+import ShowerResults from "@/components/sections/ShowerResults";
 import TikTokProof from "@/components/sections/TikTokProof";
 import ShowerProblem from "@/components/sections/ShowerProblem";
 import ShowerScience from "@/components/sections/ShowerScience";
@@ -62,13 +61,10 @@ export default function ShowerPage() {
       {/* 1. TRUST RIBBON — quick numeric trust hit */}
       <BrandCredibility />
 
-      {/* 2. BEFORE/AFTER — visual proof right after credibility (the section that tipped ICP) */}
-      <ShowerBeforeAfter />
+      {/* 2. RESULTS — consolidated panel: comparison image + 4-week study stats */}
+      <ShowerResults />
 
-      {/* 3. STUDY — backs the visual with numbers */}
-      <ShowerStudy />
-
-      {/* 4. TIKTOK PROOF — social momentum */}
+      {/* 3. TIKTOK PROOF — social momentum */}
       <TikTokProof />
 
       {/* 5. PROBLEM — agitation for those still scrolling */}
