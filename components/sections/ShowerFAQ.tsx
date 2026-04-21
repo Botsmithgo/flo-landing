@@ -83,9 +83,9 @@ export default function ShowerFAQ() {
                     }}
                     aria-expanded={isOpen}
                   >
-                    <span className="display text-xl md:text-2xl text-ink group-hover:text-deep transition-colors">
+                    <h3 className="display text-xl md:text-2xl text-ink group-hover:text-deep transition-colors m-0 font-normal">
                       {item.q}
-                    </span>
+                    </h3>
                     <span
                       className={`h-8 w-8 rounded-full border border-ink/30 flex items-center justify-center flex-shrink-0 transition-transform ${
                         isOpen ? "rotate-45 bg-deep text-bone border-deep" : "text-ink"
