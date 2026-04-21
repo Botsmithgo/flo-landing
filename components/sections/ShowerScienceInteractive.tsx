@@ -18,45 +18,44 @@ export default function ShowerScienceInteractive() {
           {/* LEFT — copy (7/12, wider so it breathes) */}
           <div className="lg:col-span-7">
             <Reveal>
-              <p className="overline text-deep mb-6">Om-3 Filtration Technology</p>
+              <p className="overline text-deep mb-6">20-Stage Filtration</p>
             </Reveal>
             <Reveal delay={0.1}>
               <h2
                 className="display leading-[0.98]"
                 style={{ fontSize: "clamp(36px, 5.2vw, 68px)" }}
               >
-                Shower physics
+                Engineered for how
                 <br />
-                are different.
-                <br />
-                <span className="display-italic text-deep">So we built for them.</span>
+                <span className="display-italic text-deep">showers actually behave.</span>
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
               <div className="mt-8 text-[15px] md:text-[16px] leading-relaxed text-muted max-w-xl space-y-4">
                 <p>
-                  Most shower filters are drinking-filter chemistry in a
-                  shower-head shell — built for cool water, long contact time,
-                  single-pass treatment.
+                  Most shower filters use drinking-filter chemistry — built
+                  for cool water, long contact time, single-pass treatment.
                 </p>
                 <p>
                   Showers are the opposite. <span className="text-ink">105°F water.
                   Eight gallons a minute. One-second contact per stage.</span>
                 </p>
                 <p>
-                  So we engineered our own system. Three filtration phases.
-                  Twenty stages of media. Each chosen for hot, high-flow,
-                  short-contact water — not a desk experiment. That&apos;s Om-3.
+                  So we built our own stack — twenty stages of media for hot,
+                  high-flow, short-contact water. KDF-55 and calcium sulfite
+                  carry most of the chlorine reduction. Activated carbon and
+                  zeolite polish the rest. Mineral stones add a softer-feeling
+                  finish.
                 </p>
               </div>
             </Reveal>
             <Reveal delay={0.3}>
               <div className="mt-10 rounded-sm bg-bone/50 border border-ink/10 p-5 md:p-6 max-w-xl">
-                <p className="overline text-deep mb-3">Independently tested</p>
+                <p className="overline text-deep mb-3">What it won&apos;t do</p>
                 <p className="text-[13px] md:text-[14px] leading-relaxed text-ink/80">
-                  KDF-55 reduces free chlorine up to 95% at rated flow.
-                  Calcium sulfite maintains performance to 110°F.
-                  Lab reports available on request.
+                  A shower-head filter can&apos;t soften hard water — that
+                  requires whole-home ion exchange. What it <em className="italic">can</em> do
+                  is take the chlorine edge off, leaving water that <em className="italic">feels</em> softer.
                 </p>
               </div>
             </Reveal>
