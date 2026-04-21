@@ -22,54 +22,53 @@ export default function ShowerResults() {
   return (
     <section className="bg-mist py-28 md:py-36 overflow-hidden">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        {/* HEADER — capped size so it never explodes on wide viewports */}
-        <div className="max-w-3xl mb-14 md:mb-20">
-          <Reveal>
-            <p className="overline text-deep mb-6">Four-week study · all hair types</p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <h2
-              className="display leading-[0.98]"
-              style={{ fontSize: "clamp(36px, 6vw, 76px)" }}
-            >
-              Healthier skin and hair
-              <br />
-              <span className="display-italic text-deep">start here.</span>
-            </h2>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <p className="mt-6 text-[15px] md:text-[16px] leading-relaxed text-muted max-w-xl">
-              200 customers. The same four questions each week for four weeks.
-              No paid actors, no clinical trial — just real people who swapped one
-              shower head.
-            </p>
-          </Reveal>
-        </div>
-
-        {/* 2-COLUMN: stats LEFT (hero numbers), images RIGHT (smaller, stacked) */}
+        {/* ONE grid — header+stats LEFT, images RIGHT, all top-aligned */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-start">
-          {/* LEFT — 4 stacked stats, big numbers, no icons */}
-          <div className="lg:col-span-7 grid grid-cols-2 gap-x-8 gap-y-12 md:gap-y-16">
-            {STATS.map((s, i) => (
-              <Reveal key={s.pct} delay={0.25 + i * 0.08}>
-                <div className="pt-5 border-t border-ink/15">
-                  <p
-                    className="display leading-none text-deep"
-                    style={{ fontSize: "clamp(56px, 6vw, 86px)" }}
-                  >
-                    {s.pct}
-                  </p>
-                  <p className="mt-4 text-[13px] md:text-[14px] leading-snug text-muted max-w-[220px]">
-                    {s.label}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
+          {/* LEFT — header + subhead + 2×2 stats */}
+          <div className="lg:col-span-7">
+            <Reveal>
+              <p className="overline text-deep mb-6">Four-week study · all hair types</p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h2
+                className="display leading-[0.98]"
+                style={{ fontSize: "clamp(36px, 6vw, 76px)" }}
+              >
+                Healthier skin and hair
+                <br />
+                <span className="display-italic text-deep">start here.</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="mt-6 text-[15px] md:text-[16px] leading-relaxed text-muted max-w-xl">
+                200 customers. The same four questions each week for four weeks.
+                No paid actors, no clinical trial — just real people who swapped one
+                shower head.
+              </p>
+            </Reveal>
+
+            <div className="mt-14 md:mt-16 grid grid-cols-2 gap-x-8 gap-y-12 md:gap-y-16">
+              {STATS.map((s, i) => (
+                <Reveal key={s.pct} delay={0.25 + i * 0.08}>
+                  <div className="pt-5 border-t border-ink/15">
+                    <p
+                      className="display leading-none text-deep"
+                      style={{ fontSize: "clamp(56px, 6vw, 86px)" }}
+                    >
+                      {s.pct}
+                    </p>
+                    <p className="mt-4 text-[13px] md:text-[14px] leading-snug text-muted max-w-[220px]">
+                      {s.label}
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
 
-          {/* RIGHT — 2 before/after panels stacked, smaller */}
-          <div className="lg:col-span-5 space-y-5 md:space-y-6 lg:sticky lg:top-32">
-            <Reveal delay={0.3}>
+          {/* RIGHT — 2 before/after panels stacked, flush with headline */}
+          <div className="lg:col-span-5 space-y-5 md:space-y-6">
+            <Reveal delay={0.15}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -87,7 +86,7 @@ export default function ShowerResults() {
                 />
               </motion.div>
             </Reveal>
-            <Reveal delay={0.4}>
+            <Reveal delay={0.25}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -109,7 +108,7 @@ export default function ShowerResults() {
         </div>
 
         {/* Disclaimer */}
-        <Reveal delay={0.6}>
+        <Reveal delay={0.5}>
           <p className="mt-14 text-[11px] text-muted max-w-2xl leading-relaxed">
             *Results are self-reported. Individual outcomes vary. Photos are from
             customers using the Feels Like Om filter daily for four weeks,
