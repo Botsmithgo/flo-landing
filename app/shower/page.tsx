@@ -30,8 +30,30 @@ const FAQ_FOR_SCHEMA = [
 export const metadata: Metadata = {
   title: "Filtered Shower Head — Softer hair, calmer skin",
   description:
-    "The filtered shower head trusted by 1,400+ verified reviewers. 91% reported calmer skin in a 4-week customer study. 20-stage filtration. 20% off first order + free shipping.",
+    "The filtered shower head trusted by 1,400+ verified reviewers. 91% reported less acne and skin irritation in a 4-week customer study. 20-stage filtration. 20% off first order + free shipping.",
   alternates: { canonical: "/shower" },
+  openGraph: {
+    title: "Filtered Shower Head — Softer hair, calmer skin",
+    description:
+      "20-stage filtered shower head. Reduces chlorine, heavy metals, and the chemicals that dry hair and irritate skin. 4.8★ across 1,400+ reviews.",
+    type: "website",
+    url: `${SITE_URL}/shower`,
+    images: [
+      {
+        url: "/product/product-white-composite.jpg",
+        width: 1200,
+        height: 1200,
+        alt: "Chrome filtered shower head — Feels Like Om",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Filtered Shower Head — Softer hair, calmer skin",
+    description:
+      "20-stage filtered shower head. 100K+ orders, 4.8★ rating, 60-day guarantee.",
+    images: ["/product/product-white-composite.jpg"],
+  },
 };
 
 export default function ShowerPage() {
