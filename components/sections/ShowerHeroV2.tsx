@@ -195,6 +195,29 @@ export default function ShowerHeroV2() {
           </motion.div>
         </div>
 
+        {/* MOBILE-ONLY: exploded filter tease between product image and copy.
+            Gives mobile users the mechanism BEFORE the buy decision.
+            Desktop doesn't need this — the Science section lives in its own
+            place further down the page. */}
+        <div className="lg:hidden relative rounded-sm bg-ink p-5 overflow-hidden -mt-2 mb-2" data-surface="dark">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="absolute w-[60%] h-[40%] rounded-full bg-deep/25 blur-[80px]" />
+          </div>
+          <p className="relative overline text-bone/70 mb-3 text-center">Inside · 20-stage media stack</p>
+          <div className="relative h-[240px]">
+            <Image
+              src="/product/filter-exploded-cutaway.png"
+              alt="Exploded view of the filter — 20 stages of media"
+              fill
+              className="object-contain"
+              sizes="100vw"
+            />
+          </div>
+          <a href="#science" className="relative block mt-3 text-center overline text-bone/60 hover:text-bone transition-colors">
+            See how it works ↓
+          </a>
+        </div>
+
         {/* RIGHT — copy + INLINE OFFER + CTA above the fold */}
         <div className="lg:col-span-7 relative z-10">
           {/* Star rating + orders — DESKTOP ONLY (mobile shows this above the image) */}
