@@ -16,11 +16,6 @@ const TRUTHS = [
     title: "It's not a drug.",
     body: "It won't cure eczema, dandruff, or dermatitis. We think it helps with the drying edge of chlorinated water, and many customers report calmer skin — but that's observation, not clinical evidence.",
   },
-  {
-    n: "No.",
-    title: "It's not a water softener.",
-    body: "It's a filter. Two different technologies solving two different problems. We'll never confuse them for you.",
-  },
 ];
 
 export default function ShowerHonesty() {
