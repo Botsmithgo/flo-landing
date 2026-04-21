@@ -130,19 +130,6 @@ export default function ShowerHeroV2() {
               </AnimatePresence>
             </motion.div>
 
-            {/* 91% stat pill — top left */}
-            <motion.div
-              initial={{ opacity: 0, x: -16, y: -16 }}
-              animate={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.7 }}
-              className="absolute top-2 md:top-6 left-0 md:left-4 bg-bone/95 backdrop-blur px-4 py-3 rounded-sm shadow-lg shadow-ink/10"
-            >
-              <p className="display text-xl md:text-2xl leading-none text-deep">91%</p>
-              <p className="text-[10px] tracking-wider uppercase text-muted mt-1.5 max-w-[130px] leading-tight">
-                reported calmer skin in 4 weeks
-              </p>
-            </motion.div>
-
             {/* TikTok pill — bottom right */}
             <motion.a
               href="https://www.tiktok.com/@feelslikeom.shop"

@@ -9,7 +9,7 @@ const PROMISE = [
   {
     eyebrow: "Formulated",
     title: "A real filtration stack",
-    body: "KDF-55 reduces chlorine. Calcium sulfite holds its performance in hot water. Activated carbon handles odor. The materials do the work — no decorative extras.",
+    body: "A 20-stage filtration system. KDF-55 does the chlorine work. Calcium sulfite holds its performance in hot water. Activated carbon polishes the odor. The materials do the work — no decorative extras.",
   },
   {
     eyebrow: "Designed",

@@ -15,8 +15,8 @@ export default function ShowerScienceInteractive() {
     <section id="science" className="bg-mist py-32 md:py-44 overflow-hidden">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16 items-start">
-          {/* LEFT — copy (7/12, wider so it breathes) */}
-          <div className="lg:col-span-7">
+          {/* LEFT — copy (6/12) */}
+          <div className="lg:col-span-6">
             <Reveal>
               <p className="overline text-deep mb-6">20-Stage Filtration</p>
             </Reveal>
@@ -61,9 +61,9 @@ export default function ShowerScienceInteractive() {
             </Reveal>
           </div>
 
-          {/* RIGHT — capped image (5/12, max-w so it doesn't dominate) */}
-          <div className="lg:col-span-5">
-            <div className="relative rounded-sm bg-ink p-4 md:p-6 max-w-[460px] mx-auto" data-surface="dark">
+          {/* RIGHT — image (6/12, wider panel with more breathing room) */}
+          <div className="lg:col-span-6">
+            <div className="relative rounded-sm bg-ink p-6 md:p-8 max-w-[560px] mx-auto" data-surface="dark">
               <FilterCutawayInteractive />
             </div>
           </div>
