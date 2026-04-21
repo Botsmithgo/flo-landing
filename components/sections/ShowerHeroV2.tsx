@@ -86,7 +86,28 @@ export default function ShowerHeroV2() {
         <div className="absolute top-[15%] left-[50%] -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-deep/10 blur-[120px]" />
       </div>
 
-      <div className="relative mx-auto max-w-[1400px] px-5 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
+      <div className="relative mx-auto max-w-[1400px] px-5 md:px-10">
+        {/* MOBILE-ONLY: stars + 100K orders strip appears above image
+            (matches Amazon/TikTok Shop PDP flow: reviews → image → details) */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="lg:hidden flex flex-wrap items-center gap-x-4 gap-y-1 mb-5"
+        >
+          <span className="flex items-center gap-2">
+            <span className="text-deep text-base">★★★★★</span>
+            <span className="text-[13px] text-muted">
+              <span className="text-ink font-medium">4.8</span>
+            </span>
+          </span>
+          <span className="text-[13px] text-muted">·</span>
+          <span className="text-[13px] text-muted">
+            <span className="text-ink font-medium">100,000+</span> orders shipped
+          </span>
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
         {/* LEFT — main product image + thumbnail gallery */}
         <div className="lg:col-span-5 order-2 lg:order-1 relative">
           <motion.div
@@ -176,12 +197,12 @@ export default function ShowerHeroV2() {
 
         {/* RIGHT — copy + INLINE OFFER + CTA above the fold */}
         <div className="lg:col-span-7 order-1 lg:order-2 relative z-10">
-          {/* Star rating + orders */}
+          {/* Star rating + orders — DESKTOP ONLY (mobile shows this above the image) */}
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-5"
+            className="hidden lg:flex flex-wrap items-center gap-x-4 gap-y-1 mb-5"
           >
             <span className="flex items-center gap-2">
               <span className="text-deep text-base">★★★★★</span>
@@ -368,6 +389,7 @@ export default function ShowerHeroV2() {
             <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 4-week customer study</span>
             <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 60-day guarantee</span>
           </motion.div>
+        </div>
         </div>
       </div>
     </section>
