@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useRef, useState } from "react";
 import { PRODUCTS } from "@/lib/checkout";
 import { track } from "@/lib/analytics";
+import { ApplePayIcon, GooglePayIcon, PayPalIcon, CreditCardIcon } from "@/components/icons/PaymentIcons";
 
 type Plan = "subscribe" | "single";
 type Color = "chrome" | "black";
@@ -369,11 +370,20 @@ export default function ShowerHeroV2() {
             className="mt-3 flex items-center justify-center gap-3 text-[10.5px] text-muted"
           >
             <span className="tracking-widest uppercase">Pay with</span>
-            <span className="flex items-center gap-2 text-ink/70">
-              <span className="px-1.5 py-0.5 rounded bg-ink/5 border border-ink/10">Apple Pay</span>
-              <span className="px-1.5 py-0.5 rounded bg-ink/5 border border-ink/10">Google Pay</span>
-              <span className="px-1.5 py-0.5 rounded bg-ink/5 border border-ink/10">PayPal</span>
-              <span className="px-1.5 py-0.5 rounded bg-ink/5 border border-ink/10">Card</span>
+            <span className="flex items-center gap-2">
+              <span className="h-6 px-2 rounded bg-ink/5 border border-ink/10 flex items-center">
+                <ApplePayIcon className="h-3.5 w-auto" monochrome />
+              </span>
+              <span className="h-6 px-2 rounded bg-ink/5 border border-ink/10 flex items-center">
+                <GooglePayIcon className="h-3.5 w-auto" />
+              </span>
+              <span className="h-6 px-2 rounded bg-ink/5 border border-ink/10 flex items-center">
+                <PayPalIcon className="h-3.5 w-auto" />
+              </span>
+              <span className="h-6 px-2 rounded bg-ink/5 border border-ink/10 flex items-center gap-1 text-ink/65">
+                <CreditCardIcon className="h-3 w-auto" />
+                <span className="text-[10px]">Card</span>
+              </span>
             </span>
           </motion.div>
 

@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useMemo, useState, FormEvent } from "react";
 import { buildCheckoutUrl, getCheckoutMode, PRODUCTS, CheckoutVariant } from "@/lib/checkout";
 import { track } from "@/lib/analytics";
+import { ApplePayIcon, GooglePayIcon, PayPalIcon, CreditCardIcon } from "@/components/icons/PaymentIcons";
 
 const COLORS = {
   chrome: { label: "Chrome", image: "/product/product-bathroom.jpg" },
@@ -195,10 +196,34 @@ export default function CheckoutContent() {
             {/* Payment method buttons */}
             <p className="overline text-muted mb-4">Pay with</p>
             <div className="space-y-3">
-              <PaymentButton label="Apple Pay" theme="dark" onClick={() => continueToPayment("apple_pay")} disabled={submitting} />
-              <PaymentButton label="Google Pay" theme="light" onClick={() => continueToPayment("google_pay")} disabled={submitting} />
-              <PaymentButton label="PayPal" theme="paypal" onClick={() => continueToPayment("paypal")} disabled={submitting} />
-              <PaymentButton label="Pay with card" theme="primary" onClick={() => continueToPayment("card")} disabled={submitting} />
+              <PaymentButton
+                icon={<ApplePayIcon className="h-6 w-auto" monochrome />}
+                label="Pay"
+                theme="dark"
+                onClick={() => continueToPayment("apple_pay")}
+                disabled={submitting}
+              />
+              <PaymentButton
+                icon={<GooglePayIcon className="h-6 w-auto" />}
+                label=""
+                theme="light"
+                onClick={() => continueToPayment("google_pay")}
+                disabled={submitting}
+              />
+              <PaymentButton
+                icon={<PayPalIcon className="h-6 w-auto" />}
+                label=""
+                theme="paypal"
+                onClick={() => continueToPayment("paypal")}
+                disabled={submitting}
+              />
+              <PaymentButton
+                icon={<CreditCardIcon className="h-5 w-auto" />}
+                label="Pay with card"
+                theme="primary"
+                onClick={() => continueToPayment("card")}
+                disabled={submitting}
+              />
             </div>
 
             {/* Security strip */}
@@ -215,13 +240,14 @@ export default function CheckoutContent() {
 }
 
 type PaymentButtonProps = {
+  icon?: React.ReactNode;
   label: string;
   theme: "dark" | "light" | "paypal" | "primary";
   onClick: () => void;
   disabled?: boolean;
 };
 
-function PaymentButton({ label, theme, onClick, disabled }: PaymentButtonProps) {
+function PaymentButton({ icon, label, theme, onClick, disabled }: PaymentButtonProps) {
   const themeClasses = {
     dark:    "bg-ink text-bone hover:bg-ink-2",
     light:   "bg-bone text-ink border border-ink/20 hover:border-ink/40",
@@ -235,9 +261,10 @@ function PaymentButton({ label, theme, onClick, disabled }: PaymentButtonProps) 
       disabled={disabled}
       whileHover={disabled ? undefined : { scale: 1.005 }}
       whileTap={disabled ? undefined : { scale: 0.995 }}
-      className={`w-full py-4 rounded-sm font-medium text-[14px] tracking-wide transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${themeClasses}`}
+      className={`w-full py-4 rounded-sm font-medium text-[14px] tracking-wide transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2.5 ${themeClasses}`}
     >
-      {label}
+      {icon}
+      {label && <span>{label}</span>}
     </motion.button>
   );
 }
