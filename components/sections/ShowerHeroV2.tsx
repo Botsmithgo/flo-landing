@@ -25,9 +25,31 @@ const PLANS: Record<Plan, { label: string; price: number; original: number | nul
   },
 };
 
-const COLORS: Record<Color, { label: string; swatch: string }> = {
-  chrome: { label: "Chrome", swatch: "bg-gradient-to-br from-bone to-water" },
-  black:  { label: "Matte Black", swatch: "bg-gradient-to-br from-ink-2 to-ink" },
+const COLORS: Record<Color, {
+  label: string;
+  swatch: string;
+  images: { src: string; alt: string }[];
+}> = {
+  chrome: {
+    label: "Chrome",
+    swatch: "bg-gradient-to-br from-bone to-water",
+    images: [
+      { src: "/product/product-white-composite.jpg", alt: "Chrome filtered shower head — main view" },
+      { src: "/product/product-bathroom.jpg", alt: "Chrome shower head in luxe bathroom" },
+      { src: "/product/product-white-face.jpg", alt: "Chrome face-on with specs and trust badges" },
+      { src: "/product/dimensions.jpg", alt: "Product dimensions (134mm × 140mm)" },
+    ],
+  },
+  black: {
+    label: "Matte Black",
+    swatch: "bg-gradient-to-br from-ink-2 to-ink",
+    images: [
+      { src: "/product/product-black-composite.jpg", alt: "Matte black filtered shower head — main view" },
+      { src: "/product/product-black-face.jpg", alt: "Matte black face-on with specs and trust badges" },
+      { src: "/product/hero-lifestyle.jpg", alt: "Lifestyle shower scene" },
+      { src: "/product/dimensions.jpg", alt: "Product dimensions (134mm × 140mm)" },
+    ],
+  },
 };
 
 export default function ShowerHeroV2() {
@@ -40,9 +62,18 @@ export default function ShowerHeroV2() {
 
   const [plan, setPlan] = useState<Plan>("subscribe");
   const [color, setColor] = useState<Color>("chrome");
+  const [imgIdx, setImgIdx] = useState(0);
 
   const selected = PLANS[plan];
+  const colorImages = COLORS[color].images;
+  const mainImage = colorImages[imgIdx] ?? colorImages[0];
   const checkoutHref = `/checkout?plan=${plan}&color=${color}`;
+
+  function pickColor(c: Color) {
+    setColor(c);
+    setImgIdx(0); // reset to main image when colorway changes
+    track("color_switch", { color: c });
+  }
 
   return (
     <section
@@ -56,7 +87,7 @@ export default function ShowerHeroV2() {
       </div>
 
       <div className="relative mx-auto max-w-[1400px] px-5 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
-        {/* LEFT — product image with full staging */}
+        {/* LEFT — main product image + thumbnail gallery */}
         <div className="lg:col-span-5 order-2 lg:order-1 relative">
           <motion.div
             style={{ y: productY }}
@@ -78,16 +109,25 @@ export default function ShowerHeroV2() {
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
             >
-              <div className="relative w-full h-full">
-                <Image
-                  src="/product/product-white-composite.jpg"
-                  alt="The Feels Like Om filtered shower head — 20-stage filtration"
-                  fill
-                  priority
-                  className="object-contain"
-                  sizes="(max-width: 1024px) 100vw, 42vw"
-                />
-              </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={mainImage.src}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="relative w-full h-full"
+                >
+                  <Image
+                    src={mainImage.src}
+                    alt={mainImage.alt}
+                    fill
+                    priority
+                    className="object-contain"
+                    sizes="(max-width: 1024px) 100vw, 42vw"
+                  />
+                </motion.div>
+              </AnimatePresence>
             </motion.div>
 
             {/* 91% stat pill — top left */}
@@ -117,6 +157,33 @@ export default function ShowerHeroV2() {
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
               5M+ views on TikTok
             </motion.a>
+          </motion.div>
+
+          {/* THUMBNAIL GALLERY — under the main image */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="mt-5 grid grid-cols-4 gap-2 md:gap-3"
+          >
+            {colorImages.map((img, i) => (
+              <button
+                key={`${color}-${img.src}`}
+                onClick={() => setImgIdx(i)}
+                aria-label={img.alt}
+                className={`relative aspect-square overflow-hidden rounded-sm bg-mist/50 transition-all ${
+                  imgIdx === i ? "ring-2 ring-deep ring-offset-2 ring-offset-bone" : "hover:opacity-80 border border-ink/10"
+                }`}
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="object-cover"
+                  sizes="160px"
+                />
+              </button>
+            ))}
           </motion.div>
         </div>
 
@@ -165,12 +232,12 @@ export default function ShowerHeroV2() {
             chemicals that dry your hair. Independently lab-tested · 90-second install.
           </motion.p>
 
-          {/* INLINE OFFER — plan picker (compact) */}
+          {/* INLINE OFFER — plan picker (vertical stack, larger cards) */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.6 }}
-            className="mt-7 grid grid-cols-2 gap-2"
+            className="mt-7 space-y-3"
           >
             {(Object.keys(PLANS) as Plan[]).map((p) => {
               const isActive = plan === p;
@@ -182,32 +249,43 @@ export default function ShowerHeroV2() {
                     setPlan(p);
                     track("plan_switch", { plan: p });
                   }}
-                  className={`relative text-left px-4 py-3 rounded-sm border transition-all ${
+                  className={`relative w-full text-left p-4 md:p-5 rounded-sm border transition-all ${
                     isActive
                       ? "border-deep bg-mist/60 shadow-sm shadow-ink/5"
                       : "border-ink/15 bg-bone hover:border-ink/30"
                   }`}
                 >
-                  {planInfo.badge && isActive && (
-                    <span className="absolute -top-2 left-3 overline text-bone bg-deep px-2 py-0.5 rounded-full text-[8px]">
+                  {planInfo.badge && (
+                    <span className="absolute -top-2 left-4 overline text-bone bg-deep px-2.5 py-0.5 rounded-full text-[9px]">
                       {planInfo.badge}
                     </span>
                   )}
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className={`text-[13px] font-medium ${isActive ? "text-ink" : "text-ink/80"}`}>
-                      {planInfo.label}
-                    </span>
-                    <span className={`h-3.5 w-3.5 rounded-full border-2 transition-colors flex-shrink-0 ${isActive ? "border-deep bg-deep" : "border-ink/30"}`}>
+                  <div className="flex items-center gap-4">
+                    {/* Radio */}
+                    <span
+                      className={`h-5 w-5 rounded-full border-2 flex-shrink-0 transition-colors ${
+                        isActive ? "border-deep bg-deep" : "border-ink/30"
+                      }`}
+                    >
                       {isActive && <span className="block h-full w-full rounded-full bg-bone scale-[0.4]" />}
                     </span>
+
+                    {/* Label + line */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-baseline justify-between gap-3 mb-1">
+                        <span className="text-[15px] font-medium text-ink">{planInfo.label}</span>
+                        <span className="display text-2xl text-ink leading-none whitespace-nowrap">
+                          ${planInfo.price}
+                          {planInfo.original && (
+                            <span className="ml-2 text-[12px] text-muted line-through font-sans">
+                              ${planInfo.original}
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                      <p className="text-[12px] text-muted leading-snug">{planInfo.line}</p>
+                    </div>
                   </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="display text-[22px] text-ink leading-none">${planInfo.price}</span>
-                    {planInfo.original && (
-                      <span className="text-[11px] text-muted line-through">${planInfo.original}</span>
-                    )}
-                  </div>
-                  <p className="mt-1.5 text-[10.5px] text-muted leading-snug">{planInfo.line}</p>
                 </button>
               );
             })}
@@ -225,10 +303,7 @@ export default function ShowerHeroV2() {
               {(Object.keys(COLORS) as Color[]).map((c) => (
                 <button
                   key={c}
-                  onClick={() => {
-                    setColor(c);
-                    track("color_switch", { color: c });
-                  }}
+                  onClick={() => pickColor(c)}
                   aria-label={`Select ${COLORS[c].label}`}
                   className={`h-8 w-8 rounded-full border border-ink/20 transition-all ${COLORS[c].swatch} ${
                     color === c ? "ring-2 ring-offset-2 ring-offset-bone ring-deep" : ""
