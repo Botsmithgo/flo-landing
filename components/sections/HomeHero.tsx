@@ -54,10 +54,11 @@ export default function HomeHero() {
         <p className="overline text-bone/70 mb-6">A ritual of quieter water</p>
 
         <h1 className="display text-[13vw] md:text-[9vw] leading-[0.92] max-w-[1200px]">
-          <RevealText text="Clean water," />
+          <RevealText text="Pure water" />
           <br />
+          for a{" "}
           <span className="display-italic text-sage">
-            <RevealText text="softer everything." delay={0.2} />
+            <RevealText text="pure you." delay={0.2} />
           </span>
         </h1>
 
@@ -67,8 +68,7 @@ export default function HomeHero() {
           transition={{ delay: 1.2, duration: 0.8 }}
           className="mt-10 max-w-lg text-[15px] md:text-[17px] leading-relaxed text-bone/75"
         >
-          A filtered shower head that quietly takes the edge off your water —
-          chlorine, heavy metals, the chemicals that dry your hair and irritate your skin.
+          A 20-stage filter — engineered for the water you shower in every day.
         </motion.p>
 
         <motion.div
@@ -78,7 +78,7 @@ export default function HomeHero() {
           className="mt-10 flex flex-col sm:flex-row items-start gap-4"
         >
           <Link href="/shower" className="btn-primary !bg-bone !text-ink hover:!bg-sand">
-            Shop the shower filter
+            Upgrade your shower
             <span aria-hidden>→</span>
           </Link>
           <Link href="/about" className="text-[13px] tracking-widest uppercase px-4 py-3 text-bone/80 hover:text-bone transition-colors border-b border-bone/30">

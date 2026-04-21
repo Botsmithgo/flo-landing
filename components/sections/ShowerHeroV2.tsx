@@ -215,11 +215,11 @@ export default function ShowerHeroV2() {
             transition={{ duration: 0.7 }}
             className="display text-[10vw] lg:text-[4.6vw] leading-[0.98]"
           >
-            Softer hair,
+            Softer hair.
             <br />
-            calmer skin —
+            Calmer skin.
             <br />
-            <span className="display-italic text-deep">by your next shower.</span>
+            <span className="display-italic text-deep">By your next shower.</span>
           </motion.h1>
 
           <motion.p
@@ -228,9 +228,9 @@ export default function ShowerHeroV2() {
             transition={{ delay: 0.25, duration: 0.6 }}
             className="mt-5 text-[14px] md:text-[15px] leading-relaxed text-muted max-w-lg"
           >
-            A 20-stage filter that reduces chlorine, heavy metals, and the
-            chemicals customers say were drying their hair and clouding their skin.
-            Three-minute install. Lab-tested.
+            A 20-stage filter — KDF-55 + activated carbon — that reduces
+            chlorine, heavy metals, and the chemicals customers say were drying
+            their hair. Three-minute install. Lab-tested.
           </motion.p>
 
           {/* INLINE OFFER — plan picker (vertical stack, larger cards) */}
