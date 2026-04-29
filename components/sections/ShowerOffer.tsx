@@ -45,7 +45,7 @@ const PLANS: PlanOption[] = [
     bullets: [
       "Free shipping on orders over $49",
       "60-day money-back guarantee",
-      "Replacement filters: $33 each, as needed",
+      "Replacement filters: $39 each, as needed",
     ],
   },
 ];

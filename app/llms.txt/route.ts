@@ -52,7 +52,7 @@ export function GET() {
 - SKU / Amazon ASIN: B0DHJ74TCC
 - Price: $134.99 one-time · $80 subscribe (first order — aggressive launch pricing)
 - Filter replacement: every 6 months, or 12,000 gallons
-- Filter price on subscription: $33 every 6 months, free shipping
+- Filter price on subscription: $39 every 6 months, free shipping (first order $80 includes the shower head + first filter)
 - Install: ~90 seconds, no tools, fits every standard US shower arm
 - Guarantee: 60-day full refund
 - Finishes: Polished chrome, matte black

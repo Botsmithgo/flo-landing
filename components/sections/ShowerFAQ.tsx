@@ -28,7 +28,7 @@ const FAQ = [
   },
   {
     q: "What's the subscription like?",
-    a: "You get the shower head on the first order (20% off), then a new filter every 6 months for $33 with free shipping. Skip, pause, swap cadence, or cancel anytime from your account — no hoops, no phone tree.",
+    a: "Your first order ($80) includes the shower head and first filter. After that, a new filter ships every 6 months for $39 with free shipping. Skip, pause, swap cadence, or cancel anytime from your account — no hoops, no phone tree.",
   },
   {
     q: "Return policy?",
