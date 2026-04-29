@@ -30,10 +30,15 @@ const AMAZON_URL =
 
 function stripeLinkFor(variant: CheckoutVariant): string | undefined {
   const { plan, color } = variant;
-  // env keys: NEXT_PUBLIC_STRIPE_LINK_SHOWER_{PLAN}_{COLOR}
-  // e.g. NEXT_PUBLIC_STRIPE_LINK_SHOWER_SUBSCRIBE_CHROME
-  const key = `NEXT_PUBLIC_STRIPE_LINK_SHOWER_${plan.toUpperCase()}_${color.toUpperCase()}`;
-  return process.env[key as keyof typeof process.env] as string | undefined;
+  // Next.js can only inline NEXT_PUBLIC_* vars when accessed STATICALLY at build
+  // time. Dynamic bracket access (process.env[key]) returns undefined in the
+  // browser bundle and silently falls through to Amazon, which we just shipped
+  // and caught. Keep these as a static switch — one branch per variant.
+  if (plan === "subscribe" && color === "chrome") return process.env.NEXT_PUBLIC_STRIPE_LINK_SHOWER_SUBSCRIBE_CHROME;
+  if (plan === "subscribe" && color === "black")  return process.env.NEXT_PUBLIC_STRIPE_LINK_SHOWER_SUBSCRIBE_BLACK;
+  if (plan === "single"    && color === "chrome") return process.env.NEXT_PUBLIC_STRIPE_LINK_SHOWER_SINGLE_CHROME;
+  if (plan === "single"    && color === "black")  return process.env.NEXT_PUBLIC_STRIPE_LINK_SHOWER_SINGLE_BLACK;
+  return undefined;
 }
 
 export function buildCheckoutUrl(opts: CheckoutOptions): string {
