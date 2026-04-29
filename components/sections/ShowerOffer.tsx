@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { PRODUCTS } from "@/lib/checkout";
 import { track } from "@/lib/analytics";
+import { ApplePayIcon, GooglePayIcon, PayPalIcon, CreditCardIcon } from "@/components/icons/PaymentIcons";
 
 type Plan = "subscribe" | "single";
 type Color = "chrome" | "black";
@@ -252,14 +253,15 @@ export default function ShowerOffer() {
             <span aria-hidden>→</span>
           </motion.a>
 
-          {/* Express-pay badges — signal that card / Apple Pay / PayPal all work */}
-          <div className="mt-4 flex items-center justify-center gap-4 text-muted">
+          {/* Accepted payment methods — trust signal, not buttons. Inline logos
+              (matches /shower hero treatment for visual consistency). */}
+          <div className="mt-4 flex items-center justify-center gap-3 text-muted">
             <span className="text-[11px] tracking-widest uppercase">Pay with</span>
-            <span className="flex items-center gap-3 text-[11px] font-medium text-ink/75">
-              <span className="px-2 py-0.5 rounded bg-ink/5 border border-ink/10">Apple Pay</span>
-              <span className="px-2 py-0.5 rounded bg-ink/5 border border-ink/10">Google Pay</span>
-              <span className="px-2 py-0.5 rounded bg-ink/5 border border-ink/10">PayPal</span>
-              <span className="px-2 py-0.5 rounded bg-ink/5 border border-ink/10">Card</span>
+            <span className="flex items-center gap-3 opacity-70">
+              <ApplePayIcon className="h-4 w-auto" monochrome />
+              <GooglePayIcon className="h-4 w-auto" />
+              <PayPalIcon className="h-4 w-auto" />
+              <CreditCardIcon className="h-4 w-auto" />
             </span>
           </div>
 

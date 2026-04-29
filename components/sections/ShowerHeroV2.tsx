@@ -91,12 +91,7 @@ export default function ShowerHeroV2() {
       <div className="relative mx-auto max-w-[1400px] px-5 md:px-10">
         {/* MOBILE-ONLY: stars + 100K orders strip appears above image
             (matches Amazon/TikTok Shop PDP flow: reviews → image → details) */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="lg:hidden flex flex-wrap items-center gap-x-4 gap-y-1 mb-5"
-        >
+        <div className="lg:hidden flex flex-wrap items-center gap-x-4 gap-y-1 mb-5">
           <span className="flex items-center gap-2">
             <span className="text-deep text-base">★★★★★</span>
             <span className="text-[13px] text-muted">
@@ -107,16 +102,13 @@ export default function ShowerHeroV2() {
           <span className="text-[13px] text-muted">
             <span className="text-ink font-medium">100,000+</span> orders shipped
           </span>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
         {/* LEFT — main product image + thumbnail gallery */}
         <div className="lg:col-span-5 relative">
           <motion.div
             style={{ y: productY }}
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
             className="relative aspect-square w-full"
           >
             {/* Ripple rings */}
@@ -126,12 +118,8 @@ export default function ShowerHeroV2() {
               <div className="absolute w-[65%] h-[65%] rounded-full border border-deep/10 ripple" style={{ animationDelay: "2.6s" }} />
             </div>
 
-            {/* Breathing product container */}
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
-            >
+            {/* Image cross-fade on color/thumbnail change */}
+            <div className="absolute inset-0 flex items-center justify-center">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={mainImage.src}
@@ -151,31 +139,23 @@ export default function ShowerHeroV2() {
                   />
                 </motion.div>
               </AnimatePresence>
-            </motion.div>
+            </div>
 
             {/* TikTok pill — bottom right */}
-            <motion.a
+            <a
               href="https://www.tiktok.com/@feelslikeom.shop"
               target="_blank"
               rel="noreferrer"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.95, duration: 0.7 }}
               onClick={() => track("tiktok_click", { source: "hero_pill" })}
               className="absolute bottom-2 md:bottom-6 right-0 md:right-4 bg-deeper/92 backdrop-blur px-4 py-2.5 rounded-full text-bone text-[11px] tracking-widest uppercase flex items-center gap-2 hover:bg-ink transition-colors"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
               5M+ views on TikTok
-            </motion.a>
+            </a>
           </motion.div>
 
           {/* THUMBNAIL GALLERY — under the main image */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="mt-5 grid grid-cols-4 gap-2 md:gap-3"
-          >
+          <div className="mt-5 grid grid-cols-4 gap-2 md:gap-3">
             {colorImages.map((img, i) => (
               <button
                 key={`${color}-${img.src}`}
@@ -194,18 +174,13 @@ export default function ShowerHeroV2() {
                 />
               </button>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* RIGHT — copy + INLINE OFFER + CTA above the fold */}
         <div className="lg:col-span-7 relative z-10">
           {/* Star rating + orders — DESKTOP ONLY (mobile shows this above the image) */}
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="hidden lg:flex flex-wrap items-center gap-x-4 gap-y-1 mb-5"
-          >
+          <div className="hidden lg:flex flex-wrap items-center gap-x-4 gap-y-1 mb-5">
             <span className="flex items-center gap-2">
               <span className="text-deep text-base">★★★★★</span>
               <span className="text-[13px] text-muted">
@@ -216,13 +191,10 @@ export default function ShowerHeroV2() {
             <span className="text-[13px] text-muted">
               <span className="text-ink font-medium">100,000+</span> orders shipped
             </span>
-          </motion.div>
+          </div>
 
           {/* H1 */}
-          <motion.h1
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+          <h1
             className="display leading-[0.98]"
             style={{ fontSize: "clamp(40px, 4.2vw, 58px)" }}
           >
@@ -231,28 +203,18 @@ export default function ShowerHeroV2() {
             Calmer skin.
             <br />
             <span className="display-italic text-deep">By your next shower.</span>
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.6 }}
-            className="mt-5 text-[14px] md:text-[15px] leading-relaxed text-muted max-w-lg"
-          >
+          <p className="mt-5 text-[14px] md:text-[15px] leading-relaxed text-muted max-w-lg">
             A 20-stage filter — <span className="text-ink">KDF-55, calcium sulfite,
             activated carbon</span> — that reduces chlorine, heavy metals, and the
             chemicals customers say were drying their hair and clouding their skin.
             In a 4-week customer study, <span className="text-ink">91% reported
             less acne and skin irritation</span>. Three-minute install. 60-day money-back.
-          </motion.p>
+          </p>
 
           {/* INLINE OFFER — plan picker (vertical stack, larger cards) */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.6 }}
-            className="mt-7 space-y-3"
-          >
+          <div className="mt-7 space-y-3">
             {(Object.keys(PLANS) as Plan[]).map((p) => {
               const isActive = plan === p;
               const planInfo = PLANS[p];
@@ -303,15 +265,10 @@ export default function ShowerHeroV2() {
                 </button>
               );
             })}
-          </motion.div>
+          </div>
 
           {/* INLINE OFFER — colorway picker (compact) */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.42, duration: 0.6 }}
-            className="mt-5 flex items-center gap-4"
-          >
+          <div className="mt-5 flex items-center gap-4">
             <span className="overline text-muted">Color</span>
             <div className="flex items-center gap-2">
               {(Object.keys(COLORS) as Color[]).map((c) => (
@@ -326,14 +283,11 @@ export default function ShowerHeroV2() {
               ))}
             </div>
             <span className="text-[12px] text-muted">{COLORS[color].label}</span>
-          </motion.div>
+          </div>
 
           {/* PRIMARY CTA */}
           <motion.a
             href={checkoutHref}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
             onClick={() =>
               track("begin_checkout", {
                 plan,
@@ -363,43 +317,25 @@ export default function ShowerHeroV2() {
             </AnimatePresence>
           </motion.a>
 
-          {/* Express-pay row */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-            className="mt-3 flex items-center justify-center gap-3 text-[10.5px] text-muted"
-          >
+          {/* Accepted payment methods — trust signal, not buttons. Inline logos, no
+              borders (borders previously implied clickability + clipped wider PayPal SVG). */}
+          <div className="mt-3 flex items-center justify-center gap-3 text-[10.5px] text-muted">
             <span className="tracking-widest uppercase">Pay with</span>
-            <span className="flex items-center gap-2">
-              <span className="h-7 px-2.5 rounded bg-ink/5 border border-ink/10 flex items-center">
-                <ApplePayIcon className="h-4 w-auto" monochrome />
-              </span>
-              <span className="h-7 px-2.5 rounded bg-ink/5 border border-ink/10 flex items-center">
-                <GooglePayIcon className="h-4 w-auto" />
-              </span>
-              <span className="h-7 px-2.5 rounded bg-ink/5 border border-ink/10 flex items-center">
-                <PayPalIcon className="h-4 w-auto" />
-              </span>
-              <span className="h-7 px-2.5 rounded bg-ink/5 border border-ink/10 flex items-center gap-1 text-ink/65">
-                <CreditCardIcon className="h-3.5 w-auto" />
-                <span className="text-[11px]">Card</span>
-              </span>
+            <span className="flex items-center gap-3 opacity-70">
+              <ApplePayIcon className="h-4 w-auto" monochrome />
+              <GooglePayIcon className="h-4 w-auto" />
+              <PayPalIcon className="h-4 w-auto" />
+              <CreditCardIcon className="h-4 w-auto" />
             </span>
-          </motion.div>
+          </div>
 
           {/* Trust strip */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.7 }}
-            className="mt-6 pt-5 border-t border-ink/10 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10.5px] tracking-wider uppercase text-muted"
-          >
+          <div className="mt-6 pt-5 border-t border-ink/10 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10.5px] tracking-wider uppercase text-muted">
             <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 100K+ orders shipped</span>
             <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 5M+ TikTok views</span>
             <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 4-week customer study</span>
             <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 60-day guarantee</span>
-          </motion.div>
+          </div>
         </div>
         </div>
       </div>
