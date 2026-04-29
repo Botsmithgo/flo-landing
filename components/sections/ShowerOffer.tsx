@@ -39,8 +39,8 @@ const PLANS: PlanOption[] = [
   {
     id: "single",
     title: "One-time purchase",
-    price: 134.99,
-    original: null,
+    price: 107.99,
+    original: 134.99,
     line: "Just the shower head. No commitments. Replacement filters sold separately.",
     bullets: [
       "Free shipping on orders over $49",

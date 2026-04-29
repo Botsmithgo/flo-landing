@@ -19,10 +19,11 @@ const PLANS: Record<Plan, { label: string; price: number; original: number | nul
     badge: "Most popular",
   },
   single: {
+    // First-order 20% off auto-applies via WELCOME20 coupon at Stripe checkout
     label: "One-time",
-    price: 134.99,
-    original: null,
-    line: "Just the shower head · 60-day returns",
+    price: 107.99,
+    original: 134.99,
+    line: "First order: 20% off automatic · 60-day returns",
   },
 };
 

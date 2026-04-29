@@ -23,9 +23,9 @@ const PLANS = {
   },
   single: {
     label: "One-time purchase",
-    price: 134.99,
-    original: null as number | null,
-    line: "Just the shower head · Free shipping over $49 · 60-day returns",
+    price: 107.99,
+    original: 134.99 as number | null,
+    line: "First order: 20% off automatic · Free shipping over $49 · 60-day returns",
   },
 } as const;
 

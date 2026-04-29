@@ -50,7 +50,7 @@ export function GET() {
 ## Product
 - Name: Feels Like Om Filtered Shower Head (20-Stage)
 - SKU / Amazon ASIN: B0DHJ74TCC
-- Price: $134.99 one-time · $80 subscribe (first order — aggressive launch pricing)
+- Price: MSRP $134.99 · First order $107.99 with code WELCOME20 (auto-applied) · Subscribe & Save $80 first / $39 every 6 mo refill
 - Filter replacement: every 6 months, or 12,000 gallons
 - Filter price on subscription: $39 every 6 months, free shipping (first order $80 includes the shower head + first filter)
 - Install: ~90 seconds, no tools, fits every standard US shower arm
