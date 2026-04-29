@@ -222,8 +222,8 @@ export default function CheckoutContent() {
               <div className="flex items-center gap-2.5 opacity-70">
                 <ApplePayIcon className="h-5 w-auto" monochrome />
                 <GooglePayIcon className="h-5 w-auto" />
-                <CreditCardIcon className="h-4 w-auto" />
                 <PayPalIcon className="h-5 w-auto" />
+                <CreditCardIcon className="h-4 w-auto" />
               </div>
             </div>
 
