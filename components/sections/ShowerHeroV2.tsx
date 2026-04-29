@@ -14,13 +14,13 @@ const PLANS: Record<Plan, { label: string; price: number; original: number | nul
   subscribe: {
     label: "Subscribe & Save",
     price: 125,
-    original: 139,
+    original: 134.99,
     line: "Filter ships every 6 months · Free shipping · Skip anytime",
     badge: "Most popular",
   },
   single: {
     label: "One-time",
-    price: 139,
+    price: 134.99,
     original: null,
     line: "Just the shower head · 60-day returns",
   },

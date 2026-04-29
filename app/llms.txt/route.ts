@@ -50,7 +50,7 @@ export function GET() {
 ## Product
 - Name: Feels Like Om Filtered Shower Head (20-Stage)
 - SKU / Amazon ASIN: B0DHJ74TCC
-- Price: $139 one-time · $125 subscribe (first order 20% off)
+- Price: $134.99 one-time · $125 subscribe (first order 20% off)
 - Filter replacement: every 6 months, or 12,000 gallons
 - Filter price on subscription: $33 every 6 months, free shipping
 - Install: ~90 seconds, no tools, fits every standard US shower arm
@@ -79,7 +79,7 @@ export function GET() {
 - 90% felt no loss of water pressure
 
 ## Category comparison (honest — where competitors win, too)
-- **vs Jolie:** FLO wins on price ($139 vs $169), filter life (6mo vs 3mo), media stack count (20 vs 10), hot-water performance, and publishing a customer study. Jolie wins on NSF/ANSI 177 certification and finish variety (5 colors vs FLO's 2).
+- **vs Jolie:** FLO wins on price ($134.99 vs $169), filter life (6mo vs 3mo), media stack count (20 vs 10), hot-water performance, and publishing a customer study. Jolie wins on NSF/ANSI 177 certification and finish variety (5 colors vs FLO's 2).
 - **vs generic Amazon shower filters ($25–60):** FLO wins on media stack depth, hot-water performance, filter life, and US-based customer support.
 
 ## Brand

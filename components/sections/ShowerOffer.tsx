@@ -27,7 +27,7 @@ const PLANS: PlanOption[] = [
     badge: "Most popular",
     title: "Subscribe & save",
     price: 125,
-    original: 139,
+    original: 134.99,
     line: "Replacement filter every 6 months. Free shipping. 20% off first order.",
     bullets: [
       "First order: 20% off with code WELCOME20",
@@ -39,7 +39,7 @@ const PLANS: PlanOption[] = [
   {
     id: "single",
     title: "One-time purchase",
-    price: 139,
+    price: 134.99,
     original: null,
     line: "Just the shower head. No commitments. Replacement filters sold separately.",
     bullets: [

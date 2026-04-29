@@ -80,7 +80,7 @@ export function getCheckoutMode(): "stripe" | "shopify" | "amazon" {
 export const PRODUCTS = {
   shower: {
     name: "Filtered Shower Head",
-    price: 139,
+    price: 134.99,
     subscribePrice: 125,
     firstOrderDiscount: 20,
     filterLife: "6 months · 12,000 gallons",
