@@ -56,10 +56,13 @@ export default function HomeProducts() {
           </Reveal>
 
           <Reveal delay={0.3}>
-            <div className="mt-10 flex items-baseline gap-3">
-              <span className="display text-[44px] text-ink leading-none">${PRODUCTS.shower.subscribePrice}</span>
-              <span className="text-muted line-through text-lg">${PRODUCTS.shower.price}</span>
-              <span className="overline text-deep">subscribe</span>
+            <div className="mt-10">
+              <div className="flex items-baseline gap-3">
+                <span className="overline text-muted">From</span>
+                <span className="display text-[44px] text-ink leading-none">${PRODUCTS.shower.subscribePrice}</span>
+                <span className="text-muted line-through text-lg">${PRODUCTS.shower.msrp}</span>
+              </div>
+              <p className="mt-2 overline text-deep">subscribe &amp; save</p>
             </div>
           </Reveal>
 
