@@ -340,9 +340,6 @@ If an ID is missing, that pixel silently doesn't load.
      Sticky mobile ATC           Reads plan/color from offerStore (sprint 4) — price label + href reflect hero choice
 
 /about                            Moody hero → long thesis → 4 principles → closing CTA
-/checkout                         Branded order summary + email capture + Apple Pay/Google Pay/
-                                  PayPal/Card buttons (routes to Stripe when configured,
-                                  Amazon fallback). robots noindex.
 /sitemap.xml, /robots.txt         SEO infra
 ```
 
@@ -355,6 +352,7 @@ If an ID is missing, that pixel silently doesn't load.
 - `ShowerProof` — removed (fake press logos were FTC risk; component file kept)
 - `TikTokProof` — cut from `/shower` in sprint 4 for paid-LP optimization (duplicated BrandCredibility's "5M+ TikTok views" stat; AGENTS.md sprint-2 notes already flagged it as "not real social proof"). Component file kept at `components/sections/TikTokProof.tsx`. **Revert recipe:** restore the import line in `app/shower/page.tsx` and re-insert `<TikTokProof />` between `<CustomerUGC />` and `<ShowerComparison />`.
 - `RitualMoment` — cut from `/shower` in sprint 4 for paid-LP optimization (pure brand mood right before the close — killed momentum at the worst moment, and reused the hero bathroom image so it didn't introduce new visual info). Component file kept at `components/sections/RitualMoment.tsx`. **Revert recipe:** restore the import line in `app/shower/page.tsx` and re-insert `<RitualMoment />` between `<ShowerFAQ />` and `<HomeCTA />`.
+- `/checkout` route — removed sprint 4 for direct-to-Stripe routing. Stripe's hosted checkout already handles email capture, address autofill, Apple Pay/Google Pay/PayPal/Klarna by device — the FLO branded order-summary screen was a placeholder that added a click without adding conversion value. CTAs (hero, inline CTA, sticky ATC) now compute href via `buildCheckoutUrl({ variant })` from `lib/checkout.ts`, which returns the right Stripe Payment Link by plan+color (or Amazon listing as fallback). **Revert recipe:** if you need a branded pre-checkout screen later (e.g. for cart-abandonment email capture), restore `app/checkout/page.tsx` + `app/checkout/CheckoutContent.tsx` from git history (last commit before sprint 4 removal) and switch the CTA hrefs back to `/checkout?plan=${plan}&color=${color}`.
 
 **Git rollback tags:**
 - `v1` — pre-pivot editorial version (single-product scope decision happened)

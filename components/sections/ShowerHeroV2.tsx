@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
+import { buildCheckoutUrl } from "@/lib/checkout";
 import { track } from "@/lib/analytics";
 import { useOffer, setOffer, type Plan, type Color } from "@/lib/offerStore";
 import { ApplePayIcon, GooglePayIcon, PayPalIcon, CreditCardIcon } from "@/components/icons/PaymentIcons";
@@ -65,7 +66,7 @@ export default function ShowerHeroV2() {
   const selected = PLANS[plan];
   const colorImages = COLORS[color].images;
   const mainImage = colorImages[imgIdx] ?? colorImages[0];
-  const checkoutHref = `/checkout?plan=${plan}&color=${color}`;
+  const checkoutHref = buildCheckoutUrl({ variant: { plan, color } });
 
   function pickColor(c: Color) {
     setOffer({ color: c });

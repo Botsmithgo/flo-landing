@@ -8,8 +8,6 @@ import { SITE_URL } from "@/lib/site";
  *  1. Self-documenting — anyone reviewing the file sees exactly which bots we welcome
  *  2. Safer future edits — a future `* disallow: /` won't accidentally kill AI traffic
  *  3. Some crawlers honor their specific rule over the wildcard
- *
- * Also disallows /checkout for all bots (transactional page, no value in indexing).
  */
 const AI_CRAWLERS = [
   "GPTBot",            // OpenAI training
@@ -41,13 +39,12 @@ export default function robots(): MetadataRoute.Robots {
   const allowRules = [...AI_CRAWLERS, ...TRADITIONAL_BOTS].map((userAgent) => ({
     userAgent,
     allow: "/",
-    disallow: "/checkout",
   }));
 
   return {
     rules: [
       // Wildcard — catches every unlisted bot
-      { userAgent: "*", allow: "/", disallow: "/checkout" },
+      { userAgent: "*", allow: "/" },
       // Explicit allows (same rule, self-documenting + future-proof)
       ...allowRules,
     ],

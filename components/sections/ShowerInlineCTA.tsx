@@ -2,7 +2,7 @@
 
 import Reveal from "@/components/Reveal";
 import { useOffer } from "@/lib/offerStore";
-import { PRODUCTS } from "@/lib/checkout";
+import { PRODUCTS, buildCheckoutUrl } from "@/lib/checkout";
 import { track } from "@/lib/analytics";
 
 /**
@@ -15,7 +15,7 @@ export default function ShowerInlineCTA() {
   const { plan, color } = useOffer();
   const activePrice = plan === "subscribe" ? PRODUCTS.shower.subscribePrice : PRODUCTS.shower.price;
   const planLabel = plan === "subscribe" ? "Subscribe" : "First order";
-  const href = `/checkout?plan=${plan}&color=${color}`;
+  const href = buildCheckoutUrl({ variant: { plan, color } });
 
   return (
     <section className="bg-bone py-16 md:py-24 border-t border-ink/5">

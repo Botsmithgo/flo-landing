@@ -34,3 +34,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .claude/
+
+# Local-only agent caches and audit artifacts
+.agents/
+.playwright-mcp/
+audit-*.jpeg
+audit-*.png
+ritual-moment-on-shower.jpeg

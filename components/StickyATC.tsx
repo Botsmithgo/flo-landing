@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useOffer } from "@/lib/offerStore";
+import { buildCheckoutUrl } from "@/lib/checkout";
 
 type StickyATCProps = {
   productName: string;
@@ -26,7 +27,7 @@ export default function StickyATC({ productName, price, subscribePrice, msrp }: 
 
   const activePrice = plan === "subscribe" ? subscribePrice : price;
   const planLabel = plan === "subscribe" ? "/ subscribe" : "/ first order";
-  const href = `/checkout?plan=${plan}&color=${color}`;
+  const href = buildCheckoutUrl({ variant: { plan, color } });
 
   return (
     <AnimatePresence>

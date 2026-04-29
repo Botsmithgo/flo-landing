@@ -42,7 +42,3 @@ export function useOffer(): OfferState {
     () => DEFAULTS,
   );
 }
-
-export function buildCheckoutHref(s: OfferState = state): string {
-  return `/checkout?plan=${s.plan}&color=${s.color}`;
-}
