@@ -51,7 +51,7 @@ export default function StickyATC({ productName, price, subscribePrice, msrp }: 
               href={href}
               className="btn-primary !py-3 !px-5 text-[12px] whitespace-nowrap"
             >
-              Add to cart
+              Get yours
             </a>
           </div>
         </motion.div>

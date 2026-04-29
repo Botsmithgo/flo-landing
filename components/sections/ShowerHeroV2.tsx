@@ -309,14 +309,14 @@ export default function ShowerHeroV2() {
           >
             <AnimatePresence mode="wait">
               <motion.span
-                key={`${plan}-${color}-${selected.price}`}
+                key={`${plan}-${selected.price}`}
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.25 }}
                 className="flex items-center gap-2"
               >
-                Checkout — ${selected.price} · {COLORS[color].label}
+                Get yours — ${selected.price}
                 <span aria-hidden>→</span>
               </motion.span>
             </AnimatePresence>
