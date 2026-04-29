@@ -40,10 +40,10 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/shower`,
     images: [
       {
-        url: "/product/product-white-composite.jpg",
-        width: 1200,
-        height: 1200,
-        alt: "Chrome filtered shower head — Feels Like Om",
+        url: "/product/bathroom-with-product.jpg",
+        width: 1376,
+        height: 768,
+        alt: "Filtered shower head in a quiet bathroom — Feels Like Om",
       },
     ],
   },
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     title: "Filtered Shower Head — Softer hair, calmer skin",
     description:
       "20-stage filtered shower head. 100K+ orders, 4.8★ rating, 60-day guarantee.",
-    images: ["/product/product-white-composite.jpg"],
+    images: ["/product/bathroom-with-product.jpg"],
   },
 };
 

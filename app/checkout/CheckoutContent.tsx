@@ -193,23 +193,20 @@ export default function CheckoutContent() {
               </div>
             )}
 
-            {/* Payment method buttons */}
-            <p className="overline text-muted mb-4">Pay with</p>
+            {/* Primary CTA — Stripe-hosted page surfaces Apple/Google Pay automatically by device */}
             <div className="space-y-3">
               <PaymentButton
-                icon={<ApplePayIcon className="h-6 w-auto" monochrome />}
-                label="Pay"
-                theme="dark"
-                onClick={() => continueToPayment("apple_pay")}
+                icon={<CreditCardIcon className="h-5 w-auto" />}
+                label="Continue to secure checkout"
+                theme="primary"
+                onClick={() => continueToPayment("card")}
                 disabled={submitting}
               />
-              <PaymentButton
-                icon={<GooglePayIcon className="h-6 w-auto" />}
-                label=""
-                theme="light"
-                onClick={() => continueToPayment("google_pay")}
-                disabled={submitting}
-              />
+              <div className="flex items-center gap-3 my-1">
+                <div className="h-px flex-1 bg-ink/10" />
+                <span className="text-[11px] tracking-wider uppercase text-muted">or</span>
+                <div className="h-px flex-1 bg-ink/10" />
+              </div>
               <PaymentButton
                 icon={<PayPalIcon className="h-6 w-auto" />}
                 label=""
@@ -217,17 +214,21 @@ export default function CheckoutContent() {
                 onClick={() => continueToPayment("paypal")}
                 disabled={submitting}
               />
-              <PaymentButton
-                icon={<CreditCardIcon className="h-5 w-auto" />}
-                label="Pay with card"
-                theme="primary"
-                onClick={() => continueToPayment("card")}
-                disabled={submitting}
-              />
+            </div>
+
+            {/* Accepted payment methods — trust signal */}
+            <div className="mt-6 flex items-center gap-3 text-muted">
+              <span className="text-[11px] tracking-wider uppercase">We accept</span>
+              <div className="flex items-center gap-2.5 opacity-70">
+                <ApplePayIcon className="h-5 w-auto" monochrome />
+                <GooglePayIcon className="h-5 w-auto" />
+                <CreditCardIcon className="h-4 w-auto" />
+                <PayPalIcon className="h-5 w-auto" />
+              </div>
             </div>
 
             {/* Security strip */}
-            <div className="mt-8 pt-6 border-t border-ink/10 flex flex-wrap gap-x-5 gap-y-2 text-[11px] tracking-wider uppercase text-muted">
+            <div className="mt-6 pt-6 border-t border-ink/10 flex flex-wrap gap-x-5 gap-y-2 text-[11px] tracking-wider uppercase text-muted">
               <span className="flex items-center gap-1.5"><span className="text-deep">🔒</span> 256-bit secure</span>
               <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> 60-day returns</span>
               <span className="flex items-center gap-1.5"><span className="text-deep">✓</span> No spam ever</span>
