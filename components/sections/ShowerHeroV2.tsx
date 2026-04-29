@@ -3,12 +3,9 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
-import { PRODUCTS } from "@/lib/checkout";
 import { track } from "@/lib/analytics";
+import { useOffer, setOffer, type Plan, type Color } from "@/lib/offerStore";
 import { ApplePayIcon, GooglePayIcon, PayPalIcon, CreditCardIcon } from "@/components/icons/PaymentIcons";
-
-type Plan = "subscribe" | "single";
-type Color = "chrome" | "black";
 
 const PLANS: Record<Plan, { label: string; price: number; original: number | null; line: string; badge?: string }> = {
   subscribe: {
@@ -62,8 +59,7 @@ export default function ShowerHeroV2() {
   });
   const productY = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"]);
 
-  const [plan, setPlan] = useState<Plan>("subscribe");
-  const [color, setColor] = useState<Color>("chrome");
+  const { plan, color } = useOffer();
   const [imgIdx, setImgIdx] = useState(0);
 
   const selected = PLANS[plan];
@@ -72,7 +68,7 @@ export default function ShowerHeroV2() {
   const checkoutHref = `/checkout?plan=${plan}&color=${color}`;
 
   function pickColor(c: Color) {
-    setColor(c);
+    setOffer({ color: c });
     setImgIdx(0); // reset to main image when colorway changes
     track("color_switch", { color: c });
   }
@@ -223,7 +219,7 @@ export default function ShowerHeroV2() {
                 <button
                   key={p}
                   onClick={() => {
-                    setPlan(p);
+                    setOffer({ plan: p });
                     track("plan_switch", { plan: p });
                   }}
                   className={`relative w-full text-left p-4 md:p-5 rounded-sm border transition-all ${
