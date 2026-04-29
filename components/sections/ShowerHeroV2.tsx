@@ -35,8 +35,8 @@ const COLORS: Record<Color, {
     swatch: "bg-gradient-to-br from-bone to-water",
     images: [
       { src: "/product/product-white-composite.jpg", alt: "Chrome filtered shower head — main view" },
-      { src: "/product/product-bathroom.jpg", alt: "Chrome shower head in luxe bathroom" },
       { src: "/product/product-white-face.jpg", alt: "Chrome face-on with specs and trust badges" },
+      { src: "/product/hero-lifestyle.jpg", alt: "Lifestyle shower scene" },
       { src: "/product/dimensions.jpg", alt: "Product dimensions (134mm × 140mm)" },
     ],
   },
