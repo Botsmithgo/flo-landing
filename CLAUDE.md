@@ -1,6 +1,6 @@
 # FLO Landing — Project Context for Claude Code
 
-_Last updated: 2026-04-21 (sprint 3: SEO/GEO hardening). Read this first whenever you open this project._
+_Last updated: 2026-04-29 (sprint 4: paid-LP optimization — plan persistence + section cuts). Read this first whenever you open this project._
 
 ---
 
@@ -8,7 +8,15 @@ _Last updated: 2026-04-21 (sprint 3: SEO/GEO hardening). Read this first wheneve
 
 **Where we are:** **launch-ready ~96%.** Site live at https://flo-landing-six.vercel.app. Design, copy, compliance, architecture, SEO, GEO (AI-search), and Core Web Vitals all done. Remaining blockers are all user-dependent: real Amazon reviews, analytics pixel IDs, domain wire, Stripe setup, water-report backend, designer product photography.
 
-**Last sprint shipped (2026-04-21, sprint 3 — Phase 1 SEO/GEO hardening + audit fixes):**
+**Last sprint shipped (2026-04-29, sprint 4 — paid-LP optimization + plan persistence):**
+1. **Reveal motion tuning** (`74f60d0`) — duration `0.8s → 0.45s`, y-shift `24px → 12px`. Affects all 89 Reveal call-sites at once. ~2× snappier with subtler lift; matches premium positioning.
+2. **Plan/color persistence across page** (`58e6a89`) — new `lib/offerStore.ts` (`useSyncExternalStore` module store) holds `{ plan, color }` globally. ShowerHeroV2, StickyATC, and new ShowerInlineCTA all read/write the same state. Fixed silent plan switch on click (StickyATC was always routing to `subscribe/chrome` regardless of hero choice).
+3. **Mid-page inline CTA** (`58e6a89`) — new `components/sections/ShowerInlineCTA.tsx` between Benefits and Honesty. Quick "I'm in" path for buyers convinced by section 6 so they don't scroll through six more social-proof sections to find the next checkout. Dynamic price/href via offerStore + `begin_checkout` analytics tagged `source: "inline_cta"`.
+4. **Home pricing fix** (`a443515`) — `HomeProducts` was anchoring $80 against $107.99 (single first-order) instead of MSRP $134.99. Now reads "From $80 ̶$̶1̶3̶4̶.̶9̶9̶ / subscribe & save" → 41% off perception vs old 26%.
+5. **Save $X accents on plan cards** (`38acf0b`) — small uppercase `--deep` overline under each price in ShowerHeroV2 plan picker. "Save $54.99" subscribe vs "Save $27.00" one-time makes the gap visceral without bloating the strikethrough (which would clash with FLO's premium voice).
+6. **Section cuts for paid-LP optimization** (`012580c`) — removed `TikTokProof` (duplicated BrandCredibility's "5M+ TikTok views" stat) and `RitualMoment` (pure brand mood at the moment buyers should be reaching for buy button) from `/shower`. Page goes 14 → 12 sections. Component files kept in repo for revert (see "Killed/superseded routes + components" below for revert recipes).
+
+**Previous sprint (2026-04-21, sprint 3 — Phase 1 SEO/GEO hardening + audit fixes):**
 1. **Compliance sweep** — removed every remaining "independently tested" / "lab-tested" / "bath filter" leak across 6 files (`aae9949`). Deleted orphan `ShowerScience.tsx`.
 2. **ICP audit 6-item punch list** (`f76942b`) — benefits headline 6→7, honest Jolie-wins rows added to comparison, stat alignment, #offer anchor fix, RitualMoment copy rewrite, express-pay icons bumped 15%.
 3. **SEO/GEO Tier 1 buildout** — 9 commits shipping: `lib/site.ts` centralizing SITE_URL via env var, per-route OG+Twitter on /shower and /about, full Organization schema (description/founding/address/contact), AI-crawler-explicit robots.txt (14 AI bots), WebSite+Breadcrumb+HowTo schemas, `/llms.txt` brand digest, Product schema with MerchantReturnPolicy+ShippingDetails, FAQ `<h3>` wrappers for rich-snippet parser, image optimization flipped back ON (AVIF/WebP served, 3MB hero JPGs → ~200KB).
@@ -302,9 +310,11 @@ If an ID is missing, that pixel silently doesn't load.
   5. HomeTestimonials            Illustrated 4-week stats (line icons) + quote grid
   6. HomeCTA                     "Pure water for a pure you."
 
-/shower
+/shower                            (12 sections after sprint-4 cuts; was 14)
   0. AnnouncementBar             Rotating 4-message bar above Nav (free shipping / 60-day / 100K / 20% off)
   1. ShowerHeroV2                Inline offer: plan picker + colorway + price + Checkout CTA
+                                 Save $X accents under each plan card (sprint 4)
+                                 Plan/color writes to lib/offerStore (sprint 4)
                                  Left = product image w/ 4 thumbnails (color-aware)
   2. BrandCredibility            100K+ / 4.8★ / 5M+ TikTok / 60-day (ribbon)
   3. ShowerResults               CONSOLIDATED: headline + subhead + stats LEFT, comparison
@@ -317,15 +327,17 @@ If an ID is missing, that pixel silently doesn't load.
                                  max-w-[460px]), POV-flip copy LEFT, "what it won't do" callout
                                  Replaced ShowerScience (text-heavy tooltip version)
   6. ShowerBenefits              6 tangible shifts + 7th "Modern, classy design"
-  7. ShowerHonesty               "What this won't do" — radical transparency
-  8. AmazonReviewsGrid           6 review cards (placeholder but realistic) — SWAP WITH REAL
-  9. CustomerUGC                 Auto-hides until UGC env vars set
- 10. TikTokProof                 DEMOTED from position 4 — FLO's own TikToks at bottom of funnel
+  7. ShowerInlineCTA  ⭐ NEW     "Ready when you are" mid-page close (sprint 4).
+                                 Reads plan/color from offerStore — href + price reflect hero choice.
+  8. ShowerHonesty               "What this won't do" — radical transparency
+  9. AmazonReviewsGrid           6 review cards (placeholder but realistic) — SWAP WITH REAL
+ 10. CustomerUGC                 Auto-hides until UGC env vars set
+                                 [TikTokProof was here at position 11 — cut sprint 4, see Killed below]
  11. ShowerComparison            vs Jolie, honest
  12. ShowerFAQ                   8 Q&A accordion
- 13. RitualMoment                Cinematic pause (bathroom-scene.jpg)
- 14. HomeCTA (reused)            Final close
-     Sticky mobile ATC           Persistent buy bar on mobile
+                                 [RitualMoment was here at position 13 — cut sprint 4, see Killed below]
+ 13. HomeCTA (reused)            Final close
+     Sticky mobile ATC           Reads plan/color from offerStore (sprint 4) — price label + href reflect hero choice
 
 /about                            Moody hero → long thesis → 4 principles → closing CTA
 /checkout                         Branded order summary + email capture + Apple Pay/Google Pay/
@@ -341,6 +353,8 @@ If an ID is missing, that pixel silently doesn't load.
 - `ShowerScience` — superseded by `ShowerScienceInteractive` (component file kept for revert)
 - `ShowerBeforeAfter` + `ShowerStudy` — superseded by `ShowerResults` (component files kept for revert)
 - `ShowerProof` — removed (fake press logos were FTC risk; component file kept)
+- `TikTokProof` — cut from `/shower` in sprint 4 for paid-LP optimization (duplicated BrandCredibility's "5M+ TikTok views" stat; CLAUDE.md sprint-2 notes already flagged it as "not real social proof"). Component file kept at `components/sections/TikTokProof.tsx`. **Revert recipe:** restore the import line in `app/shower/page.tsx` and re-insert `<TikTokProof />` between `<CustomerUGC />` and `<ShowerComparison />`.
+- `RitualMoment` — cut from `/shower` in sprint 4 for paid-LP optimization (pure brand mood right before the close — killed momentum at the worst moment, and reused the hero bathroom image so it didn't introduce new visual info). Component file kept at `components/sections/RitualMoment.tsx`. **Revert recipe:** restore the import line in `app/shower/page.tsx` and re-insert `<RitualMoment />` between `<ShowerFAQ />` and `<HomeCTA />`.
 
 **Git rollback tags:**
 - `v1` — pre-pivot editorial version (single-product scope decision happened)
@@ -349,6 +363,15 @@ If an ID is missing, that pixel silently doesn't load.
 ---
 
 ## Pre-launch punch list
+
+### ✅ Done in sprint 4 (2026-04-29 — paid-LP optimization)
+- **Reveal motion tuning** (`74f60d0`): defaults `duration 0.8s → 0.45s`, `y-shift 24px → 12px`. Affects all 89 Reveal call-sites at once.
+- **`lib/offerStore.ts`** (new, `58e6a89`): tiny module-scoped store via `useSyncExternalStore` — holds `{ plan, color }` globally. ShowerHeroV2 writes; StickyATC + new ShowerInlineCTA read.
+- **StickyATC fix** (`58e6a89`): now reads plan/color from offerStore so `href` + price label respect hero selection (was always routing to `subscribe/chrome`). Strikethrough now anchors against MSRP `$134.99`.
+- **`components/sections/ShowerInlineCTA.tsx`** (new, `58e6a89`): mid-page CTA between Benefits and Honesty. Dynamic price/href via offerStore + `begin_checkout` analytics tagged `source: "inline_cta"`.
+- **`HomeProducts` pricing fix** (`a443515`): "From $80" framing, strikethrough now `PRODUCTS.shower.msrp` ($134.99) not `.price` ($107.99). 41% off perception vs old 26%.
+- **Save $X badges on plan cards** (`38acf0b`): uppercase `--deep` overline under each price in ShowerHeroV2 plan picker. Subscribe shows "Save $54.99", One-time "Save $27.00".
+- **Section cuts** (`012580c`): removed `TikTokProof` + `RitualMoment` from `/shower`. Page goes 14 → 12 sections. Component files kept for revert (see "Killed/superseded routes + components" above for revert recipes).
 
 ### ✅ Done in sprint 3 (2026-04-21, afternoon — audit + SEO/GEO)
 
