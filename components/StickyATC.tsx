@@ -2,15 +2,17 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useOffer } from "@/lib/offerStore";
 
 type StickyATCProps = {
   productName: string;
-  price: number;
-  subscribePrice: number;
-  href: string;
+  price: number;          // single (one-time) price
+  subscribePrice: number; // subscribe price
+  msrp: number;           // strikethrough anchor
 };
 
-export default function StickyATC({ productName, price, subscribePrice, href }: StickyATCProps) {
+export default function StickyATC({ productName, price, subscribePrice, msrp }: StickyATCProps) {
+  const { plan, color } = useOffer();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -21,6 +23,10 @@ export default function StickyATC({ productName, price, subscribePrice, href }: 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const activePrice = plan === "subscribe" ? subscribePrice : price;
+  const planLabel = plan === "subscribe" ? "/ subscribe" : "/ first order";
+  const href = `/checkout?plan=${plan}&color=${color}`;
 
   return (
     <AnimatePresence>
@@ -36,8 +42,8 @@ export default function StickyATC({ productName, price, subscribePrice, href }: 
             <div className="flex flex-col min-w-0">
               <span className="text-[11px] uppercase tracking-widest text-muted">{productName}</span>
               <span className="text-[15px] text-ink font-medium">
-                <span className="line-through text-muted mr-2 text-[13px]">${price}</span>
-                ${subscribePrice} <span className="text-[11px] text-muted">/ subscribe</span>
+                <span className="line-through text-muted mr-2 text-[13px]">${msrp}</span>
+                ${activePrice} <span className="text-[11px] text-muted">{planLabel}</span>
               </span>
             </div>
             <a

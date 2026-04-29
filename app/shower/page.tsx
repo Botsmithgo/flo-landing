@@ -5,6 +5,7 @@ import ShowerResults from "@/components/sections/ShowerResults";
 import ShowerProblem from "@/components/sections/ShowerProblem";
 import ShowerScienceInteractive from "@/components/sections/ShowerScienceInteractive";
 import ShowerBenefits from "@/components/sections/ShowerBenefits";
+import ShowerInlineCTA from "@/components/sections/ShowerInlineCTA";
 import ShowerHonesty from "@/components/sections/ShowerHonesty";
 import AmazonReviewsGrid from "@/components/sections/AmazonReviewsGrid";
 import CustomerUGC from "@/components/sections/CustomerUGC";
@@ -57,10 +58,6 @@ export const metadata: Metadata = {
 };
 
 export default function ShowerPage() {
-  // Route to FLO's own /checkout page (branded order summary + email capture
-  // before Stripe/Amazon payment redirect)
-  const checkoutHref = "/checkout?plan=subscribe&color=chrome";
-
   return (
     <>
       <ProductSchema
@@ -103,6 +100,10 @@ export default function ShowerPage() {
       {/* 5. BENEFITS — six tangible shifts */}
       <ShowerBenefits />
 
+      {/* MID-PAGE CTA — quick "I'm in" path for buyers convinced by Benefits.
+            Reads plan/color from offerStore so the click respects hero choice. */}
+      <ShowerInlineCTA />
+
       {/* 6. HONESTY — radical transparency, converts skeptics */}
       <ShowerHonesty />
 
@@ -132,7 +133,7 @@ export default function ShowerPage() {
         productName="Shower Filter"
         price={PRODUCTS.shower.price}
         subscribePrice={PRODUCTS.shower.subscribePrice}
-        href={checkoutHref}
+        msrp={PRODUCTS.shower.msrp}
       />
     </>
   );
