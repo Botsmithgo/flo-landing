@@ -9,10 +9,8 @@ import ShowerInlineCTA from "@/components/sections/ShowerInlineCTA";
 import ShowerHonesty from "@/components/sections/ShowerHonesty";
 import AmazonReviewsGrid from "@/components/sections/AmazonReviewsGrid";
 import CustomerUGC from "@/components/sections/CustomerUGC";
-import TikTokProof from "@/components/sections/TikTokProof";
 import ShowerComparison from "@/components/sections/ShowerComparison";
 import ShowerFAQ from "@/components/sections/ShowerFAQ";
-import RitualMoment from "@/components/sections/RitualMoment";
 import HomeCTA from "@/components/sections/HomeCTA";
 import StickyATC from "@/components/StickyATC";
 import { ProductSchema, FAQSchema, BreadcrumbSchema, HowToSchema } from "@/components/StructuredData";
@@ -113,20 +111,13 @@ export default function ShowerPage() {
       {/* 8. CUSTOMER UGC — auto-hides until URLs are added */}
       <CustomerUGC />
 
-      {/* 9. TIKTOK — demoted to 'social cluster' at bottom; view count is
-            already in BrandCredibility, this is supplementary reach proof now */}
-      <TikTokProof />
-
-      {/* 10. COMPARISON vs Jolie */}
+      {/* 9. COMPARISON vs Jolie */}
       <ShowerComparison />
 
-      {/* 11. FAQ — objection handling */}
+      {/* 10. FAQ — objection handling */}
       <ShowerFAQ />
 
-      {/* 12. RITUAL MOMENT — cinematic breath before the final ask */}
-      <RitualMoment />
-
-      {/* 13. CLOSING CTA */}
+      {/* 11. CLOSING CTA */}
       <HomeCTA />
 
       <StickyATC
