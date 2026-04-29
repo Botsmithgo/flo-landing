@@ -1,89 +1,61 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 
 type Review = {
   stars: number;
-  verified: boolean;
+  amazon: boolean;
   name: string;
-  date: string;
   title: string;
   body: string;
-  image?: string;
-  helpful?: number;
 };
 
 /**
- * NOTE: These are realistic-looking placeholders. Replace with real
- * Amazon review export from Seller Central → Brand Analytics →
- * Review Insights. See CLAUDE.md for export instructions.
- *
- * To swap: keep the shape, replace values. Mix 5-star with 4-star for
- * trust (all 5s reads as cherry-picked).
+ * Real Amazon review excerpts from /Users/admin/Downloads/Reviews.xlsx
+ * imported 2026-04-29. Embedded workbook images were intentionally omitted.
+ * Excerpts are trimmed for length and compliance clarity.
  */
 const REVIEWS: Review[] = [
   {
     stars: 5,
-    verified: true,
-    name: "Alyssa M.",
-    date: "March 12, 2026",
-    title: "No regular shower head",
+    amazon: true,
+    name: "R. Rodas",
+    title: "I can honestly feel a huge difference",
     body:
-      "Guys — this is not your regular shower head. Three minutes to install, no joke. A week in my curls feel shinier than ever and my skin actually looks clear. I blamed the weather for years. Turns out it was the water.",
-    helpful: 847,
+      "My skin feels noticeably softer, my hair is smoother, and even my face feels cleaner and more refreshed after every shower. It’s gentle but still has great water pressure. Installation was super quick and easy, and the design looks modern in my bathroom.",
   },
   {
     stars: 5,
-    verified: true,
-    name: "James H.",
-    date: "January 22, 2026",
-    title: "My 4-year-old's skin",
+    amazon: true,
+    name: "Lisa",
+    title: "Showering finally feels soothing",
     body:
-      "My daughter has sensitive skin and used to complain every bath. We installed this and the crying stopped. That alone is worth the $139.",
-    helpful: 2341,
+      "My skin and hair react to everything. Since using the Feels Like Om filtered showerhead, my skin feels calmer, my hair is noticeably less dry, and showering finally feels soothing instead of stressful. I also wanted to note that it has great pressure.",
   },
   {
     stars: 5,
-    verified: true,
-    name: "Meghan T.",
-    date: "February 19, 2026",
-    title: "Eczema patches finally calming down",
+    amazon: true,
+    name: "Bryan Swords",
+    title: "Beautiful in my bathroom",
     body:
-      "I've had patches on my inner arms for years and nothing helped. I honestly didn't think a shower filter would change anything. Four weeks in, the patches are 70% gone. My dermatologist asked what changed.",
-    image: "/product/before-after.jpg",
-    helpful: 1204,
+      "I am absolutely loving my Feels Like Om Shower Filter. Not only does it look beautiful in my bathroom, but it has transformed my shower experience. My skin feels softer, my hair is smoother, and I can actually feel the difference in water quality.",
   },
   {
     stars: 5,
-    verified: true,
-    name: "David K.",
-    date: "February 28, 2026",
-    title: "Install took 40 seconds. No joke.",
+    amazon: true,
+    name: "Leyla",
+    title: "Amazing for dry hair and skin",
     body:
-      "Unscrewed the old one, wrapped the included Teflon tape, screwed this on. Done. Water pressure is actually BETTER than what I had.",
-    helpful: 312,
-  },
-  {
-    stars: 4,
-    verified: true,
-    name: "Priya R.",
-    date: "March 3, 2026",
-    title: "Good, not miraculous",
-    body:
-      "Works as advertised. The chlorine smell is gone. Hair feels softer. Four stars only because I wanted to feel a more dramatic change. Would still recommend.",
-    helpful: 156,
+      "I purchased this shower filter because my hair was extremely dry and nothing I tried seemed to help. After using it for two weeks, my hair feels much softer, smoother, and healthier. It also helps my skin feel less itchy and my hair shinier.",
   },
   {
     stars: 5,
-    verified: true,
-    name: "Rochelle B.",
-    date: "March 8, 2026",
-    title: "The smell difference is real",
+    amazon: true,
+    name: "Savanah Raquel",
+    title: "Worth it",
     body:
-      "You don't realize how much chlorine you're smelling until it's gone. Water feels softer too. My blow-dry routine is 5 minutes shorter.",
-    helpful: 489,
+      "My husband and I have been looking into shower head filters. This was a quick and easy install, and our water pressure changed dramatically. I have very dry skin, especially in winter, and after a month my skin isn’t itchy from the water anymore.",
   },
 ];
 
@@ -94,7 +66,7 @@ export default function AmazonReviewsGrid() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 mb-14 md:mb-20 items-end">
           <div className="lg:col-span-7">
             <Reveal>
-              <p className="overline text-deep mb-6">Verified reviews</p>
+              <p className="overline text-deep mb-6">Amazon reviews</p>
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="display text-[10vw] md:text-[5.2vw] leading-[0.98]">
@@ -135,12 +107,12 @@ export default function AmazonReviewsGrid() {
                       <span key={s} className={s < r.stars ? "" : "opacity-25"}>★</span>
                     ))}
                   </div>
-                  {r.verified && (
+                  {r.amazon && (
                     <span className="text-[10px] text-deep tracking-widest uppercase font-medium flex items-center gap-1">
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M2 5l2 2 4-4" />
                       </svg>
-                      Verified
+                      Amazon
                     </span>
                   )}
                 </div>
@@ -155,30 +127,12 @@ export default function AmazonReviewsGrid() {
                   {r.body}
                 </p>
 
-                {/* Optional image */}
-                {r.image && (
-                  <div className="relative aspect-[4/3] rounded-sm overflow-hidden mb-4 bg-bone">
-                    <Image
-                      src={r.image}
-                      alt={`Photo from ${r.name}'s review`}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  </div>
-                )}
-
-                {/* Footer — name + date + helpful */}
+                {/* Footer — name + source */}
                 <footer className="pt-4 border-t border-ink/10 flex items-center justify-between gap-3 text-[11px]">
                   <div className="flex flex-col">
                     <span className="text-ink font-medium">{r.name}</span>
-                    <span className="text-muted">{r.date}</span>
+                    <span className="text-muted">Amazon customer review</span>
                   </div>
-                  {r.helpful != null && (
-                    <span className="text-muted whitespace-nowrap">
-                      {r.helpful.toLocaleString()} found this helpful
-                    </span>
-                  )}
                 </footer>
               </motion.article>
             </Reveal>
@@ -188,8 +142,7 @@ export default function AmazonReviewsGrid() {
         <Reveal delay={0.3}>
           <div className="mt-14 text-center">
             <p className="text-[13px] text-muted">
-              Showing 6 of 1,400+ verified customer reviews. Pulled from our
-              Amazon listing — every reviewer is a real verified buyer.
+              Showing 5 selected Amazon customer reviews, excerpted for length.
             </p>
           </div>
         </Reveal>
