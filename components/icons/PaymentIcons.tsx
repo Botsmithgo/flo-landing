@@ -55,15 +55,21 @@ export function GooglePayIcon({ className = "", monochrome = false }: IconProps)
 }
 
 export function PayPalIcon({ className = "", monochrome = false }: IconProps) {
+  // viewBox widened to 80×24 (was 64×24) — the "PayPal" wordmark at fontSize 13
+  // starting at x=30 extends to ~x=68, which clipped past the 64-unit canvas.
+  // Apple Pay / Google Pay only need to fit "Pay" so 64 works for them; PayPal
+  // needs more room for a 6-letter wordmark. At h-4 the rendered width becomes
+  // ~53px (vs 43px for the others) — visually balanced because PayPal's logo
+  // genuinely is wider than "Pay".
   if (monochrome) {
     return (
-      <svg viewBox="0 0 64 24" className={className} aria-label="PayPal" role="img" fill="currentColor">
+      <svg viewBox="0 0 80 24" className={className} aria-label="PayPal" role="img" fill="currentColor">
         <text x="0" y="17" fontFamily="Arial, sans-serif" fontWeight="700" fontSize="14" fontStyle="italic">PayPal</text>
       </svg>
     );
   }
   return (
-    <svg viewBox="0 0 64 24" className={className} aria-label="PayPal" role="img">
+    <svg viewBox="0 0 80 24" className={className} aria-label="PayPal" role="img">
       {/* Simplified PayPal mark — double P in brand blues */}
       <g>
         <path
