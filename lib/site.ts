@@ -15,8 +15,12 @@
  *
  * Do NOT hardcode `https://www.feelslikeom.shop` anywhere else — import from here.
  */
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.feelslikeom.shop";
+// Defensive normalization: strip whitespace (Vercel env vars sometimes ship
+// with a trailing newline from copy-paste) and any trailing slash. Without
+// this, sitemap/robots/llms break — they string-interpolate `${SITE_URL}/foo`
+// which preserves the newline and emits malformed XML / unreachable URLs.
+const RAW_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.feelslikeom.shop";
+export const SITE_URL = RAW_SITE_URL.trim().replace(/\/+$/, "");
 
 /** Hostname only (for places that need it without the protocol). */
 export const SITE_HOST = new URL(SITE_URL).host;
