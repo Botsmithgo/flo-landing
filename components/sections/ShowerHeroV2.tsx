@@ -245,16 +245,23 @@ export default function ShowerHeroV2() {
 
                     {/* Label + line */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-baseline justify-between gap-3 mb-1">
-                        <span className="text-[15px] font-medium text-ink">{planInfo.label}</span>
-                        <span className="display text-2xl text-ink leading-none whitespace-nowrap">
-                          ${planInfo.price}
+                      <div className="flex items-start justify-between gap-3 mb-1">
+                        <span className="text-[15px] font-medium text-ink mt-1">{planInfo.label}</span>
+                        <div className="flex flex-col items-end gap-0.5">
+                          <span className="display text-2xl text-ink leading-none whitespace-nowrap">
+                            ${planInfo.price}
+                            {planInfo.original && (
+                              <span className="ml-2 text-[12px] text-muted line-through font-sans">
+                                ${planInfo.original}
+                              </span>
+                            )}
+                          </span>
                           {planInfo.original && (
-                            <span className="ml-2 text-[12px] text-muted line-through font-sans">
-                              ${planInfo.original}
+                            <span className="overline text-deep text-[10px] tracking-widest leading-none">
+                              Save ${(planInfo.original - planInfo.price).toFixed(2)}
                             </span>
                           )}
-                        </span>
+                        </div>
                       </div>
                       <p className="text-[12px] text-muted leading-snug">{planInfo.line}</p>
                     </div>
