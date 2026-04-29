@@ -26,7 +26,7 @@ const PLANS: PlanOption[] = [
     id: "subscribe",
     badge: "Most popular",
     title: "Subscribe & save",
-    price: 125,
+    price: 80,
     original: 134.99,
     line: "Replacement filter every 6 months. Free shipping. 20% off first order.",
     bullets: [

@@ -13,7 +13,7 @@ type Color = "chrome" | "black";
 const PLANS: Record<Plan, { label: string; price: number; original: number | null; line: string; badge?: string }> = {
   subscribe: {
     label: "Subscribe & Save",
-    price: 125,
+    price: 80,
     original: 134.99,
     line: "Filter ships every 6 months · Free shipping · Skip anytime",
     badge: "Most popular",

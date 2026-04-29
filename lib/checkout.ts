@@ -81,7 +81,7 @@ export const PRODUCTS = {
   shower: {
     name: "Filtered Shower Head",
     price: 134.99,
-    subscribePrice: 125,
+    subscribePrice: 80,
     firstOrderDiscount: 20,
     filterLife: "6 months · 12,000 gallons",
     variants: {

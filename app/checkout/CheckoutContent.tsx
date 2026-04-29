@@ -17,7 +17,7 @@ const COLORS = {
 const PLANS = {
   subscribe: {
     label: "Subscribe & Save",
-    price: 125,
+    price: 80,
     original: 134.99,
     line: "Replacement filter every 6 months · Free shipping · Skip or cancel anytime",
   },
