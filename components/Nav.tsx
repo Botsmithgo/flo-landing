@@ -36,7 +36,9 @@ export default function Nav() {
         <AnnouncementBar />
       <header
         className={`transition-all duration-500 ${
-          scrolled ? "bg-bone/85 backdrop-blur-md border-b border-ink/5" : "bg-transparent"
+          scrolled
+            ? "bg-bone/85 backdrop-blur-md border-b border-ink/5"
+            : "bg-bone/70 backdrop-blur-sm"
         }`}
       >
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 md:px-10 h-16 md:h-20">
@@ -47,18 +49,14 @@ export default function Nav() {
               width={645}
               height={158}
               priority
-              className={`h-[22px] md:h-[26px] w-auto transition-[filter] duration-500 ${
-                scrolled ? "" : "invert brightness-[1.08]"
-              }`}
+              className="h-[22px] md:h-[26px] w-auto"
             />
           </Link>
 
           <nav className="hidden md:flex items-center gap-10">
             {NAV_LINKS.map((link) => {
               const active = pathname === link.href;
-              const base = scrolled
-                ? active ? "text-ink" : "text-ink/70 hover:text-ink"
-                : active ? "text-bone" : "text-bone/75 hover:text-bone";
+              const base = active ? "text-ink" : "text-ink/70 hover:text-ink";
               return (
                 <Link
                   key={link.href}
@@ -89,8 +87,8 @@ export default function Nav() {
               onClick={() => setMenuOpen((v) => !v)}
               className="md:hidden flex flex-col gap-[5px] w-8 h-8 items-center justify-center"
             >
-              <span className={`block w-5 h-px transition-all duration-300 ${scrolled || menuOpen ? "bg-ink" : "bg-bone"} ${menuOpen ? "translate-y-[3px] rotate-45" : ""}`} />
-              <span className={`block w-5 h-px transition-all duration-300 ${scrolled || menuOpen ? "bg-ink" : "bg-bone"} ${menuOpen ? "-translate-y-[3px] -rotate-45" : ""}`} />
+              <span className={`block w-5 h-px bg-ink transition-transform duration-300 ${menuOpen ? "translate-y-[3px] rotate-45" : ""}`} />
+              <span className={`block w-5 h-px bg-ink transition-transform duration-300 ${menuOpen ? "-translate-y-[3px] -rotate-45" : ""}`} />
             </button>
           </div>
         </div>
