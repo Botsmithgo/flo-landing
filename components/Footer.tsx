@@ -38,6 +38,18 @@ export default function Footer() {
               <li><a href="mailto:hello@feelslikeom.shop" className="hover:text-bone transition-colors">Contact</a></li>
               <li><a href="https://feelslikeom.shop/policies/shipping-policy" className="hover:text-bone transition-colors">Shipping</a></li>
               <li><a href="https://feelslikeom.shop/policies/refund-policy" className="hover:text-bone transition-colors">Returns</a></li>
+              {process.env.NEXT_PUBLIC_BILLING_PORTAL_URL && (
+                <li>
+                  <a
+                    href={process.env.NEXT_PUBLIC_BILLING_PORTAL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-bone transition-colors"
+                  >
+                    Manage subscription
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
         </div>
