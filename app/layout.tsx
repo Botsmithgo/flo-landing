@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { fraunces, interTight } from "@/lib/fonts";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import SmoothScroll from "@/components/SmoothScroll";
+// Lenis-based SmoothScroll removed — native scroll is faster on 120Hz devices
+// and avoids trackpad double-inertia. Component file kept for easy revert.
+// import SmoothScroll from "@/components/SmoothScroll";
 import Analytics from "@/components/Analytics";
 import WaterReportPopup from "@/components/WaterReportPopup";
 import ScrollDepthTracker from "@/components/ScrollDepthTracker";
@@ -64,11 +66,9 @@ export default function RootLayout({
         <OrganizationSchema />
         <WebSiteSchema />
         <ScrollDepthTracker />
-        <SmoothScroll>
-          <Nav />
-          <main className="relative">{children}</main>
-          <Footer />
-        </SmoothScroll>
+        <Nav />
+        <main className="relative">{children}</main>
+        <Footer />
         <WaterReportPopup />
       </body>
     </html>
