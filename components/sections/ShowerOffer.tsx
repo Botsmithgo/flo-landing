@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
-import { PRODUCTS } from "@/lib/checkout";
 import { track } from "@/lib/analytics";
 import { ApplePayIcon, GooglePayIcon, PayPalIcon, CreditCardIcon } from "@/components/icons/PaymentIcons";
 

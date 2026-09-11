@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
@@ -113,6 +114,23 @@ export default function ShowerFAQ() {
               );
             })}
           </div>
+
+          {/* Contextual link to the category explainers. The money page is the
+              strongest internal linker on the site, so /answers gets its
+              authority from here rather than from the footer alone. */}
+          <Reveal delay={0.1}>
+            <p className="mt-12 text-[15px] leading-relaxed text-muted">
+              Wondering what a shower filter actually does — and what it
+              can&apos;t?{" "}
+              <Link
+                href="/answers"
+                className="text-deep underline underline-offset-4 hover:text-ink transition-colors"
+              >
+                Read the straight answers
+              </Link>
+              , including when not to buy one.
+            </p>
+          </Reveal>
         </div>
       </div>
     </section>

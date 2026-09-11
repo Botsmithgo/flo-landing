@@ -1,14 +1,77 @@
 # FLO Landing — Project Context for Claude Code
 
-_Last updated: 2026-04-29 (sprint 4: paid-LP optimization — plan persistence + section cuts). Read this first whenever you open this project._
+_Last updated: 2026-09-10 (sprint 5: SEO/AI-SEO repair + QA gate). Read this first whenever you open this project._
 
 ---
 
 ## Next-session quick-start (read first if picking up from a break)
 
-**Where we are:** **launch-ready ~96%.** Site live at https://flo-landing-six.vercel.app. Design, copy, compliance, architecture, SEO, GEO (AI-search), and Core Web Vitals all done. Remaining blockers are all user-dependent: real Amazon reviews, analytics pixel IDs, domain wire, Stripe setup, water-report backend, designer product photography.
+**Where we are:** **LIVE IN PRODUCTION at https://www.feelslikeom.shop** (apex 308s to www). Deployed from `main` via the Vercel project `flo-landing` (`prj_A1f7wtFDlIyPxHOYyFRr0AV5A8ql`). Domain is wired. Remaining blockers are user-dependent: **resolve the inflated review stats** (below), Meta + TikTok pixel IDs, the $107.99/WELCOME20 and refill-cadence questions, real Amazon reviews, water-report backend, designer product photography.
 
-**Last sprint shipped (2026-04-29, sprint 4 — paid-LP optimization + plan persistence):**
+**Last sprint shipped (2026-09-10, sprint 5 — SEO/AI-SEO repair + automated QA gate):**
+
+⚠️ **WORKTREE WARNING — read before editing anything.** This repo has three worktrees:
+`flo-landing/` (branch `codex/flo-facelift`), `flo-live-hero-preview/`, and
+`flo-background-deploy/` (branch `codex/flo-background-swap`, tracks `origin/main`).
+**Only `main` is deployed.** `flo-landing/` is the *main checkout* but sits on a branch that
+is BEHIND `origin/main` and carries a large uncommitted redesign that has never shipped.
+Editing "the repo" without checking `git worktree list` + `git rev-list --left-right --count
+origin/main...HEAD` means editing code nobody serves.
+
+1. **Footer 404s fixed** — the global footer linked `/policies/shipping-policy` and
+   `/policies/refund-policy` from every page. Neither route existed on `main`; both returned
+   404 to customers and Googlebot. Created both (`app/policies/`, sharing `_DocumentPage.tsx`)
+   and switched the footer from absolute `<a>` to `<Link>`.
+2. **`aggregateRating` REMOVED from ProductSchema** — it asserted 4.8★/1,400 reviews for
+   B0DHJ74TCC. The live Amazon listing for that ASIN shows **4.2★ / 128 ratings**. See
+   "Inflated stats" below — the same numbers are still in visible copy and llms.txt.
+3. **`/answers`** (new route) — category-education layer: 10 query-shaped H2s with
+   self-contained 40–60 word answers + a shower-filter-vs-softener-vs-whole-house table.
+   Covers 3 of the 4 cornerstone articles that were queued under "Tier 2 — deferred".
+   Deliberately contains **zero marketing statistics** so it stays valid while the numbers
+   below are under review.
+4. **`npm run seo:qa`** (new, `scripts/seo-qa.mjs`) — 24-check gate over canonicals,
+   duplicate titles/descriptions, internal 404s, JSON-LD validity, entity `@id`
+   consolidation, FAQ-schema-vs-visible-content, OG aspect ratio, crawler access, security
+   headers, and llms.txt↔checkout.ts claim drift. Exits non-zero. Run against any origin:
+   `npm run seo:qa -- https://www.feelslikeom.shop`.
+5. **Security headers added** (`next.config.ts`) — production was shipping only HSTS. Now
+   X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy. CSP deliberately NOT added
+   (needs its own tested pass — a bad CSP costs rankings).
+6. **Homepage canonical added** — `/` was the only route without one. Declared in
+   `app/page.tsx`, NOT the layout: a layout-level canonical is inherited by every child that
+   doesn't override `alternates`, which silently deindexes future pages.
+7. **Entity `@id` wiring** — Organization/WebSite/Product now resolve to one entity
+   (`ORG_ID`/`SITE_ID` in `StructuredData.tsx`) instead of N anonymous nodes per page.
+8. **`Nav.tsx` React 19 error fixed** — `setMenuOpen(false)` in a `useEffect` on pathname
+   change; replaced with the adjust-during-render pattern. Was the only lint *error*.
+9. **eslint config repaired** — `FlatCompat` usage threw on every run, so lint had not
+   executed on `main` in months. Ported the working flat config. Lint is now clean.
+10. **H1 extraction fix** — `Pure water<br />for a` extracted as "Pure waterfor"; `<br />`
+    contributes no whitespace to text extraction or the accessibility tree.
+
+### 🔴 Inflated stats — UNRESOLVED, needs Youssef
+
+Verified against the live Amazon listing on 2026-09-10: **ASIN B0DHJ74TCC shows 4.2★ from
+128 ratings at $134.99.** The site claims 4.8★ / 1,400+ reviews / 100,000+ orders in:
+
+| File | Claim |
+|---|---|
+| `components/AnnouncementBar.tsx:32` | "100,000+ orders shipped · 4.8★ average rating" |
+| `app/layout.tsx` (OG + Twitter) | "Trusted by 100,000+ customers", "4.8★ avg rating" |
+| `app/shower/page.tsx` (OG + Twitter) | "4.8★ across 1,400+ reviews", "100K+ orders" |
+| `app/llms.txt/route.ts` (3 places) | headline summary, "Why we win", "Brand" — fed to AI engines |
+| `components/sections/BrandCredibility.tsx` | the 100K / 4.8★ / 5M+ ribbon |
+
+Order count ≠ review count, and sibling ASINs may hold reviews, so brand-wide figures could
+differ — but schema on a sku must match that sku, which is why only the schema was changed.
+**Decide the real numbers and apply them everywhere, or drop the claims.**
+
+Also still open from sprint 4: the `$107.99` + `WELCOME20` auto-apply (reported not firing)
+and the refill cadence — `llms.txt` says every 6 months, the Stripe link inspected 2026-09-10
+bills every 3. Both are financial; neither was touched.
+
+**Previous sprint (2026-04-29, sprint 4 — paid-LP optimization + plan persistence):**
 1. **Reveal motion tuning** (`74f60d0`) — duration `0.8s → 0.45s`, y-shift `24px → 12px`. Affects all 89 Reveal call-sites at once. ~2× snappier with subtler lift; matches premium positioning.
 2. **Plan/color persistence across page** (`58e6a89`) — new `lib/offerStore.ts` (`useSyncExternalStore` module store) holds `{ plan, color }` globally. ShowerHeroV2, StickyATC, and new ShowerInlineCTA all read/write the same state. Fixed silent plan switch on click (StickyATC was always routing to `subscribe/chrome` regardless of hero choice).
 3. **Mid-page inline CTA** (`58e6a89`) — new `components/sections/ShowerInlineCTA.tsx` between Benefits and Honesty. Quick "I'm in" path for buyers convinced by section 6 so they don't scroll through six more social-proof sections to find the next checkout. Dynamic price/href via offerStore + `begin_checkout` analytics tagged `source: "inline_cta"`.
@@ -47,7 +110,7 @@ _Last updated: 2026-04-29 (sprint 4: paid-LP optimization — plan persistence +
 
 **Brand:** Feels Like Om (FLO) — wellness DTC, ~$70K/mo on Amazon. Amazon SKU `B0DHJ74TCC`, retail $139 / $125 with subscribe.
 
-**This repo:** Full Next.js 16 brand site (not just an LP) at `https://flo-landing-six.vercel.app`. Four routes: `/`, `/shower`, `/about`. Bath filter was intentionally killed — single-product focus. See [Commits](https://github.com/Botsmithgo/flo-landing/commits/main) for the history.
+**This repo:** Full Next.js 16 brand site (not just an LP) at `https://www.feelslikeom.shop`. Six routes: `/`, `/shower`, `/answers`, `/about`, `/policies/shipping-policy`, `/policies/refund-policy`. Bath filter was intentionally killed — single-product focus. See [Commits](https://github.com/Botsmithgo/flo-landing/commits/main) for the history.
 
 **Owner:** Youssef (youssef@heydonto.com). He operates in **partner mode** — wants decisions, opinions, and speed. Don't ask "are you sure?" three times. Ship, show, iterate.
 
@@ -289,6 +352,8 @@ NEXT_PUBLIC_TIKTOK_PIXEL_ID=     # TikTok pixel code
 ```
 
 If an ID is missing, that pixel silently doesn't load.
+
+**Status 2026-09-10:** GA4 **is live** (set in Vercel, not in `.env.production.local`). Meta Pixel and TikTok Pixel are **absent from production** — verified by fetching the live HTML. For a brand with 5M+ TikTok views that means no retargeting pool and no paid-social attribution.
 
 **Youssef's task (pending):**
 1. GA4 — analytics.google.com → Create Property → Data Streams → Web → G-ID

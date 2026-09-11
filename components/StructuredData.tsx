@@ -8,6 +8,19 @@
 
 import { SITE_URL } from "@/lib/site";
 
+/**
+ * Stable @id anchors.
+ *
+ * Without these, every page emits an Organization node with no identity, so
+ * Google and the AI crawlers see N separate unnamed companies rather than one
+ * entity that Product, WebSite and Offer all resolve back to. Entity
+ * consolidation is the prerequisite for a knowledge panel, and it is what lets
+ * an AI answer attribute a claim to "Feels Like Om" as a named source rather
+ * than to a loose page.
+ */
+export const ORG_ID = `${SITE_URL}/#organization`;
+export const SITE_ID = `${SITE_URL}/#website`;
+
 type ProductSchemaProps = {
   name: string;
   description: string;
@@ -28,11 +41,15 @@ export function ProductSchema(p: ProductSchemaProps) {
   const data = {
     "@context": "https://schema.org",
     "@type": "Product",
+    "@id": `${SITE_URL}/shower#product`,
+    mainEntityOfPage: `${SITE_URL}/shower`,
+    category: "Shower Filters",
     name: p.name,
     description: p.description,
     image: p.image,
     sku: p.sku,
     brand: { "@type": "Brand", name: p.brand },
+    manufacturer: { "@id": ORG_ID },
     offers: {
       "@type": "Offer",
       price: p.price.toFixed(2),
@@ -41,7 +58,7 @@ export function ProductSchema(p: ProductSchemaProps) {
       availability: "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
       url: `${SITE_URL}/shower`,
-      seller: { "@type": "Organization", name: "Feels Like Om" },
+      seller: { "@id": ORG_ID },
       hasMerchantReturnPolicy: {
         "@type": "MerchantReturnPolicy",
         applicableCountry: "US",
@@ -116,14 +133,11 @@ export function WebSiteSchema() {
   const data = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": SITE_ID,
     url: SITE_URL,
     name: "Feels Like Om",
     alternateName: "FLO",
-    publisher: {
-      "@type": "Organization",
-      name: "Feels Like Om",
-      url: SITE_URL,
-    },
+    publisher: { "@id": ORG_ID },
     inLanguage: "en-US",
   };
   return (
@@ -214,10 +228,11 @@ export function OrganizationSchema() {
   const data = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": ORG_ID,
     name: "Feels Like Om",
     alternateName: "FLO",
     url: SITE_URL,
-    logo: `${SITE_URL}/logo.png`,
+    logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.png` },
     description:
       "A 20-stage filtered shower head that reduces chlorine, heavy metals, and the chemicals that dry your hair and irritate your skin. A small ritual, repeated daily.",
     foundingDate: "2022",
