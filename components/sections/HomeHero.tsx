@@ -23,14 +23,14 @@ export default function HomeHero() {
       className="relative h-screen min-h-[720px] w-full overflow-hidden bg-ink text-bone"
       data-surface="dark"
     >
-      {/* Background image — clean editorial bathroom scene */}
+      {/* Background image — FLO product studio photograph */}
       <motion.div
         style={{ y: imgY }}
         className="absolute inset-0 -z-0"
       >
         <Image
-          src="/product/bathroom-scene.jpg"
-          alt="A quiet luxury bathroom in warm morning light"
+          src="/product/flo-background.webp"
+          alt="Feels Like Om chrome shower head on a warm cream studio background"
           fill
           priority
           className="object-cover object-[35%_center]"
