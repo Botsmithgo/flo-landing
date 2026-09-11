@@ -26,9 +26,20 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
+  /**
+   * Close the mobile menu on navigation.
+   *
+   * This was a `useEffect` that called `setMenuOpen(false)` on every pathname
+   * change, which React 19 flags: a synchronous setState inside an effect makes
+   * the browser paint the open menu on the new route, then immediately repaint
+   * it closed. Adjusting state during render is React's documented fix — the
+   * re-render happens before the browser paints, so the flash cannot occur.
+   */
+  const [menuPath, setMenuPath] = useState(pathname);
+  if (menuPath !== pathname) {
+    setMenuPath(pathname);
     setMenuOpen(false);
-  }, [pathname]);
+  }
 
   return (
     <>

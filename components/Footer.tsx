@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { SITE_URL } from "@/lib/site";
 
 export default function Footer() {
   return (
@@ -29,6 +28,7 @@ export default function Footer() {
               <li><Link href="/shower" className="hover:text-bone transition-colors">Filtered Shower Head</Link></li>
               <li><Link href="/shower#offer" className="hover:text-bone transition-colors">Subscribe &amp; Save</Link></li>
               <li><Link href="/shower#science" className="hover:text-bone transition-colors">How it works</Link></li>
+              <li><Link href="/answers" className="hover:text-bone transition-colors">Answers</Link></li>
             </ul>
           </div>
 
@@ -37,8 +37,8 @@ export default function Footer() {
             <ul className="space-y-2 text-[14px]">
               <li><Link href="/about" className="hover:text-bone transition-colors">Our Story</Link></li>
               <li><a href="mailto:hello@feelslikeom.shop" className="hover:text-bone transition-colors">Contact</a></li>
-              <li><a href={`${SITE_URL}/policies/shipping-policy`} className="hover:text-bone transition-colors">Shipping</a></li>
-              <li><a href={`${SITE_URL}/policies/refund-policy`} className="hover:text-bone transition-colors">Returns</a></li>
+              <li><Link href="/policies/shipping-policy" className="hover:text-bone transition-colors">Shipping</Link></li>
+              <li><Link href="/policies/refund-policy" className="hover:text-bone transition-colors">Returns</Link></li>
               {process.env.NEXT_PUBLIC_BILLING_PORTAL_URL && (
                 <li>
                   <a

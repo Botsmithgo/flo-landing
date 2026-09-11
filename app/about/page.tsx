@@ -6,7 +6,7 @@ import { SITE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Our Story — True beauty starts with clean water",
   description:
-    "Feels Like Om builds filters that quiet the chemistry of your daily water. Our story, our principles, and why water is the most overlooked ingredient in your routine.",
+    "Feels Like Om builds filters that quiet the chemistry of your daily water. Our story, our principles, and why water is the most overlooked ingredient.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "Our Story — Feels Like Om",

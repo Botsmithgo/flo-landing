@@ -29,7 +29,7 @@ const FAQ_FOR_SCHEMA = [
 export const metadata: Metadata = {
   title: "Filtered Shower Head — Softer hair, calmer skin",
   description:
-    "The filtered shower head trusted by 1,400+ verified reviewers. 91% reported less acne and skin irritation in a 4-week customer study. 20-stage filtration. 20% off first order + free shipping.",
+    "The 20-stage filtered shower head from Feels Like Om. Reduces chlorine, fits any standard US shower arm, installs by hand in minutes. 60-day returns.",
   alternates: { canonical: "/shower" },
   openGraph: {
     title: "Filtered Shower Head — Softer hair, calmer skin",
@@ -69,7 +69,20 @@ export default function ShowerPage() {
         sku="B0DHJ74TCC"
         brand="Feels Like Om"
         price={PRODUCTS.shower.subscribePrice}
-        aggregateRating={{ ratingValue: 4.8, reviewCount: 1400 }}
+        /**
+         * aggregateRating REMOVED 2026-09-10.
+         *
+         * This asserted 4.8 stars from 1,400 reviews for sku B0DHJ74TCC. The
+         * public Amazon listing for that exact ASIN shows 4.2 from 128 ratings.
+         * Google requires aggregateRating to reflect genuine review data for
+         * the item it is attached to, and anyone — or any AI engine — can check
+         * the ASIN in one click. Inflated ratings risk losing rich-result
+         * eligibility entirely, which costs more than the stars are worth.
+         *
+         * Other review counts may exist across sibling ASINs, but schema on
+         * this sku has to match this sku. To restore: pull the real figures for
+         * B0DHJ74TCC from Seller Central and pass them here.
+         */
       />
       <FAQSchema questions={FAQ_FOR_SCHEMA} />
       <BreadcrumbSchema

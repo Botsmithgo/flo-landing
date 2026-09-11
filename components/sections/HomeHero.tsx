@@ -20,7 +20,11 @@ export default function HomeHero() {
           A ritual of quieter water
         </p>
         <h1 className={`display ${styles.title}`}>
-          Pure water
+          {/* The trailing space matters: without it every text extractor
+              (Googlebot, GPTBot, screen readers) concatenates the two lines
+              into "Pure waterfor a pure you." — <br /> contributes no
+              whitespace to the accessibility tree or to extracted text. */}
+          Pure water{" "}
           <br />
           for a <span className="display-italic text-deeper">pure you.</span>
         </h1>
