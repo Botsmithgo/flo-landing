@@ -230,7 +230,7 @@ export function OrganizationSchema() {
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer support",
-      email: "hello@feelslikeom.shop",
+      email: "caniprojectllc@gmail.com",
       availableLanguage: ["English"],
     },
     sameAs: [

@@ -1,3 +1,4 @@
+import { SOCIAL_IMAGE } from "@/lib/social";
 import type { Metadata } from "next";
 import ShowerHeroV2 from "@/components/sections/ShowerHeroV2";
 import BrandCredibility from "@/components/sections/BrandCredibility";
@@ -32,26 +33,19 @@ export const metadata: Metadata = {
     "The filtered shower head trusted by 1,400+ verified reviewers. 91% reported less acne and skin irritation in a 4-week customer study. 20-stage filtration. 20% off first order + free shipping.",
   alternates: { canonical: "/shower" },
   openGraph: {
-    title: "Filtered Shower Head — Softer hair, calmer skin",
+    title: "The Filtered Shower Head — Your daily reset.",
     description:
-      "20-stage filtered shower head. Reduces chlorine, heavy metals, and the chemicals that dry hair and irritate skin. 4.8★ across 1,400+ reviews.",
+      "A little more Om in every shower. Discover our 20-stage filtered shower head in polished chrome or matte black.",
     type: "website",
     url: `${SITE_URL}/shower`,
-    images: [
-      {
-        url: "/product/bathroom-with-product.jpg",
-        width: 1376,
-        height: 768,
-        alt: "Filtered shower head in a quiet bathroom — Feels Like Om",
-      },
-    ],
+    images: [SOCIAL_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Filtered Shower Head — Softer hair, calmer skin",
+    title: "The Filtered Shower Head — Your daily reset.",
     description:
-      "20-stage filtered shower head. 100K+ orders, 4.8★ rating, 60-day guarantee.",
-    images: ["/product/bathroom-with-product.jpg"],
+      "A little more Om in every shower. Discover the Feels Like Om filtered shower head.",
+    images: [SOCIAL_IMAGE.url],
   },
 };
 

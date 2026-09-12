@@ -10,6 +10,7 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 const NAV_LINKS = [
   { href: "/shower", label: "The Shower Filter" },
   { href: "/about", label: "Story" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Nav() {

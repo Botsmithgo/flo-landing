@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useState, FormEvent } from "react";
 import { track } from "@/lib/analytics";
 
@@ -12,6 +13,8 @@ const EXIT_INTENT_Y = 10;      // px from top where we trigger on exit
 type State = "form" | "submitting" | "success" | "error";
 
 export default function WaterReportPopup() {
+  const pathname = usePathname();
+  const isContact = pathname === "/contact";
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<State>("form");
   const [email, setEmail] = useState("");
@@ -19,7 +22,7 @@ export default function WaterReportPopup() {
 
   // Open logic — timer + exit-intent, once per browser
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (isContact || typeof window === "undefined") return;
     if (localStorage.getItem(STORAGE_KEY)) return;
 
     const timer = setTimeout(() => setOpen(true), SHOW_AFTER_MS);
@@ -35,7 +38,7 @@ export default function WaterReportPopup() {
       clearTimeout(timer);
       document.removeEventListener("mouseleave", onLeave);
     };
-  }, []);
+  }, [isContact]);
 
   function markSeen() {
     try { localStorage.setItem(STORAGE_KEY, "1"); } catch {}
@@ -76,7 +79,7 @@ export default function WaterReportPopup() {
 
   return (
     <AnimatePresence>
-      {open && (
+      {open && !isContact && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
@@ -44,7 +45,7 @@ export default function ShowerFAQ() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="bg-mist py-32 md:py-44">
+    <section id="faq" className="bg-mist py-32 md:py-44 scroll-mt-28">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-20">
         <div className="lg:col-span-4 lg:sticky lg:top-28 self-start">
           <Reveal>
@@ -59,11 +60,11 @@ export default function ShowerFAQ() {
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-8 text-[15px] text-muted leading-relaxed">
-              Still curious after this? Email{" "}
-              <a href="mailto:hello@feelslikeom.shop" className="text-ink border-b border-ink/30">
-                hello@feelslikeom.shop
-              </a>{" "}
-              — we read every one.
+              Still curious after this? {" "}
+              <Link href="/contact" className="text-ink border-b border-ink/30">
+                Get in touch
+              </Link>{" "}
+              — we’re here to help.
             </p>
           </Reveal>
         </div>

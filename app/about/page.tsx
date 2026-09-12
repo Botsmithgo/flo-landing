@@ -1,3 +1,4 @@
+import { SOCIAL_IMAGE } from "@/lib/social";
 import type { Metadata } from "next";
 import AboutContent from "./AboutContent";
 import { BreadcrumbSchema } from "@/components/StructuredData";
@@ -14,21 +15,14 @@ export const metadata: Metadata = {
       "How a small company came to build a 20-stage filtered shower head. Our principles: claim less, deliver more.",
     type: "website",
     url: `${SITE_URL}/about`,
-    images: [
-      {
-        url: "/product/hero-lifestyle.jpg",
-        width: 1200,
-        height: 800,
-        alt: "Soft water falling in a moody bathroom — Feels Like Om",
-      },
-    ],
+    images: [SOCIAL_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "Our Story — Feels Like Om",
     description:
       "How a small company came to build a 20-stage filtered shower head.",
-    images: ["/product/hero-lifestyle.jpg"],
+    images: [SOCIAL_IMAGE.url],
   },
 };
 

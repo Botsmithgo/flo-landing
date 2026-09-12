@@ -1,3 +1,4 @@
+import { SOCIAL_IMAGE } from "@/lib/social";
 import type { Metadata } from "next";
 import { fraunces, interTight } from "@/lib/fonts";
 import Nav from "@/components/Nav";
@@ -30,27 +31,20 @@ export const metadata: Metadata = {
     "FLO shower filter",
   ],
   openGraph: {
-    title: "Feels Like Om — Cleaner water, softer skin.",
+    title: "Feels Like Om — Your daily reset.",
     description:
-      "A 20-stage filtered shower head. Reduces chlorine, heavy metals, and the chemicals that dry your hair and irritate your skin. Trusted by 100,000+ customers.",
+      "A little more Om in every shower. Discover our 20-stage filtered shower head in polished chrome or matte black.",
     type: "website",
     siteName: "Feels Like Om",
     url: SITE_URL,
-    images: [
-      {
-        url: "/product/bathroom-scene.jpg",
-        width: 1344,
-        height: 768,
-        alt: "A luxury bathroom in warm morning light — Feels Like Om",
-      },
-    ],
+    images: [SOCIAL_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "Feels Like Om",
     description:
-      "Filtered shower head for softer hair and calmer skin. 100K+ orders, 4.8★ avg rating.",
-    images: ["/product/bathroom-scene.jpg"],
+      "A little more Om in every shower. Discover the Feels Like Om filtered shower head.",
+    images: [SOCIAL_IMAGE.url],
   },
 };
 
