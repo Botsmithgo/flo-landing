@@ -27,10 +27,6 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
-
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-40">
@@ -43,7 +39,12 @@ export default function Nav() {
         }`}
       >
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 md:px-10 h-16 md:h-20">
-          <Link href="/" className="flex items-center group" aria-label="Feels Like Om — Home">
+          <Link
+            href="/"
+            className="flex items-center group"
+            aria-label="Feels Like Om — Home"
+            onClick={() => setMenuOpen(false)}
+          >
             <Image
               src="/logo.png"
               alt="Feels Like Om"
@@ -84,7 +85,9 @@ export default function Nav() {
               Shop
             </Link>
             <button
-              aria-label="Menu"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
               onClick={() => setMenuOpen((v) => !v)}
               className="md:hidden flex flex-col gap-[5px] w-8 h-8 items-center justify-center"
             >
@@ -99,6 +102,7 @@ export default function Nav() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -115,6 +119,7 @@ export default function Nav() {
                 >
                   <Link
                     href={link.href}
+                    onClick={() => setMenuOpen(false)}
                     className="display text-4xl text-ink"
                   >
                     {link.label}
@@ -127,7 +132,11 @@ export default function Nav() {
                 transition={{ duration: 0.5, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="pt-8"
               >
-                <Link href="/shower#offer" className="btn-primary">
+                <Link
+                  href="/shower#offer"
+                  className="btn-primary"
+                  onClick={() => setMenuOpen(false)}
+                >
                   Shop Now
                 </Link>
               </motion.div>

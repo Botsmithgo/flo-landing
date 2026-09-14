@@ -10,7 +10,9 @@ export type OfferState = {
   color: Color;
 };
 
-const DEFAULTS: OfferState = { plan: "subscribe", color: "chrome" };
+// Cold paid-social visitors should never be placed into a recurring plan by
+// default. Subscription remains prominent, but requires an explicit choice.
+const DEFAULTS: OfferState = { plan: "single", color: "chrome" };
 
 let state: OfferState = DEFAULTS;
 const listeners = new Set<() => void>();

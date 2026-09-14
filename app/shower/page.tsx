@@ -23,14 +23,14 @@ const FAQ_FOR_SCHEMA = [
   { q: "How often do I replace the filter?", a: "Every six months, or 12,000 gallons, whichever comes first. Subscribers get replacements auto-shipped." },
   { q: "Will this lower my water pressure?", a: "No. The 20-stage filter is designed with a wide flow path so you get full-pressure showers." },
   { q: "Does it remove chloramine?", a: "Chloramine is harder to reduce than free chlorine — it's more stable in water. Our 20-stage stack reduces some chloramine, but expect partial reduction rather than complete removal, especially if you live in a chloramine-heavy city (parts of CA, Denver, DC, Philly)." },
-  { q: "Will it soften my hard water?", a: "A shower-head filter can't do true softening (that requires whole-home ion exchange). What it does is take out the chlorine edge that dries your hair and irritates skin." },
+  { q: "How does it help with hard water?", a: "The multi-stage cartridge combines filtration and water-conditioning media designed to help with chlorine, mineral buildup, and the drying effects associated with hard water. Results vary with local water chemistry and flow; homes with extreme hardness may still benefit from whole-home treatment." },
   { q: "Return policy?", a: "60 days, full refund. If the water isn't better than what you had, we don't want your money." },
 ];
 
 export const metadata: Metadata = {
   title: "Filtered Shower Head — Softer hair, calmer skin",
   description:
-    "The filtered shower head trusted by 1,400+ verified reviewers. 91% reported less acne and skin irritation in a 4-week customer study. 20-stage filtration. 20% off first order + free shipping.",
+    "The filtered shower head trusted by 1,400+ verified reviewers. 91% reported less acne and skin irritation in a 4-week customer study. 20-stage filtration. First order $80 for new customers.",
   alternates: { canonical: "/shower" },
   openGraph: {
     title: "The Filtered Shower Head — Your daily reset.",

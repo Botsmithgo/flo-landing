@@ -108,3 +108,33 @@ export function CreditCardIcon({ className = "", monochrome = false }: IconProps
     </svg>
   );
 }
+
+export function KlarnaIcon({ className = "", monochrome = false }: IconProps) {
+  return (
+    <svg viewBox="0 0 68 24" className={className} aria-label="Klarna" role="img">
+      <rect width="68" height="24" rx="4" fill={monochrome ? "currentColor" : "#FFB3C7"} />
+      <text
+        x="34"
+        y="16.5"
+        textAnchor="middle"
+        fontFamily="Arial, sans-serif"
+        fontWeight="700"
+        fontSize="12"
+        fill={monochrome ? "var(--bone)" : "#111"}
+      >
+        Klarna.
+      </text>
+    </svg>
+  );
+}
+
+export function AmazonPayIcon({ className = "", monochrome = false }: IconProps) {
+  const color = monochrome ? "currentColor" : "#232F3E";
+  return (
+    <svg viewBox="0 0 86 24" className={className} aria-label="Amazon Pay" role="img" fill={color}>
+      <text x="2" y="15" fontFamily="Arial, sans-serif" fontWeight="700" fontSize="12">amazon pay</text>
+      <path d="M24 18.2c10 4.1 22 3.3 31.2-.5" fill="none" stroke={monochrome ? "currentColor" : "#FF9900"} strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M52.8 16.5l3.8.2-1.2 3.4" fill="none" stroke={monochrome ? "currentColor" : "#FF9900"} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}

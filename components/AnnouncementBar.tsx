@@ -37,7 +37,7 @@ const MESSAGES: Message[] = [
     ),
   },
   {
-    text: "20% off your first filter — automatic at checkout",
+    text: "$80 first order — save $54.99 automatically at checkout",
     icon: (
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 11 V7 a2 2 0 0 0 -2 -2 H5 a2 2 0 0 0 -2 2 v4 a3 3 0 0 1 0 6 v4 a2 2 0 0 0 2 2 h14 a2 2 0 0 0 2 -2 v-4 a3 3 0 0 1 0 -6z" />

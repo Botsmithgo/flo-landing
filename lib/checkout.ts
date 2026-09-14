@@ -45,9 +45,10 @@ export function buildCheckoutUrl(opts: CheckoutOptions): string {
   const mode = process.env.NEXT_PUBLIC_CHECKOUT_MODE ?? "amazon";
 
   // STRIPE: direct to Payment Link for the selected variant.
-  // For "single" (one-time) plan, auto-apply WELCOME20 first-order coupon
-  // so the buyer sees $107.99 at checkout (20% off $134.99). Subscribe
-  // already gets a deeper discount built into the Payment Link price.
+  // For "single" (one-time) plan, auto-apply the first-order promotion code
+  // so a new customer sees the advertised $80 total at checkout. Keep the
+  // promotion at a fixed $54.99 off; Payment Link guest checkout cannot by
+  // itself strictly enforce first-time-customer eligibility across purchases.
   if (mode === "stripe" && opts.variant) {
     const link = stripeLinkFor(opts.variant);
     if (link) {
@@ -95,10 +96,13 @@ export function getCheckoutMode(): "stripe" | "shopify" | "amazon" {
 export const PRODUCTS = {
   shower: {
     name: "Filtered Shower Head",
-    price: 107.99,
+    price: 80,
     subscribePrice: 80,
     msrp: 134.99,
-    firstOrderDiscount: 20,
+    firstOrderDiscount: 40,
+    firstOrderSavings: 54.99,
+    refillPrice: 39,
+    refillCadenceMonths: 6,
     filterLife: "6 months · 12,000 gallons",
     variants: {
       single: process.env.NEXT_PUBLIC_SHOPIFY_VARIANT_SHOWER_SINGLE ?? "",

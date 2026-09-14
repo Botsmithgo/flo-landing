@@ -1,8 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { SITE_URL } from "@/lib/site";
 
 export default function Footer() {
+  const billingPortalUrl = process.env.NEXT_PUBLIC_BILLING_PORTAL_URL;
+  const liveBillingPortalUrl =
+    billingPortalUrl && !billingPortalUrl.includes("/test_") && !billingPortalUrl.toLowerCase().includes("sandbox")
+      ? billingPortalUrl
+      : null;
+
   return (
     <footer className="bg-ink text-bone/80 relative" data-surface="dark">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10 pt-24 pb-10">
@@ -37,12 +42,14 @@ export default function Footer() {
             <ul className="space-y-2 text-[14px]">
               <li><Link href="/about" className="hover:text-bone transition-colors">Our Story</Link></li>
               <li><Link href="/contact" className="hover:text-bone transition-colors">Contact</Link></li>
-              <li><a href={`${SITE_URL}/policies/shipping-policy`} className="hover:text-bone transition-colors">Shipping</a></li>
-              <li><a href={`${SITE_URL}/policies/refund-policy`} className="hover:text-bone transition-colors">Returns</a></li>
-              {process.env.NEXT_PUBLIC_BILLING_PORTAL_URL && (
+              <li><Link href="/policies/shipping-policy" className="hover:text-bone transition-colors">Shipping</Link></li>
+              <li><Link href="/policies/refund-policy" className="hover:text-bone transition-colors">Returns</Link></li>
+              <li><Link href="/policies/privacy-policy" className="hover:text-bone transition-colors">Privacy</Link></li>
+              <li><Link href="/policies/terms-of-service" className="hover:text-bone transition-colors">Terms</Link></li>
+              {liveBillingPortalUrl && (
                 <li>
                   <a
-                    href={process.env.NEXT_PUBLIC_BILLING_PORTAL_URL}
+                    href={liveBillingPortalUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-bone transition-colors"

@@ -3,25 +3,25 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
-import { buildCheckoutUrl } from "@/lib/checkout";
+import { buildCheckoutUrl, PRODUCTS } from "@/lib/checkout";
 import { track } from "@/lib/analytics";
 import { useOffer, setOffer, type Plan, type Color } from "@/lib/offerStore";
-import { ApplePayIcon, GooglePayIcon, PayPalIcon, CreditCardIcon } from "@/components/icons/PaymentIcons";
+import { AmazonPayIcon, ApplePayIcon, CreditCardIcon, GooglePayIcon, KlarnaIcon, PayPalIcon } from "@/components/icons/PaymentIcons";
 
 const PLANS: Record<Plan, { label: string; price: number; original: number | null; line: string; badge?: string }> = {
   subscribe: {
     label: "Subscribe & Save",
-    price: 80,
-    original: 134.99,
-    line: "Filter ships every 6 months · Free shipping · Skip anytime",
-    badge: "Most popular",
+    price: PRODUCTS.shower.subscribePrice,
+    original: PRODUCTS.shower.msrp,
+    line: `$80 today · $${PRODUCTS.shower.refillPrice} every ${PRODUCTS.shower.refillCadenceMonths} months · Skip anytime`,
+    badge: "Auto-refill",
   },
   single: {
-    // First-order 20% off auto-applies via WELCOME20 coupon at Stripe checkout
-    label: "One-time",
-    price: 107.99,
-    original: 134.99,
-    line: "First order: 20% off automatic · 60-day returns",
+    label: "First order",
+    price: PRODUCTS.shower.price,
+    original: PRODUCTS.shower.msrp,
+    line: "$80 for eligible new customers · No subscription · 60-day returns",
+    badge: "Best for first-time buyers",
   },
 };
 
@@ -205,8 +205,9 @@ export default function ShowerHeroV2() {
 
           <p className="mt-5 text-[14px] md:text-[15px] leading-relaxed text-muted max-w-lg">
             A 20-stage filter — <span className="text-ink">KDF-55, calcium sulfite,
-            activated carbon</span> — that reduces chlorine, heavy metals, and the
-            chemicals customers say were drying their hair and clouding their skin.
+            activated carbon, and water-conditioning media</span> — designed to reduce
+            chlorine, heavy metals, mineral buildup, and the drying effects associated
+            with hard water.
             In a 4-week customer study, <span className="text-ink">91% reported
             less acne and skin irritation</span>. Three-minute install. 60-day money-back.
           </p>
@@ -324,15 +325,24 @@ export default function ShowerHeroV2() {
 
           {/* Accepted payment methods — trust signal, not buttons. Inline logos, no
               borders (borders previously implied clickability + clipped wider PayPal SVG). */}
-          <div className="mt-3 flex items-center justify-center gap-3 text-[10.5px] text-muted">
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-3 text-[10.5px] text-muted">
             <span className="tracking-widest uppercase">Pay with</span>
-            <span className="flex items-center gap-3 opacity-70">
+            <span className="flex flex-wrap items-center justify-center gap-3 opacity-75">
               <ApplePayIcon className="h-4 w-auto" monochrome />
               <GooglePayIcon className="h-4 w-auto" />
               <PayPalIcon className="h-4 w-auto" />
+              <KlarnaIcon className="h-5 w-auto" />
+              <AmazonPayIcon className="h-5 w-auto" />
               <CreditCardIcon className="h-4 w-auto" />
             </span>
           </div>
+          <p className="mt-3 text-center text-[11px] leading-relaxed text-muted">
+            Email is collected securely at checkout for your receipt and order updates. No account required.{" "}
+            <a href="/policies/terms-of-service" className="underline underline-offset-2 hover:text-ink">
+              Offer terms
+            </a>
+            .
+          </p>
 
           {/* Trust strip */}
           <div className="mt-6 pt-5 border-t border-ink/10 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10.5px] tracking-wider uppercase text-muted">

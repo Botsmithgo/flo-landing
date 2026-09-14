@@ -2,9 +2,9 @@ import Reveal from "@/components/Reveal";
 
 const TRUTHS = [
   {
-    n: "No.",
-    title: "It won't soften hard water.",
-    body: "True softening requires whole-home ion exchange. A shower head can't fake it. What it can do — take the chlorine edge off — leaves water feeling softer. Not the same thing, and we won't pretend it is.",
+    n: "Yes.",
+    title: "It is built for hard-water showers.",
+    body: "The cartridge includes filtration and water-conditioning stages designed to help with chlorine, mineral buildup, and the drying effects associated with hard water. Results vary by local water chemistry; extreme hardness may still call for whole-home treatment.",
   },
   {
     n: "No.",
@@ -25,20 +25,20 @@ export default function ShowerHonesty() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16">
           <div className="lg:col-span-5">
             <Reveal>
-              <p className="overline text-bone/60 mb-6">Radical honesty</p>
+              <p className="overline text-bone/60 mb-6">Clear expectations</p>
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="display text-[10vw] md:text-[5vw] leading-[0.98]">
-                What this
+                What it does.
                 <br />
-                <span className="display-italic text-sage">won&apos;t do.</span>
+                <span className="display-italic text-sage">What it doesn&apos;t.</span>
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mt-8 text-[15px] md:text-[16px] leading-relaxed text-bone/70 max-w-md">
-                Most wellness brands oversell. We&apos;d rather undersell and
-                overdeliver. Here&apos;s what our filter <em className="display-italic">can&apos;t</em> do
-                — so you can decide honestly whether it&apos;s right for you.
+                Most wellness brands oversell. We&apos;d rather explain exactly where
+                the filter helps, where results vary, and where another kind of
+                treatment may be a better fit.
               </p>
             </Reveal>
           </div>

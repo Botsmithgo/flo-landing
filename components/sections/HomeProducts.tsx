@@ -62,14 +62,14 @@ export default function HomeProducts() {
                 <span className="display text-[44px] text-ink leading-none">${PRODUCTS.shower.subscribePrice}</span>
                 <span className="text-muted line-through text-lg">${PRODUCTS.shower.msrp}</span>
               </div>
-              <p className="mt-2 overline text-deep">subscribe &amp; save</p>
+              <p className="mt-2 overline text-deep">first order · new customers</p>
             </div>
           </Reveal>
 
           <Reveal delay={0.4}>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link href="/shower#offer" className="btn-primary">
-                Shop now — 20% off
+                Shop now — first order $80
                 <span aria-hidden>→</span>
               </Link>
               <Link href="/shower" className="btn-secondary">

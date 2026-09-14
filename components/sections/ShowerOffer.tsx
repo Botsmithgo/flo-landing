@@ -24,13 +24,13 @@ type PlanOption = {
 const PLANS: PlanOption[] = [
   {
     id: "subscribe",
-    badge: "Most popular",
+    badge: "Auto-refill",
     title: "Subscribe & save",
-    price: 80,
-    original: 134.99,
-    line: "Replacement filter every 6 months. Free shipping. 20% off first order.",
+    price: PRODUCTS.shower.subscribePrice,
+    original: PRODUCTS.shower.msrp,
+    line: "$80 today. Replacement filter every 6 months. Free shipping.",
     bullets: [
-      "First order: 20% off with code WELCOME20",
+      "First order: $80 for eligible new customers",
       "Free shipping on every order",
       "Replacement filters auto-ship every 6 months",
       "Skip, pause, or cancel anytime",
@@ -38,10 +38,11 @@ const PLANS: PlanOption[] = [
   },
   {
     id: "single",
-    title: "One-time purchase",
-    price: 107.99,
-    original: 134.99,
-    line: "Just the shower head. No commitments. Replacement filters sold separately.",
+    badge: "Best for first-time buyers",
+    title: "First order",
+    price: PRODUCTS.shower.price,
+    original: PRODUCTS.shower.msrp,
+    line: "$80 for eligible new customers. No subscription. 60-day returns.",
     bullets: [
       "Free shipping on orders over $49",
       "60-day money-back guarantee",

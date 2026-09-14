@@ -32,14 +32,15 @@ export default function HomeCTA() {
         </Reveal>
         <Reveal delay={0.2}>
           <p className="mt-10 text-[16px] md:text-[18px] leading-relaxed text-bone/70 max-w-xl mx-auto">
-            Free shipping with subscription. First filter is 20% off.
+            Your first order is $80. Subscribe for automatic six-month refills,
+            or buy once. You choose.
             Swap in under 90 seconds. You can feel it in a week.
           </p>
         </Reveal>
         <Reveal delay={0.3}>
           <div className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/shower#offer" className="btn-primary !bg-bone !text-ink hover:!bg-sage hover:!text-ink">
-              Shop now — 20% off first order
+              Shop now — first order $80
             </Link>
             <Link href="/about" className="btn-secondary text-bone">
               Our story →

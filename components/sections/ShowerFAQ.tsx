@@ -24,12 +24,12 @@ const FAQ = [
     a: "Chloramine is harder to reduce than free chlorine — it's more stable in water and doesn't off-gas. Our 20-stage stack reduces some chloramine, but expect partial reduction rather than complete removal, especially if you live in a chloramine-heavy city (parts of CA, Denver, DC, Philly).",
   },
   {
-    q: "Will it soften my hard water?",
-    a: "Honestly, no. A shower-head filter physically can't do true softening — that requires whole-home ion exchange. What it will do is take out the chlorine edge that dries your hair and irritates skin. Most people describe the water as feeling softer, even though the minerals haven't changed.",
+    q: "How does it help with hard water?",
+    a: "The cartridge combines filtration and water-conditioning stages designed to help reduce chlorine, mineral buildup, and the drying effects associated with hard water. Many customers describe the water as feeling softer. Results vary with local water chemistry and flow; homes with extreme hardness may still benefit from whole-home treatment.",
   },
   {
     q: "What's the subscription like?",
-    a: "Your first order ($80) includes the shower head and first filter. After that, a new filter ships every 6 months for $39 with free shipping. Skip, pause, swap cadence, or cancel anytime from your account — no hoops, no phone tree.",
+    a: "Your first order ($80) includes the shower head and first filter. After that, a new filter ships every 6 months for $39 with free shipping. Skip, pause, change cadence, or cancel before the next renewal by contacting us from the email used at checkout.",
   },
   {
     q: "Return policy?",

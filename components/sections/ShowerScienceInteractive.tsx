@@ -43,19 +43,20 @@ export default function ShowerScienceInteractive() {
                 <p>
                   So we built our own stack — twenty stages of media for hot,
                   high-flow, short-contact water. KDF-55 and calcium sulfite
-                  carry most of the chlorine reduction. Activated carbon and
-                  zeolite polish the rest. Mineral stones add a softer-feeling
-                  finish.
+                  carry most of the chlorine reduction. Activated carbon,
+                  zeolite, and mineral-conditioning stages help with odor,
+                  sediment, and the buildup associated with hard-water showers.
                 </p>
               </div>
             </Reveal>
             <Reveal delay={0.3}>
               <div className="mt-10 rounded-sm bg-bone/50 border border-ink/10 p-5 md:p-6 max-w-xl">
-                <p className="overline text-deep mb-3">What it won&apos;t do</p>
+                <p className="overline text-deep mb-3">Built for hard-water showers</p>
                 <p className="text-[13px] md:text-[14px] leading-relaxed text-ink/80">
-                  A shower-head filter can&apos;t soften hard water — that
-                  requires whole-home ion exchange. What it <em className="italic">can</em> do
-                  is take the chlorine edge off, leaving water that <em className="italic">feels</em> softer.
+                  The cartridge combines filtration and water-conditioning media
+                  designed to help reduce chlorine, mineral buildup, and the drying
+                  effects associated with hard water. Results vary with local water
+                  chemistry and flow; extreme hardness may still call for whole-home treatment.
                 </p>
               </div>
             </Reveal>

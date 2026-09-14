@@ -19,10 +19,13 @@ export default function WaterReportPopup() {
   const [state, setState] = useState<State>("form");
   const [email, setEmail] = useState("");
   const [zip, setZip] = useState("");
+  const [marketingConsent, setMarketingConsent] = useState(false);
+  const endpoint = process.env.NEXT_PUBLIC_WATER_REPORT_ENDPOINT;
+  const leadCaptureEnabled = Boolean(endpoint);
 
   // Open logic — timer + exit-intent, once per browser
   useEffect(() => {
-    if (isContact || typeof window === "undefined") return;
+    if (isContact || !leadCaptureEnabled || typeof window === "undefined") return;
     if (localStorage.getItem(STORAGE_KEY)) return;
 
     const timer = setTimeout(() => setOpen(true), SHOW_AFTER_MS);
@@ -38,7 +41,7 @@ export default function WaterReportPopup() {
       clearTimeout(timer);
       document.removeEventListener("mouseleave", onLeave);
     };
-  }, [isContact]);
+  }, [isContact, leadCaptureEnabled]);
 
   function markSeen() {
     try { localStorage.setItem(STORAGE_KEY, "1"); } catch {}
@@ -55,23 +58,17 @@ export default function WaterReportPopup() {
     if (!email || !/^\d{5}$/.test(zip)) return;
     setState("submitting");
 
-    const endpoint = process.env.NEXT_PUBLIC_WATER_REPORT_ENDPOINT;
     try {
-      if (endpoint) {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify({ email, zip, source: "flo_water_report_popup" }),
-        });
-        if (!res.ok) throw new Error("submit failed");
-      }
-      // If no endpoint set, we still succeed-state the user and Youssef captures from server logs later.
+      if (!endpoint) throw new Error("lead capture is not configured");
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ email, zip, marketingConsent, source: "flo_water_report_popup" }),
+      });
+      if (!res.ok) throw new Error("submit failed");
       setState("success");
       markSeen();
-      track("water_report_lead", {
-        email_domain: email.split("@")[1],
-        zip,
-      });
+      track("water_report_lead", { source: "water_report_popup", marketing_consent: marketingConsent });
     } catch {
       setState("error");
     }
@@ -79,7 +76,7 @@ export default function WaterReportPopup() {
 
   return (
     <AnimatePresence>
-      {open && !isContact && (
+      {open && !isContact && leadCaptureEnabled && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -151,6 +148,15 @@ export default function WaterReportPopup() {
                         className="w-full px-4 py-3 rounded-sm bg-mist/60 border border-ink/15 text-[14px] placeholder:text-muted focus:outline-none focus:border-deep focus:ring-1 focus:ring-deep transition-colors"
                       />
                     </label>
+                    <label className="flex items-start gap-3 text-[11px] leading-relaxed text-muted cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={marketingConsent}
+                        onChange={(e) => setMarketingConsent(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 rounded border-ink/20 accent-[var(--deep)]"
+                      />
+                      <span>Email me occasional product tips and offers. Optional; unsubscribe anytime.</span>
+                    </label>
                     <label className="block">
                       <span className="sr-only">ZIP code</span>
                       <input
@@ -174,7 +180,7 @@ export default function WaterReportPopup() {
                   </form>
 
                   <p className="mt-5 text-[11px] text-muted leading-relaxed">
-                    Plus <span className="text-deep">20% off your first filter</span>.
+                    Plus <span className="text-deep">your first order for $80</span>.
                     No spam. Unsubscribe anytime.
                   </p>
                 </>
@@ -198,7 +204,7 @@ function SuccessState() {
       <h2 className="display text-3xl text-ink mb-3">Your report is on its way.</h2>
       <p className="text-[14px] leading-relaxed text-muted max-w-sm">
         Check your inbox in the next 24 hours — we&apos;ll send the EPA breakdown
-        for your zip, plus your <span className="text-deep">20% off code</span> for the shower filter.
+        for your zip, plus your <span className="text-deep">$80 first-order offer</span> for the shower filter.
       </p>
     </div>
   );
