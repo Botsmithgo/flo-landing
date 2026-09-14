@@ -1,3 +1,4 @@
+import HomeBenefits from "@/components/sections/HomeBenefits";
 import HomeHero from "@/components/sections/HomeHero";
 import HomePromise from "@/components/sections/HomePromise";
 import HomeProducts from "@/components/sections/HomeProducts";
@@ -9,6 +10,7 @@ export default function HomePage() {
   return (
     <>
       <HomeHero />
+      <HomeBenefits />
       <HomePromise />
       <HomeProducts />
       <HomeFounder />

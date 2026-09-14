@@ -20,7 +20,7 @@ const PROMISE = [
 
 export default function HomePromise() {
   return (
-    <section className="bg-bone py-32 md:py-44">
+    <section className="bg-bone pt-20 pb-32 md:pt-28 md:pb-44">
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
         <Reveal>
           <p className="overline text-muted mb-6">The promise</p>
