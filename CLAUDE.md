@@ -1,3 +1,10 @@
+# Latest production update — September 14, 2026
+Storefront conversion release `3f84f4b` is live at https://www.feelslikeom.shop. The site now presents an $80 eligible first order, defaults cold traffic to one-time purchase, explains the six-month refill subscription, keeps account creation optional, includes mobile checkout, payment trust marks, policy pages, a confirmation page, and hard-water expectation copy. `/shower` now flows from customer study/before-and-after proof directly into 20-stage filtration, then water context. See `.research/storefront-audit-2026-09-14/implementation.md`.
+
+**Immediate checkout blocker:** production still pre-fills Stripe code `WELCOME20`; the live Stripe links and subscription cadence must be updated before paid traffic is sent to the website. Configure a fixed $54.99 discount for an exact $80 total, six-month refill billing, Feels Like Om branding, live portal, success redirect, and purchase attribution. Contact form inbox activation also remains pending.
+
+---
+
 # FLO Landing — Project Context for Claude Code
 
 _Last updated: 2026-04-29 (sprint 4: paid-LP optimization — plan persistence + section cuts). Read this first whenever you open this project._

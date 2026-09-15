@@ -1,5 +1,11 @@
 # Storefront implementation — 2026-09-14
 
+## Production release
+
+Deployed to `main` through commits `1f58cf5` and `3f84f4b` on September 14, 2026. The public site at `https://www.feelslikeom.shop` was verified after rollout: homepage, `/shower`, `/order-confirmed`, and all four policy routes return successfully. The live accessibility tree confirms the requested `/shower` order: customer study and before/after proof, 20-stage filtration, then water context.
+
+The release publishes the storefront presentation and trust fixes. Paid website traffic remains blocked until Stripe is aligned: the live CTA still pre-fills `WELCOME20`, so Stripe does not yet match the advertised exact $80 first-order total or the six-month subscription terms.
+
 ## Product decision
 
 - Send paid traffic to `/shower`, not the homepage. The product page carries the ad promise directly into price, proof, objections, and checkout.

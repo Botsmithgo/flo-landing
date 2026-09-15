@@ -30,3 +30,6 @@ User was asked asynchronously to activate that email. Do not call this delivered
 
 ## Rollback
 Revert only the social/contact commit and push. Previous assets remain in public/product. The separate SEO commit is not included. The CONTACT_FORM_ENABLED environment flag can disable direct submission in the next build while retaining the working email-draft fallback.
+
+## Production rollout
+Commit 68b8e29 deployed successfully on September 12, 2026 at approximately 11:00 AM PST/PDT local time. Vercel deployment https://flo-landing-pfev4638u-botsmithgos-projects.vercel.app is Ready and aliased to www.feelslikeom.shop. Verified live /contact in browser, all four sharing metadata sets with a crawler user-agent, the exact PNG bytes, and sitemap inclusion. Mobile Lighthouse: accessibility 100, best practices 100, local unthrottled performance 100 (not a production CWV claim). No inbox activation confirmation received yet; direct sending stays disabled and email-draft fallback is live.
