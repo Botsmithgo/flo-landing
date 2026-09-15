@@ -83,11 +83,11 @@ export default function ShowerPage() {
       {/* 2. RESULTS — consolidated panel: comparison image + 4-week study stats */}
       <ShowerResults />
 
-      {/* 3. PROBLEM — research-backed agitation (EPA, CDC, EWG framed) */}
-      <ShowerProblem />
-
-      {/* 4. SCIENCE — interactive exploded filter with hover glossary */}
+      {/* 3. SCIENCE — explain the technology immediately after customer results */}
       <ShowerScienceInteractive />
+
+      {/* 4. PROBLEM — research-backed context (EPA, CDC, EWG framed) */}
+      <ShowerProblem />
 
       {/* 5. BENEFITS — six tangible shifts */}
       <ShowerBenefits />
