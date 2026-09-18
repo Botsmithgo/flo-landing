@@ -14,6 +14,20 @@ import { Mono, Odometer } from './Typography';
  *
  * The line is drawn with straight segments, not a smoothed spline — real price
  * history is angular, and a suspiciously smooth curve reads as decoration.
+ *
+ * ── On the shape of this particular line ─────────────────────────────────────
+ * An earlier version of this beat plotted a tidy twenty-point curve that rose
+ * from left to right. It looked better. It was also invented, and it argued the
+ * opposite of what MAZI exists to say.
+ *
+ * The real rung has four verified sales: $63, $58, $186, $85. That is a spike,
+ * not a rise, and the spike IS the pitch — the same card at the same grade
+ * traded at three times the price inside six weeks, which is exactly why a
+ * single "what it's worth" number is a lie and a *range* is the product. So the
+ * density that used to come from fake points now comes from real furniture:
+ * the Estimated Market Range drawn as a band behind the line, and each real
+ * sale marked and priced. Four points, richly presented, rather than twenty
+ * points that never happened.
  */
 
 type GraphProps = {
@@ -25,6 +39,12 @@ type GraphProps = {
   progress?: number;
   series?: readonly number[];
   color?: string;
+  /** Estimated Market Range as [low, high], normalised 0–1 like `series`. */
+  band?: readonly [number, number];
+  /** Real prices for each point, drawn at the markers once the line passes. */
+  labels?: readonly number[];
+  /** Top of the value axis, for the band's own labels. */
+  axisMax?: number;
 };
 
 export const MarketGraph: React.FC<GraphProps> = ({
@@ -35,6 +55,9 @@ export const MarketGraph: React.FC<GraphProps> = ({
   progress,
   series = MARKET.series,
   color = C.trust,
+  band,
+  labels,
+  axisMax = 200,
 }) => {
   const p = progress ?? ramp(frame, start, 34, E.glide);
   const pad = height * 0.1;
@@ -76,6 +99,49 @@ export const MarketGraph: React.FC<GraphProps> = ({
         </clipPath>
       </defs>
 
+      {/*
+        The Estimated Market Range, behind everything.
+
+        This is the product's actual answer to "what is it worth" — a band, not
+        a number — so it belongs in the picture rather than only in the readout.
+        It also does the compositional job the fake twenty-point curve used to
+        do: it gives the plot area something to be, so four points read as a
+        measurement against a range instead of as a sparse line.
+      */}
+      {band ? (
+        <g opacity={ramp(frame, start + 2, 20, E.out)}>
+          <rect
+            x={0}
+            y={pad + (1 - band[1]) * innerH}
+            width={width}
+            height={Math.max(1, (band[1] - band[0]) * innerH)}
+            fill={alpha(color, 0.09)}
+          />
+          {[band[0], band[1]].map((b, i) => (
+            <line
+              key={i}
+              x1={0}
+              y1={pad + (1 - b) * innerH}
+              x2={width}
+              y2={pad + (1 - b) * innerH}
+              stroke={alpha(color, 0.34)}
+              strokeWidth={1}
+              strokeDasharray="5 5"
+            />
+          ))}
+          <text
+            x={4}
+            y={pad + (1 - band[1]) * innerH - 6}
+            fill={alpha(color, 0.72)}
+            fontFamily={FONT.mono}
+            fontSize={Math.max(8, height * 0.075)}
+            letterSpacing={1.4}
+          >
+            {`RANGE $${(band[0] * axisMax).toFixed(2)}–$${(band[1] * axisMax).toFixed(2)}`}
+          </text>
+        </g>
+      ) : null}
+
       {/* Reference hairlines — three, unlabelled except the top. */}
       {[0.12, 0.5, 0.88].map((t, i) => (
         <line
@@ -114,6 +180,39 @@ export const MarketGraph: React.FC<GraphProps> = ({
           />
         ))}
       </g>
+
+      {/* Each verified sale, marked and priced. Every one of these is a row. */}
+      {labels
+        ? pts.map((pt, i) => {
+            const shown = p > (i / (series.length - 1)) * 0.98 + 0.01;
+            if (!shown) return null;
+            const a = ramp(frame, start + 6 + i * 4, 12, E.out);
+            return (
+              <g key={i} opacity={a}>
+                <circle cx={pt.x} cy={pt.y} r={2.6} fill={C.trustIce} />
+                <circle
+                  cx={pt.x}
+                  cy={pt.y}
+                  r={6}
+                  fill="none"
+                  stroke={alpha(color, 0.45)}
+                  strokeWidth={1}
+                />
+                <text
+                  x={pt.x}
+                  y={pt.y - 12}
+                  textAnchor={i === 0 ? 'start' : i === pts.length - 1 ? 'end' : 'middle'}
+                  fill={alpha(C.bone, 0.82)}
+                  fontFamily={FONT.mono}
+                  fontSize={Math.max(8, height * 0.08)}
+                  letterSpacing={0.6}
+                >
+                  {`$${labels[i]}`}
+                </text>
+              </g>
+            );
+          })
+        : null}
 
       {/* Drawing head */}
       {p > 0.02 && p < 0.995 ? (

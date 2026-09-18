@@ -62,6 +62,25 @@ export const C = {
   // ── Semantic ─────────────────────────────────────────────────────────────
   positive: '#46C878',
   negative: '#E5624F',
+
+  // ── The subject ──────────────────────────────────────────────────────────
+  /**
+   * These belong to the CARD, not to MAZI.
+   *
+   * The film's palette rule is green/blue/gold, and the card breaks it on
+   * purpose. A 1990 Chicago basketball card that isn't red doesn't read as
+   * what it is, and the whole point of the hero is that a viewer recognises it
+   * in half a second. Treating the card as a physical object with its own
+   * colours — lit by the system's light, not painted in the system's palette —
+   * is also just how it works: the chrome around it (grade chip, MAZIFIED
+   * seal, scan graphics) stays brand-coloured, so the card pops against them
+   * instead of dissolving into them.
+   *
+   * Nothing here is used anywhere except inside CardFace.
+   */
+  cardRed: '#CE1141',
+  cardRedDeep: '#7A0A27',
+  cardBlack: '#141416',
 } as const;
 
 /** rgba() from a hex token without hand-writing channels at call sites. */

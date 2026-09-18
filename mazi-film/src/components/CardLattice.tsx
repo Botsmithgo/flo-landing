@@ -126,6 +126,10 @@ export const CardLattice: React.FC<Props> = ({
               }deg) scaleY(${1 + smear / 52})`,
               opacity: o,
               filter: blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : undefined,
+              // Composite as a texture; re-rasterising hairlines per frame is
+              // both slower and the thing that makes them crawl.
+              backfaceVisibility: 'hidden',
+              WebkitFontSmoothing: 'antialiased',
             }}
           >
             <MiniCard
@@ -169,6 +173,19 @@ export const MiniCard: React.FC<{
    */
   const readable = w > 64;
 
+  /**
+   * Sub-pixel guard for the fast small records.
+   *
+   * A 0.5px border on a card that is 18px wide and crossing the frame in a few
+   * frames cannot land on a pixel boundary, so it flickers on and off as it
+   * moves — which is most of what reads as "sparkly" or "glitchy" in a fast
+   * flight. Below ~34px the border fades out and the drop shadow is dropped
+   * entirely: at that size neither is carrying information, and both are
+   * carrying aliasing. The card keeps its fill, which is what the eye is
+   * actually using to read the field.
+   */
+  const edge = Math.min(1, Math.max(0, (w - 14) / 20));
+
   return (
     <div
       style={{
@@ -179,16 +196,18 @@ export const MiniCard: React.FC<{
           C.void,
           0.94,
         )} 46%, ${alpha(C.graphite, 0.96)} 100%)`,
-        border: `${Math.max(0.5, w * 0.008)}px solid ${alpha(
+        border: `${Math.max(0.6, w * 0.008)}px solid ${alpha(
           candidate ? C.trust : tint,
-          candidate ? 0.95 : 0.34,
+          (candidate ? 0.95 : 0.34) * edge,
         )}`,
         boxShadow: candidate
-          ? `0 0 ${w * 0.32}px ${alpha(C.trust, 0.45)}, inset 0 0 ${w * 0.16}px ${alpha(
+          ? `0 0 ${w * 0.32}px ${alpha(C.trust, 0.45 * edge)}, inset 0 0 ${w * 0.16}px ${alpha(
               C.trust,
-              0.2,
+              0.2 * edge,
             )}`
-          : `0 ${h * 0.04}px ${h * 0.1}px ${alpha('#000', 0.5)}`,
+          : edge > 0.35
+            ? `0 ${h * 0.04}px ${h * 0.1}px ${alpha('#000', 0.5)}`
+            : 'none',
         position: 'relative',
         overflow: 'hidden',
       }}

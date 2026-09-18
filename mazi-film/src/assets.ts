@@ -74,12 +74,12 @@ export const ASSETS = {
  * the next beat. Copy is in vo-script.md.
  */
 export const VO_LINES: readonly { at: number; file: string; text: string }[] = [
-  { at: s(0.6), file: 'audio/vo-1.mp3', text: "A card sells live. Then it's gone." },
-  { at: s(4.8), file: 'audio/vo-2.mp3', text: 'MAZI reads it as it happens.' },
-  { at: s(9.4), file: 'audio/vo-3.mp3', text: 'Nine million cards. One match.' },
-  { at: s(13.7), file: 'audio/vo-4.mp3', text: 'Same grade. Fifty-eight dollars, then one eighty-six.' },
-  { at: s(19.7), file: 'audio/vo-5.mp3', text: "Without the record, you're guessing." },
-  { at: s(22.4), file: 'audio/vo-6.mp3', text: 'MAZI. See what you hold.' },
+  { at: s(0.6), file: 'audio/vo-1.mp3', text: "A card sells. Live. Then it's gone." },
+  { at: s(4.6), file: 'audio/vo-2.mp3', text: "MAZI is watching. Player. Set. Grade." },
+  { at: s(9.4), file: 'audio/vo-3.mp3', text: "Nine million cards. It finds the one." },
+  { at: s(13.8), file: 'audio/vo-4.mp3', text: "Same grade. Fifty-eight dollars. Then one eighty-six." },
+  { at: s(19.0), file: 'audio/vo-5.mp3', text: "Without a record, it's just a rumour." },
+  { at: s(22.4), file: 'audio/vo-6.mp3', text: "MAZI. See what you hold." },
 ];
 
 /** Narration level. One number for the whole read — the lines are pre-matched. */
@@ -91,6 +91,8 @@ export const CARD = {
   firstName: 'MICHAEL',
   position: 'GUARD',
   club: 'CHICAGO',
+  /** Worn number. Real, and the fastest single cue that this is who it is. */
+  jersey: '23',
   year: '1990',
   set: 'FLEER',
   variant: 'BASE',
@@ -139,6 +141,10 @@ export const MARKET = {
   ],
   /** The PSA 9 rung only — what the range is actually computed from. */
   rungPrices: [63, 58, 186, 85],
+  /** Top of the value axis. Everything normalised below divides by this. */
+  axisMax: 200,
+  /** What the plotted rung actually covers — 11 Jun to 20 Jul 2026. */
+  seriesSpan: '11 JUN – 20 JUL',
   /**
    * Normalised 0–1 plot of the PSA 9 rung against a $0–$200 axis. Real points,
    * in sale order. Deliberately not a smooth curve.

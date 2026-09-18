@@ -216,7 +216,15 @@ export const Market: React.FC = () => {
 
         {/* ── Price history ───────────────────────────────────────────── */}
         <div style={{ position: 'absolute', left: colX, top: graphTop }}>
-          <MarketGraph frame={frame} start={18} width={graphW} height={graphH} />
+          <MarketGraph
+            frame={frame}
+            start={18}
+            width={graphW}
+            height={graphH}
+            axisMax={MARKET.axisMax}
+            band={[MARKET.rangeLow / MARKET.axisMax, MARKET.rangeHigh / MARKET.axisMax]}
+            labels={MARKET.rungPrices}
+          />
           <div
             style={{
               display: 'flex',
@@ -227,7 +235,7 @@ export const Market: React.FC = () => {
             }}
           >
             <Mono size={9 * u} color={alpha(C.faint, 1)} tracking={2.4 * u}>
-              24 MONTHS
+              {MARKET.seriesSpan}
             </Mono>
             <Mono size={9 * u} color={alpha(C.faint, 1)} tracking={2.4 * u}>
               LAST {MARKET.lastSaleDate}

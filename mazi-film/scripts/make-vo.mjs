@@ -22,8 +22,8 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '..');
 const OUT = resolve(ROOT, 'public/audio');
 
-/** Silas — Deep & Cinematic. The house alternative is Michael 9zciqiv4AGFwYrkFwPIl. */
-const VOICE = '5MzdXfNI3TSWsCPwZFrB';
+/** Michael — Deep, Resonant, British. The same voice as the MAZI investor film. */
+const VOICE = '9zciqiv4AGFwYrkFwPIl';
 const MODEL = 'eleven_v3';
 const FALLBACK_MODEL = 'eleven_multilingual_v2';
 
@@ -33,12 +33,12 @@ const FALLBACK_MODEL = 'eleven_multilingual_v2';
  * real spelling it says "mazzy".
  */
 const LINES = [
-  "A card sells live. Then it's gone.",
-  'Mahzee reads it as it happens.',
-  'Nine million cards. One match.',
-  'Same grade. Fifty-eight dollars, then one eighty-six.',
-  "Without the record, you're guessing.",
-  'Mahzee. See what you hold.',
+  "A card sells. Live. Then it's gone.",
+  "Mahzee is watching. Player. Set. Grade.",
+  "Nine million cards. It finds the one.",
+  "Same grade. Fifty-eight dollars. Then one eighty-six.",
+  "Without a record, it's just a rumour.",
+  "Mahzee. See what you hold.",
 ];
 
 const KEY = process.env.ELEVENLABS_API_KEY;

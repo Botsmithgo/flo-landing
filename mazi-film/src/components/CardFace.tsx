@@ -54,26 +54,26 @@ export const CardFace: React.FC<Props> = ({
       <defs>
         {/* Card stock */}
         <linearGradient id={id('stock')} x1="0" y1="0" x2="0.6" y2="1">
-          <stop offset="0%" stopColor="#1B241E" />
-          <stop offset="45%" stopColor="#111814" />
-          <stop offset="100%" stopColor="#0A0E0C" />
+          <stop offset="0%" stopColor="#2A0A13" />
+          <stop offset="45%" stopColor="#15070B" />
+          <stop offset="100%" stopColor="#0C0406" />
         </linearGradient>
 
         {/* Chromatic burst behind the figure */}
         <radialGradient id={id('burst')} cx="0.53" cy="0.42" r="0.62">
-          <stop offset="0%" stopColor={alpha(C.trust, 0.5 * burst)} />
-          <stop offset="26%" stopColor={alpha(C.brand, 0.42 * burst)} />
-          <stop offset="58%" stopColor={alpha(C.brandDeep, 0.22 * burst)} />
+          <stop offset="0%" stopColor={alpha(C.cardRed, 0.42 * burst)} />
+          <stop offset="30%" stopColor={alpha(C.cardRedDeep, 0.46 * burst)} />
+          <stop offset="62%" stopColor={alpha(C.cardRedDeep, 0.26 * burst)} />
           <stop offset="100%" stopColor="transparent" />
         </radialGradient>
 
         {/* Foil frame */}
         <linearGradient id={id('foil')} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor={C.trustIce} />
-          <stop offset="22%" stopColor={C.brand} />
-          <stop offset="48%" stopColor={C.trust} />
-          <stop offset="70%" stopColor={C.sage} />
-          <stop offset="100%" stopColor={C.trustIce} />
+          <stop offset="0%" stopColor={C.goldLift} />
+          <stop offset="22%" stopColor={C.cardRed} />
+          <stop offset="48%" stopColor={C.gold} />
+          <stop offset="70%" stopColor={C.cardRedDeep} />
+          <stop offset="100%" stopColor={C.goldLift} />
         </linearGradient>
 
         {/* Moving holo sweep */}
@@ -85,10 +85,10 @@ export const CardFace: React.FC<Props> = ({
           y2={1.2}
         >
           <stop offset="0%" stopColor="transparent" />
-          <stop offset="34%" stopColor={alpha(C.trustIce, 0.16)} />
+          <stop offset="34%" stopColor={alpha('#FFFFFF', 0.14)} />
           <stop offset="46%" stopColor={alpha(C.brand, 0.3)} />
-          <stop offset="52%" stopColor={alpha(C.trustIce, 0.4)} />
-          <stop offset="58%" stopColor={alpha(C.trust, 0.3)} />
+          <stop offset="52%" stopColor={alpha('#FFF6E2', 0.36)} />
+          <stop offset="58%" stopColor={alpha(C.goldLift, 0.26)} />
           <stop offset="70%" stopColor={alpha(C.sage, 0.14)} />
           <stop offset="100%" stopColor="transparent" />
         </linearGradient>
@@ -117,9 +117,9 @@ export const CardFace: React.FC<Props> = ({
         {/* The figure itself — near-black, but with enough of a gradient that
             it has a lit side and a shadow side. */}
         <linearGradient id={id('figure')} x1="0.1" y1="0" x2="0.9" y2="1">
-          <stop offset="0%" stopColor="#141C17" />
-          <stop offset="45%" stopColor="#0C120E" />
-          <stop offset="100%" stopColor="#070A08" />
+          <stop offset="0%" stopColor="#250C13" />
+          <stop offset="45%" stopColor="#140709" />
+          <stop offset="100%" stopColor="#0A0405" />
         </linearGradient>
 
         <clipPath id={id('clip')}>
@@ -158,10 +158,10 @@ export const CardFace: React.FC<Props> = ({
           <path
             d="M 26 612 L 26 470 A 232 232 0 0 0 474 470 L 474 612"
             fill="none"
-            stroke={alpha(C.trust, 0.3)}
+            stroke={alpha(C.cardRed, 0.42)}
             strokeWidth={1.6}
           />
-          <line x1="26" y1="612" x2="474" y2="612" stroke={alpha(C.trust, 0.24)} strokeWidth={1.4} />
+          <line x1="26" y1="612" x2="474" y2="612" stroke={alpha(C.cardRed, 0.34)} strokeWidth={1.4} />
 
           {/* The lane */}
           <rect
@@ -170,7 +170,7 @@ export const CardFace: React.FC<Props> = ({
             width="172"
             height="208"
             fill="none"
-            stroke={alpha(C.brand, 0.26)}
+            stroke={alpha(C.paperInk, 0.2)}
             strokeWidth={1.3}
           />
           {/* Free-throw circle — the top half solid, the bottom half dashed,
@@ -178,13 +178,13 @@ export const CardFace: React.FC<Props> = ({
           <path
             d="M 164 404 A 86 86 0 0 1 336 404"
             fill="none"
-            stroke={alpha(C.brand, 0.3)}
+            stroke={alpha(C.paperInk, 0.24)}
             strokeWidth={1.3}
           />
           <path
             d="M 336 404 A 86 86 0 0 1 164 404"
             fill="none"
-            stroke={alpha(C.brand, 0.22)}
+            stroke={alpha(C.paperInk, 0.18)}
             strokeWidth={1.3}
             strokeDasharray="9 11"
           />
@@ -201,8 +201,8 @@ export const CardFace: React.FC<Props> = ({
           {/* Lane hash marks */}
           {[440, 476, 512, 548].map((y) => (
             <g key={y}>
-              <line x1="152" y1={y} x2="164" y2={y} stroke={alpha(C.brand, 0.3)} strokeWidth={1.4} />
-              <line x1="336" y1={y} x2="348" y2={y} stroke={alpha(C.brand, 0.3)} strokeWidth={1.4} />
+              <line x1="152" y1={y} x2="164" y2={y} stroke={alpha(C.paperInk, 0.24)} strokeWidth={1.4} />
+              <line x1="336" y1={y} x2="348" y2={y} stroke={alpha(C.paperInk, 0.24)} strokeWidth={1.4} />
             </g>
           ))}
         </g>
@@ -215,7 +215,7 @@ export const CardFace: React.FC<Props> = ({
               points={`${520 - i * 26},-40 ${560 - i * 26},-40 ${
                 240 - i * 78
               },760 ${186 - i * 78},760`}
-              fill={alpha(i === 1 ? C.trustIce : C.trust, 0.05)}
+              fill={alpha(i === 1 ? '#FFFFFF' : '#FFE9C4', 0.045)}
             />
           ))}
         </g>
@@ -523,11 +523,38 @@ const Athlete: React.FC<{ idFn: (n: string) => string; wireframe: number }> = ({
         {body}
         <g
           strokeWidth={0}
-          fill={wireframe > 0.5 ? 'none' : alpha(C.slate, 0.3)}
+          fill={wireframe > 0.5 ? 'none' : alpha(C.cardRed, 0.88)}
           stroke={wireframe > 0.5 ? C.trust : 'none'}
         >
           {kit}
         </g>
+
+        {/*
+          The number.
+
+          One glyph does more identifying work here than any amount of anatomy:
+          a red jersey with 23 on it in a 1990 Chicago card is unmistakable, and
+          it costs nothing in rights because a squad number is a fact, not
+          artwork. Rotated to sit on the chest plane as the body leans back, and
+          clipped to the tank so it creases at the armhole rather than floating
+          on top of the figure.
+        */}
+        {wireframe > 0.5 ? null : (
+          <g transform="rotate(-7 250 282)" opacity={0.92}>
+            <text
+              x="250"
+              y="296"
+              textAnchor="middle"
+              fill={alpha('#F6F2F0', 0.93)}
+              fontFamily={FONT.display}
+              fontSize="62"
+              fontWeight={700}
+              letterSpacing="-3"
+            >
+              {CARD.jersey}
+            </text>
+          </g>
+        )}
       </g>
 
       {/* Ball */}
