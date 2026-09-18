@@ -4,9 +4,11 @@ A 26-second futuristic brand film for **MAZI**, an intelligence platform for
 sports cards and collectibles. Built in Remotion. Renders to 16:9, 9:16, 1:1 and
 4:5 from one source tree.
 
-> **This is a self-contained project** living inside the `flo-landing` repo under
-> `mazi-film/`. It has its own `package.json` and `node_modules` and shares
-> nothing with the Next.js site at the repo root.
+> **Self-contained and portable.** This folder has its own `package.json` and
+> depends on nothing outside itself — drop it into any repo, run `npm install`,
+> and it works. It was authored inside the `flo-landing` repo only because that
+> was the checkout available at the time; there are no imports, paths or config
+> pointing at that project.
 
 ---
 
