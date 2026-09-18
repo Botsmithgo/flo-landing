@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { AbsoluteFill } from 'remotion';
 import { CANDIDATE_NAMES, CARD } from '../assets';
 import { Atmosphere, Vignette } from '../components/Atmosphere';
 import { CARD_RATIO } from '../components/CardFace';
@@ -16,7 +16,7 @@ import { camStyle, composeCam, handheld, impactShake } from '../utils/camera';
 import { C, alpha } from '../utils/colors';
 import { E, drift, fall, ramp, strike } from '../utils/easing';
 import { useLayout, useType } from '../utils/layout';
-import { CANDIDATE_STEPS, IMPACTS, SCENES } from '../utils/timing';
+import { CANDIDATE_STEPS, IMPACTS, SCENES, useStoryFrame } from '../utils/timing';
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────
@@ -47,7 +47,7 @@ import { CANDIDATE_STEPS, IMPACTS, SCENES } from '../utils/timing';
 const MATCH = IMPACTS.match - SCENES.search.from; // 108
 
 export const Search: React.FC = () => {
-  const frame = useCurrentFrame();
+  const frame = useStoryFrame();
   const g = frame + SCENES.search.from;
   const { width, height, u, cx, cy, by, pad } = useLayout();
   const type = useType();
@@ -135,7 +135,7 @@ export const Search: React.FC = () => {
                   }}
                 >
                   <LightStreak
-                    color={i % 3 === 0 ? C.violet : C.cyan}
+                    color={i % 3 === 0 ? C.brand : C.trust}
                     width={(90 + (i % 5) * 70) * u * speed}
                     thickness={1.1 * u}
                     intensity={0.32 * speed}
@@ -186,7 +186,7 @@ export const Search: React.FC = () => {
                     <MiniCard
                       w={w}
                       h={w / CARD_RATIO}
-                      tint={survives ? C.cyan : C.slate}
+                      tint={survives ? C.trust : C.slate}
                       candidate
                       name={survives ? CARD.player : CANDIDATE_NAMES[i * 3 + 2]}
                     />
@@ -194,7 +194,7 @@ export const Search: React.FC = () => {
                   <div style={{ marginTop: 10 * u, textAlign: 'center' }}>
                     <Mono
                       size={10 * u}
-                      color={survives ? C.ice : alpha(C.faint, 1)}
+                      color={survives ? C.trustIce : alpha(C.faint, 1)}
                       tracking={2 * u}
                     >
                       {survives ? '99.4%' : i === 0 ? '61.2%' : '48.7%'}
@@ -261,13 +261,13 @@ export const Search: React.FC = () => {
           life={38}
           flatten={0.28}
           seed="match"
-          colors={[C.ice, C.cyan, C.bone, C.violet]}
+          colors={[C.trustIce, C.trust, C.bone, C.brand]}
         />
         <Shockwave frame={frame} at={MATCH} duration={36} maxScale={4.4} />
-        <Shockwave frame={frame} at={MATCH + 4} duration={30} maxScale={3} color={C.violet} />
+        <Shockwave frame={frame} at={MATCH + 4} duration={30} maxScale={3} color={C.brand} />
         <Flash frame={frame} at={MATCH} decay={12} intensity={1.15} />
         <Glow
-          color={C.ice}
+          color={C.trustIce}
           size={width * 0.2 * strike(frame, MATCH, 14, 2)}
           intensity={strike(frame, MATCH, 14, 2) * 1.2}
           style={{ left: cx, top: cy }}
@@ -292,9 +292,9 @@ export const Search: React.FC = () => {
             style={{
               width: 6 * u,
               height: 6 * u,
-              background: C.cyan,
+              background: C.trust,
               opacity: 0.4 + counterKick * 0.6,
-              boxShadow: `0 0 ${10 * u}px ${C.cyan}`,
+              boxShadow: `0 0 ${10 * u}px ${C.trust}`,
             }}
           />
           <Mono size={11 * u} color={alpha(C.muted, 0.95)} tracking={4.2 * u}>
@@ -302,12 +302,25 @@ export const Search: React.FC = () => {
           </Mono>
         </div>
 
+        {/*
+          Size the counter to the WIDEST value it will ever hold, not to the
+          one on screen. The ladder now opens on 9,076,034 — the real catalog
+          spine — which is nine cells against the six the old placeholder had,
+          and at a fixed size that ran off the edge and wrapped.
+        */}
         <Odometer
           frame={frame}
           start={stepLocal}
           value={candidates}
-          size={type.display * 0.62}
-          color={candidates === 1 ? C.ice : C.bone}
+          size={Math.min(
+            type.display * 0.62,
+            (width * 0.44) /
+              (Math.max(
+                ...CANDIDATE_STEPS.map((c) => c.value.toLocaleString('en-US').length),
+              ) *
+                0.62),
+          )}
+          color={candidates === 1 ? C.trustIce : C.bone}
           mono
           weight={500}
         />
@@ -319,8 +332,8 @@ export const Search: React.FC = () => {
               style={{
                 width: i <= stepIndex ? 22 * u : 10 * u,
                 height: 2,
-                background: i <= stepIndex ? C.cyan : alpha(C.smoke, 0.7),
-                boxShadow: i === stepIndex ? `0 0 ${8 * u}px ${C.cyan}` : undefined,
+                background: i <= stepIndex ? C.trust : alpha(C.smoke, 0.7),
+                boxShadow: i === stepIndex ? `0 0 ${8 * u}px ${C.trust}` : undefined,
               }}
             />
           ))}
@@ -357,7 +370,7 @@ export const Search: React.FC = () => {
             mode="shatter"
             weight={700}
             tracking={0.16}
-            color={C.ice}
+            color={C.trustIce}
           >
             MATCH
           </Kinetic>

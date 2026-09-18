@@ -40,7 +40,7 @@ export const DustField: React.FC<DustProps> = ({
   camX = 0,
   camY = 0,
   focus = 900,
-  color = C.ice,
+  color = C.trustIce,
 }) => {
   const { width, height } = useLayout();
 
@@ -131,7 +131,7 @@ export const Sparks: React.FC<{
   x,
   y,
   reach = 700,
-  colors = [C.ice, C.cyan, C.violet],
+  colors = [C.trustIce, C.trust, C.brand],
   flatten = 0.35,
   seed = 'sparks',
 }) => {
@@ -215,7 +215,7 @@ export const Converge: React.FC<{
   targets,
   spread = 900,
   size = 2.6,
-  color = C.ice,
+  color = C.trustIce,
   dissolveAfter = 8,
   seed = 'converge',
 }) => {

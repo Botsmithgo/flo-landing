@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import { AbsoluteFill } from 'remotion';
-import { CANDIDATE_NAMES } from '../assets';
+import { AbsoluteFill, Img, staticFile } from 'remotion';
+import { ASSETS, LATTICE_CARDS, LatticeCard } from '../assets';
 import { C, FONT, alpha } from '../utils/colors';
 import { FOCAL } from '../utils/depth';
 import { useLayout } from '../utils/layout';
@@ -64,9 +64,17 @@ export const CardLattice: React.FC<Props> = ({
         rot: r.between(-16, 16),
         tilt: r.between(-22, 22),
         size: r.between(0.82, 1.3),
-        tint: r.pick([C.violet, C.cyan, C.slate, C.slate, C.violetDeep] as const),
+        tint: r.pick([C.brand, C.trust, C.slate, C.slate, C.brandDeep] as const),
         candidate: r.next() < candidateRate,
-        name: r.pick(CANDIDATE_NAMES),
+        /** A real row from the MAZI catalog — name, set, grade and last price. */
+        card: r.pick(LATTICE_CARDS as readonly LatticeCard[]),
+        /**
+         * Roughly one record in five is a photograph rather than a drawn
+         * abstraction. Four real cards, all public domain, cycled through the
+         * cloud — enough that the field stops reading as generated wallpaper
+         * and starts reading as an archive with actual things in it.
+         */
+        photo: r.next() < 0.2 ? r.pick(ASSETS.vintage as readonly string[]) : null,
         bright: r.between(0.45, 1),
       })),
     [count, seed, candidateRate],
@@ -115,7 +123,7 @@ export const CardLattice: React.FC<Props> = ({
               marginTop: -h / 2,
               transform: `rotate(${rec.rot}deg) perspective(${900 * u}px) rotateY(${
                 rec.tilt
-              }deg) scaleY(${1 + smear / 90})`,
+              }deg) scaleY(${1 + smear / 52})`,
               opacity: o,
               filter: blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : undefined,
             }}
@@ -125,7 +133,9 @@ export const CardLattice: React.FC<Props> = ({
               h={h}
               tint={rec.tint}
               candidate={rec.candidate}
-              name={rec.candidate && w > 46 ? rec.name : undefined}
+              card={rec.card}
+              photo={rec.photo}
+              name={rec.candidate && w > 46 ? rec.card.name : undefined}
             />
           </div>
         );
@@ -146,87 +156,196 @@ export const MiniCard: React.FC<{
   tint: string;
   candidate?: boolean;
   name?: string;
-}> = ({ w, h, tint, candidate, name }) => (
-  <div
-    style={{
-      width: '100%',
-      height: '100%',
-      borderRadius: Math.max(1, w * 0.045),
-      background: `linear-gradient(155deg, ${alpha(tint, 0.34)} 0%, ${alpha(
-        C.void,
-        0.94,
-      )} 46%, ${alpha(C.midnight, 0.96)} 100%)`,
-      border: `${Math.max(0.5, w * 0.008)}px solid ${alpha(
-        candidate ? C.cyan : tint,
-        candidate ? 0.95 : 0.34,
-      )}`,
-      boxShadow: candidate
-        ? `0 0 ${w * 0.32}px ${alpha(C.cyan, 0.45)}, inset 0 0 ${w * 0.16}px ${alpha(C.cyan, 0.2)}`
-        : `0 ${h * 0.04}px ${h * 0.1}px ${alpha('#000', 0.5)}`,
-      position: 'relative',
-      overflow: 'hidden',
-    }}
-  >
-    {/* figure block */}
+  card?: LatticeCard;
+  photo?: string | null;
+}> = ({ w, h, tint, candidate, name, card, photo }) => {
+  const r = Math.max(1, w * 0.045);
+  /**
+   * Three levels of detail, chosen by how many pixels the record actually
+   * occupies. Distant records get a frame and a bright block, because that is
+   * all the eye can resolve; only records past ~64px wide pay for type. The
+   * flight draws ~150 records a frame, so this is the difference between a
+   * scene that renders and one that doesn't.
+   */
+  const readable = w > 64;
+
+  return (
     <div
       style={{
-        position: 'absolute',
-        left: '22%',
-        top: '14%',
-        width: '56%',
-        height: '48%',
-        background: `radial-gradient(ellipse at 50% 40%, ${alpha(tint, 0.55)} 0%, transparent 70%)`,
+        width: '100%',
+        height: '100%',
+        borderRadius: r,
+        background: `linear-gradient(155deg, ${alpha(tint, 0.34)} 0%, ${alpha(
+          C.void,
+          0.94,
+        )} 46%, ${alpha(C.graphite, 0.96)} 100%)`,
+        border: `${Math.max(0.5, w * 0.008)}px solid ${alpha(
+          candidate ? C.trust : tint,
+          candidate ? 0.95 : 0.34,
+        )}`,
+        boxShadow: candidate
+          ? `0 0 ${w * 0.32}px ${alpha(C.trust, 0.45)}, inset 0 0 ${w * 0.16}px ${alpha(
+              C.trust,
+              0.2,
+            )}`
+          : `0 ${h * 0.04}px ${h * 0.1}px ${alpha('#000', 0.5)}`,
+        position: 'relative',
+        overflow: 'hidden',
       }}
-    />
-    <div
-      style={{
-        position: 'absolute',
-        left: '38%',
-        top: '22%',
-        width: '24%',
-        height: '40%',
-        background: alpha(C.void, 0.85),
-        borderRadius: w * 0.04,
-      }}
-    />
-    {/* nameplate */}
-    <div
-      style={{
-        position: 'absolute',
-        left: '10%',
-        right: '10%',
-        bottom: '14%',
-        height: Math.max(1, h * 0.045),
-        background: alpha(C.paper, 0.35),
-      }}
-    />
-    <div
-      style={{
-        position: 'absolute',
-        left: '10%',
-        width: '34%',
-        bottom: '8%',
-        height: Math.max(1, h * 0.028),
-        background: alpha(C.paper, 0.18),
-      }}
-    />
-    {name ? (
-      <div
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: -h * 0.16,
-          textAlign: 'center',
-          fontFamily: FONT.mono,
-          fontSize: Math.max(5, w * 0.11),
-          letterSpacing: w * 0.012,
-          color: alpha(C.cyan, 0.9),
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {name}
-      </div>
-    ) : null}
-  </div>
-);
+    >
+      {photo ? (
+        <>
+          {/*
+            A real card, in the archive, going past.
+
+            It is graded down hard rather than dropped in clean: desaturated,
+            darkened, and sitting under a wash of the record's own tint. A
+            full-colour photograph at full strength would punch a hole in a
+            frame built out of one dark palette — the point is that the field is
+            made of real things, not that any one of them is legible.
+          */}
+          <Img
+            src={staticFile(photo)}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              filter: 'grayscale(0.55) contrast(1.05) brightness(0.62)',
+              opacity: 0.9,
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: `linear-gradient(160deg, ${alpha(tint, 0.3)} 0%, ${alpha(
+                C.void,
+                0.55,
+              )} 70%, ${alpha(C.void, 0.85)} 100%)`,
+              mixBlendMode: 'multiply',
+            }}
+          />
+        </>
+      ) : (
+        <>
+          {/* figure block */}
+          <div
+            style={{
+              position: 'absolute',
+              left: '22%',
+              top: '14%',
+              width: '56%',
+              height: '48%',
+              background: `radial-gradient(ellipse at 50% 40%, ${alpha(
+                tint,
+                0.55,
+              )} 0%, transparent 70%)`,
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              left: '38%',
+              top: '22%',
+              width: '24%',
+              height: '40%',
+              background: alpha(C.void, 0.85),
+              borderRadius: w * 0.04,
+            }}
+          />
+        </>
+      )}
+
+      {/* Nameplate. Real type once the record is big enough to resolve it,
+          abstract bars when it isn't. */}
+      {readable && card ? (
+        <div
+          style={{
+            position: 'absolute',
+            left: '8%',
+            right: '8%',
+            bottom: '7%',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: h * 0.012,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: FONT.display,
+              fontSize: w * 0.125,
+              lineHeight: 1,
+              fontWeight: 700,
+              letterSpacing: w * 0.002,
+              color: alpha(C.bone, 0.92),
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+            }}
+          >
+            {card.name}
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              fontFamily: FONT.mono,
+              fontSize: w * 0.062,
+              letterSpacing: w * 0.004,
+              color: alpha(C.muted, 0.8),
+              whiteSpace: 'nowrap',
+            }}
+          >
+            <span>{card.grade}</span>
+            <span style={{ color: alpha(C.gold, 0.85) }}>
+              ${card.price.toLocaleString('en-US')}
+            </span>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div
+            style={{
+              position: 'absolute',
+              left: '10%',
+              right: '10%',
+              bottom: '14%',
+              height: Math.max(1, h * 0.045),
+              background: alpha(C.paperInk, 0.35),
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              left: '10%',
+              width: '34%',
+              bottom: '8%',
+              height: Math.max(1, h * 0.028),
+              background: alpha(C.paperInk, 0.18),
+            }}
+          />
+        </>
+      )}
+
+      {name ? (
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: -h * 0.16,
+            textAlign: 'center',
+            fontFamily: FONT.mono,
+            fontSize: Math.max(5, w * 0.11),
+            letterSpacing: w * 0.012,
+            color: alpha(C.trust, 0.9),
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {name}
+        </div>
+      ) : null}
+    </div>
+  );
+};

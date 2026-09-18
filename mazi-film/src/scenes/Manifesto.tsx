@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { AbsoluteFill } from 'remotion';
 import { COPY } from '../assets';
 import { Atmosphere, Vignette } from '../components/Atmosphere';
 import { CARD_RATIO } from '../components/CardFace';
@@ -12,7 +12,7 @@ import { C, alpha } from '../utils/colors';
 import { E, drift, ramp } from '../utils/easing';
 import { useLayout, useType } from '../utils/layout';
 import { field } from '../utils/random';
-import { SCENES } from '../utils/timing';
+import { SCENES, useStoryFrame } from '../utils/timing';
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────
@@ -38,7 +38,7 @@ import { SCENES } from '../utils/timing';
  */
 
 export const Manifesto: React.FC = () => {
-  const frame = useCurrentFrame();
+  const frame = useStoryFrame();
   const g = frame + SCENES.manifesto.from;
   const { width, height, u, cx, cy, by } = useLayout();
   const type = useType();
@@ -79,12 +79,24 @@ export const Manifesto: React.FC = () => {
 
   // Deliberately smaller than the opening's mega type. This beat belongs to
   // the object, not the words — the words are the room it's sitting in.
-  const typeSize = by({
+  const baseSize = by({
     wide: type.mega * 0.62,
     square: type.display * 0.92,
     portrait: type.display * 0.88,
     tall: type.display * 0.82,
   });
+
+  /**
+   * Fit the line to the frame instead of trusting the copy to be short.
+   *
+   * The headline is the one string in the film most likely to be rewritten, and
+   * a rewrite that is three characters longer used to run straight off the
+   * right edge. Teko caps average ~0.46em wide; the two halves also drift
+   * ±7% of frame width past each other, so the usable box is ~70%.
+   */
+  const longest = Math.max(...COPY.manifesto.map((l) => l.length));
+  const fitSize = (width * 0.7) / (longest * 0.46);
+  const typeSize = Math.min(baseSize, fitSize);
 
   // The two halves drift across each other, slowly, in opposite directions.
   const l1 = ramp(frame, 18, 60, E.breath);
@@ -105,8 +117,8 @@ export const Manifesto: React.FC = () => {
             top: -height * 0.14,
             width: width * 0.48,
             height: height * 0.92,
-            background: `linear-gradient(180deg, ${alpha(C.ice, 0.075)} 0%, ${alpha(
-              C.cyan,
+            background: `linear-gradient(180deg, ${alpha(C.trustIce, 0.075)} 0%, ${alpha(
+              C.trust,
               0.035,
             )} 42%, transparent 88%)`,
             clipPath: 'polygon(38% 0%, 62% 0%, 88% 100%, 12% 100%)',
@@ -142,7 +154,7 @@ export const Manifesto: React.FC = () => {
             <Kinetic
               frame={frame}
               start={18}
-              step={2.6}
+              step={1.7}
               size={typeSize}
               mode="mask"
               weight={700}
@@ -172,7 +184,7 @@ export const Manifesto: React.FC = () => {
             <Kinetic
               frame={frame}
               start={30}
-              step={2.6}
+              step={1.7}
               size={typeSize}
               mode="mask"
               weight={700}
@@ -201,14 +213,14 @@ export const Manifesto: React.FC = () => {
                   y1={p.y}
                   x2={q.x}
                   y2={q.y}
-                  stroke={alpha(C.cyan, 0.1 * p.o * q.o)}
+                  stroke={alpha(C.trust, 0.1 * p.o * q.o)}
                   strokeWidth={0.8}
                 />
               );
             }),
           )}
           {nodePts.map((p, i) => (
-            <circle key={i} cx={p.x} cy={p.y} r={p.size} fill={alpha(C.ice, 0.3 * p.o)} />
+            <circle key={i} cx={p.x} cy={p.y} r={p.size} fill={alpha(C.trustIce, 0.3 * p.o)} />
           ))}
         </svg>
 

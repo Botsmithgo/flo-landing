@@ -34,7 +34,7 @@ export const MarketGraph: React.FC<GraphProps> = ({
   height,
   progress,
   series = MARKET.series,
-  color = C.cyan,
+  color = C.trust,
 }) => {
   const p = progress ?? ramp(frame, start, 34, E.glide);
   const pad = height * 0.1;
@@ -69,7 +69,7 @@ export const MarketGraph: React.FC<GraphProps> = ({
         <linearGradient id={`${gid}-line`} x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor={alpha(color, 0.45)} />
           <stop offset="72%" stopColor={color} />
-          <stop offset="100%" stopColor={C.ice} />
+          <stop offset="100%" stopColor={C.trustIce} />
         </linearGradient>
         <clipPath id={`${gid}-clip`}>
           <rect x={0} y={-height} width={width * p} height={height * 3} />
@@ -110,7 +110,7 @@ export const MarketGraph: React.FC<GraphProps> = ({
             y={pt.y - 3}
             width={1.2}
             height={6}
-            fill={alpha(C.ice, 0.5)}
+            fill={alpha(C.trustIce, 0.5)}
           />
         ))}
       </g>
@@ -119,7 +119,7 @@ export const MarketGraph: React.FC<GraphProps> = ({
       {p > 0.02 && p < 0.995 ? (
         <>
           <circle cx={hx} cy={hy} r={4} fill="#FFFFFF" />
-          <circle cx={hx} cy={hy} r={12} fill="none" stroke={alpha(C.ice, 0.4)} strokeWidth={1} />
+          <circle cx={hx} cy={hy} r={12} fill="none" stroke={alpha(C.trustIce, 0.4)} strokeWidth={1} />
           <line x1={hx} y1={hy} x2={hx} y2={height} stroke={alpha(color, 0.3)} strokeWidth={1} />
         </>
       ) : null}
@@ -131,14 +131,14 @@ export const MarketGraph: React.FC<GraphProps> = ({
             cx={pts[pts.length - 1].x}
             cy={pts[pts.length - 1].y}
             r={5 + sprSnap(frame - start - 34) * 2}
-            fill={C.amber}
+            fill={C.goldDeep}
           />
           <circle
             cx={pts[pts.length - 1].x}
             cy={pts[pts.length - 1].y}
             r={10 + ((frame - start - 34) % 26) * 1.4}
             fill="none"
-            stroke={alpha(C.amber, Math.max(0, 0.5 - ((frame - start - 34) % 26) * 0.019))}
+            stroke={alpha(C.goldDeep, Math.max(0, 0.5 - ((frame - start - 34) % 26) * 0.019))}
             strokeWidth={1.2}
           />
         </g>
@@ -202,7 +202,7 @@ export const CompLedger: React.FC<{
             </Mono>
             <Mono
               size={11.5 * scale}
-              color={isLast ? C.cyan : alpha(C.faint, 1)}
+              color={isLast ? C.trust : alpha(C.faint, 1)}
               tracking={1.8 * scale}
             >
               {row.grade}
@@ -212,7 +212,7 @@ export const CompLedger: React.FC<{
             style={{
               fontFamily: FONT.mono,
               fontSize: 14 * scale,
-              color: isLast ? C.amber : C.paper,
+              color: isLast ? C.goldDeep : C.paperInk,
               fontVariantNumeric: 'tabular-nums',
               letterSpacing: 0.6 * scale,
             }}
@@ -248,7 +248,7 @@ export const Valuation: React.FC<{
           display: 'flex',
           alignItems: 'baseline',
           gap: 18 * scale,
-          filter: `drop-shadow(0 0 ${size * 0.22}px ${alpha(C.amber, 0.28)})`,
+          filter: `drop-shadow(0 0 ${size * 0.22}px ${alpha(C.goldDeep, 0.28)})`,
         }}
       >
         <Odometer
@@ -257,31 +257,38 @@ export const Valuation: React.FC<{
           value={MARKET.value}
           size={size}
           prefix={MARKET.currency}
-          color={C.amber}
+          color={C.gold}
           weight={700}
         />
+        {/*
+          Not a percentage change. MAZI does not publish a single "what it's
+          worth" — it publishes a range, and the range is the product. Showing
+          the band next to the last sale is the honest version of this frame and
+          it is also the more interesting one: the number that just landed sits
+          inside a spread the viewer can see.
+        */}
         <span
           style={{
             opacity: deltaIn,
             transform: `translateY(${(1 - deltaIn) * 8 * scale}px)`,
             display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6 * scale,
+            alignItems: 'baseline',
+            gap: 7 * scale,
           }}
         >
-          <svg width={10 * scale} height={11 * scale} viewBox="0 0 10 11">
-            <path d="M5 0 L10 7 L0 7 Z" fill={C.positive} />
-          </svg>
-          <Mono size={15 * scale} color={C.positive} tracking={1.2 * scale} weight={500}>
-            {MARKET.changePct}%
+          <Mono size={11 * scale} color={C.faint} tracking={2.4 * scale} weight={500}>
+            RANGE
+          </Mono>
+          <Mono size={16 * scale} color={C.goldDeep} tracking={0.6 * scale} weight={500}>
+            {`$${MARKET.rangeLow}–$${MARKET.rangeHigh}`}
           </Mono>
         </span>
       </div>
 
       <div style={{ display: 'flex', gap: 34 * scale, marginTop: 20 * scale, opacity: deltaIn }}>
         <Stat label="LAST SALE" value={`$${MARKET.lastSale.toLocaleString('en-US')}`} scale={scale} />
-        <Stat label="POPULATION" value={`${MARKET.populationTotal}`} scale={scale} />
-        <Stat label="PSA 10 POP" value={`${MARKET.populationGraded}`} scale={scale} />
+        <Stat label="VERIFIED" value={`${MARKET.rungSales} SALES`} scale={scale} />
+        <Stat label="WINDOW" value={MARKET.windowLabel} scale={scale} />
       </div>
     </div>
   );
@@ -302,7 +309,7 @@ const Stat: React.FC<{ label: string; value: string; scale: number }> = ({
       style={{
         fontFamily: FONT.mono,
         fontSize: 17 * scale,
-        color: C.paper,
+        color: C.paperInk,
         letterSpacing: 0.8 * scale,
         fontVariantNumeric: 'tabular-nums',
       }}

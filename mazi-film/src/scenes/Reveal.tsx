@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { AbsoluteFill } from 'remotion';
 import { COPY } from '../assets';
 import { Atmosphere, Vignette } from '../components/Atmosphere';
 import { CARD_RATIO } from '../components/CardFace';
@@ -14,7 +14,7 @@ import { C, alpha } from '../utils/colors';
 import { E, drift, ramp, strike } from '../utils/easing';
 import { useLayout, useType } from '../utils/layout';
 import { field } from '../utils/random';
-import { IMPACTS, SCENES } from '../utils/timing';
+import { IMPACTS, SCENES, useStoryFrame } from '../utils/timing';
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────
@@ -43,7 +43,7 @@ const MARK = IMPACTS.mark - SCENES.reveal.from; // 37
 const ENDLINE = 52;
 
 export const Reveal: React.FC = () => {
-  const frame = useCurrentFrame();
+  const frame = useStoryFrame();
   const { width, height, u, cx, cy, by } = useLayout();
   const type = useType();
 
@@ -88,7 +88,7 @@ export const Reveal: React.FC = () => {
         dist: r.between(0.5, 1.5),
         len: r.between(0.4, 1),
         delay: r.between(0, 0.35),
-        color: r.pick([C.cyan, C.ice, C.violet] as const),
+        color: r.pick([C.trust, C.trustIce, C.brand] as const),
       })),
     [by],
   );
@@ -167,7 +167,7 @@ export const Reveal: React.FC = () => {
         {/* The singularity the room collapses into */}
         {frame > COLLAPSE && frame < MARK + 6 ? (
           <Glow
-            color={C.ice}
+            color={C.trustIce}
             size={
               Math.max(6, width * 0.05 * collapse) *
               (1 + strike(frame, LOGO_START - 2, 10, 2) * 2.4)
@@ -186,7 +186,7 @@ export const Reveal: React.FC = () => {
           targets={logoTargets}
           spread={width * 0.42}
           size={2.4 * u}
-          color={C.ice}
+          color={C.trustIce}
           seed="mark"
           dissolveAfter={10}
         />
@@ -196,7 +196,7 @@ export const Reveal: React.FC = () => {
           <MaziLogo frame={frame} start={LOGO_START} width={logoW} />
         </div>
 
-        <Shockwave frame={frame} at={MARK} duration={44} maxScale={5} color={C.ice} />
+        <Shockwave frame={frame} at={MARK} duration={44} maxScale={5} color={C.trustIce} />
         <Flash frame={frame} at={MARK} decay={14} intensity={0.8} />
 
         {/* ── Endline ──────────────────────────────────────────────────── */}
@@ -225,7 +225,7 @@ export const Reveal: React.FC = () => {
           >
             <Mono
               size={by({ wide: 16, square: 17, tall: 16 }) * u}
-              color={alpha(C.paper, 0.92)}
+              color={alpha(C.paperInk, 0.92)}
               tracking={by({ wide: 8.5, square: 7, tall: 5.5 }) * u}
               weight={400}
             >

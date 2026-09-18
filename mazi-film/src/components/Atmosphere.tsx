@@ -1,8 +1,9 @@
 import React from 'react';
-import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { AbsoluteFill } from 'remotion';
 import { C, GRAD, alpha } from '../utils/colors';
 import { drift } from '../utils/easing';
 import { useLayout } from '../utils/layout';
+import { useStoryFrame } from '../utils/timing';
 
 /**
  * The room the whole film happens inside.
@@ -31,7 +32,7 @@ export const Atmosphere: React.FC<Props> = ({
   floor = false,
   children,
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useStoryFrame();
   const { width, height, u } = useLayout();
 
   const violetT = Math.max(0, 0.5 - hue * 0.5);
@@ -53,8 +54,8 @@ export const Atmosphere: React.FC<Props> = ({
         style={{
           background: `radial-gradient(${62 * (1 + intensity * 0.2)}% ${
             52 * (1 + intensity * 0.2)
-          }% at ${px1}% ${py1}%, ${alpha(C.violet, 0.3 * intensity * violetT * 2)} 0%, ${alpha(
-            C.violetDeep,
+          }% at ${px1}% ${py1}%, ${alpha(C.brand, 0.3 * intensity * violetT * 2)} 0%, ${alpha(
+            C.brandDeep,
             0.14 * intensity * violetT * 2,
           )} 38%, transparent 70%)`,
           mixBlendMode: 'screen',
@@ -65,7 +66,7 @@ export const Atmosphere: React.FC<Props> = ({
       <AbsoluteFill
         style={{
           background: `radial-gradient(54% 44% at ${px2}% ${py2}%, ${alpha(
-            C.cyanDeep,
+            C.trustDeep,
             0.22 * intensity * cyanT * 2,
           )} 0%, transparent 66%)`,
           mixBlendMode: 'screen',
@@ -87,7 +88,7 @@ export const Atmosphere: React.FC<Props> = ({
               height: height * (0.2 + i * 0.05),
               transform: `rotate(${rot}deg)`,
               background: `linear-gradient(180deg, transparent 0%, ${alpha(
-                i === 1 ? C.cyan : C.violet,
+                i === 1 ? C.trust : C.brand,
                 0.05 * intensity,
               )} 50%, transparent 100%)`,
               filter: `blur(${70 * u}px)`,
@@ -109,10 +110,10 @@ export const Atmosphere: React.FC<Props> = ({
               top: '68%',
               height: 1,
               background: `linear-gradient(90deg, transparent 0%, ${alpha(
-                C.ice,
+                C.trustIce,
                 0.22 * intensity,
-              )} 35%, ${alpha(C.ice, 0.3 * intensity)} 50%, ${alpha(
-                C.ice,
+              )} 35%, ${alpha(C.trustIce, 0.3 * intensity)} 50%, ${alpha(
+                C.trustIce,
                 0.22 * intensity,
               )} 65%, transparent 100%)`,
             }}
@@ -124,7 +125,7 @@ export const Atmosphere: React.FC<Props> = ({
               right: 0,
               top: '68%',
               bottom: 0,
-              background: `linear-gradient(180deg, ${alpha(C.navy, 0.55 * intensity)} 0%, ${alpha(
+              background: `linear-gradient(180deg, ${alpha(C.panel, 0.55 * intensity)} 0%, ${alpha(
                 C.void,
                 0.9,
               )} 60%, ${C.void} 100%)`,

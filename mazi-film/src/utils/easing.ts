@@ -1,5 +1,5 @@
 import { Easing, interpolate, spring } from 'remotion';
-import { FPS } from './timing';
+import { FPS, RATE } from './timing';
 
 /**
  * A curve library, because "everything eases the same way" is the single
@@ -74,10 +74,17 @@ type SpringOpts = {
   delay?: number;
 };
 
-/** spring() with the boilerplate removed and physics presets that feel right. */
-export const spr = (frame: number, opts: SpringOpts = {}): number =>
+/**
+ * spring() with the boilerplate removed and physics presets that feel right.
+ *
+ * Takes a STORY frame (see utils/timing.ts) like every other helper here, and
+ * converts to real frames internally. Springs are the one curve family that is
+ * defined against wall-clock time rather than against a normalised range, so
+ * they must see the real fps or a 60fps render would play them at half speed.
+ */
+export const spr = (storyFrame: number, opts: SpringOpts = {}): number =>
   spring({
-    frame: frame - (opts.delay ?? 0),
+    frame: (storyFrame - (opts.delay ?? 0)) * RATE,
     fps: FPS,
     config: {
       damping: opts.damping ?? 16,

@@ -1,6 +1,25 @@
 import React, { useId } from 'react';
 
 /**
+ * Global shutter gain.
+ *
+ * Two reasons this exists rather than editing forty call sites:
+ *
+ * 1. THE 60FPS CORRECTION. A frame at 60fps integrates half as much time as a
+ *    frame at 30, so the same authored blur length reads as half the smear.
+ *    Doubling the render rate without this makes fast motion *crisper* per
+ *    frame and, perversely, more strobe-like — the eye gets a clean sharp copy
+ *    of an object in a new place every frame, which is exactly the staccato
+ *    look we were trying to remove.
+ *
+ * 2. Taste. Slightly over-blurred fast motion reads as film. Under-blurred
+ *    fast motion reads as a slideshow.
+ *
+ * Amounts at call sites stay authored in 30fps terms; this scales them.
+ */
+export const BLUR_GAIN = 1.85;
+
+/**
  * Motion blur, three ways.
  *
  * Fast movement without blur is the single most common reason motion graphics
@@ -32,8 +51,8 @@ type TrailProps = {
 };
 
 export const MotionTrail: React.FC<TrailProps> = ({
-  samples = 6,
-  shutter = 0.5,
+  samples = 9,
+  shutter = 0.5 * BLUR_GAIN,
   render,
   blend = 'screen',
   style,
@@ -87,8 +106,9 @@ export const DirectionalBlur: React.FC<{
   spread?: number;
   children: React.ReactNode;
   style?: React.CSSProperties;
-}> = ({ amount, angle = 0, spread = 0.4, children, style }) => {
+}> = ({ amount: rawAmount, angle = 0, spread = 0.4, children, style }) => {
   const id = useId().replace(/[:]/g, '');
+  const amount = rawAmount * BLUR_GAIN;
   if (amount < 0.3) return <div style={style}>{children}</div>;
 
   // CSS applies `filter` in the element's own coordinate space and `transform`
@@ -130,7 +150,8 @@ export const Smear: React.FC<{
   copies?: number;
   children: React.ReactNode;
   style?: React.CSSProperties;
-}> = ({ length, angle = 0, copies = 5, children, style }) => {
+}> = ({ length: rawLength, angle = 0, copies = 7, children, style }) => {
+  const length = rawLength * BLUR_GAIN;
   if (length < 1) return <div style={style}>{children}</div>;
   const rad = (angle * Math.PI) / 180;
 

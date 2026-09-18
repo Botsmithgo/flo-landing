@@ -2,16 +2,18 @@
   "name": "mazi-film",
   "version": "1.0.0",
   "private": true,
-  "description": "MAZI — brand film. Remotion.",
+  "description": "MAZI \u2014 brand film. Remotion.",
   "scripts": {
     "dev": "remotion studio",
     "studio": "remotion studio",
-    "build": "remotion render MaziFilm16x9 out/mazi-16x9.mp4 --codec=h264 --crf=16",
-    "build:9x16": "remotion render MaziFilm9x16 out/mazi-9x16.mp4 --codec=h264 --crf=16",
-    "build:1x1": "remotion render MaziFilm1x1 out/mazi-1x1.mp4 --codec=h264 --crf=16",
-    "build:4x5": "remotion render MaziFilm4x5 out/mazi-4x5.mp4 --codec=h264 --crf=16",
+    "build": "remotion render MaziFilm16x9 out/mazi-16x9.mp4 --codec=h264 --crf=16 --jpeg-quality=95",
+    "build:9x16": "remotion render MaziFilm9x16 out/mazi-9x16.mp4 --codec=h264 --crf=16 --jpeg-quality=95",
+    "build:1x1": "remotion render MaziFilm1x1 out/mazi-1x1.mp4 --codec=h264 --crf=16 --jpeg-quality=95",
+    "build:4x5": "remotion render MaziFilm4x5 out/mazi-4x5.mp4 --codec=h264 --crf=16 --jpeg-quality=95",
     "still": "remotion still MaziFilm16x9 out/frame.png",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "vo": "node scripts/make-vo.mjs",
+    "preview": "remotion render MaziFilm16x9 out/preview.mp4 --scale=0.5 --concurrency=4"
   },
   "dependencies": {
     "@remotion/cli": "4.0.409",

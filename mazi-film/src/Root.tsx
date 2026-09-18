@@ -1,7 +1,7 @@
 import React from 'react';
 import { Composition, Folder } from 'remotion';
 import { MaziFilm } from './MaziFilm';
-import { FPS, TOTAL } from './utils/timing';
+import { FPS, TOTAL_REAL } from './utils/timing';
 
 /**
  * Compositions.
@@ -21,7 +21,7 @@ export const RemotionRoot: React.FC = () => (
       <Composition
         id="MaziFilm16x9"
         component={MaziFilm}
-        durationInFrames={TOTAL}
+        durationInFrames={TOTAL_REAL}
         fps={FPS}
         width={1920}
         height={1080}
@@ -29,7 +29,7 @@ export const RemotionRoot: React.FC = () => (
       <Composition
         id="MaziFilm9x16"
         component={MaziFilm}
-        durationInFrames={TOTAL}
+        durationInFrames={TOTAL_REAL}
         fps={FPS}
         width={1080}
         height={1920}
@@ -37,7 +37,7 @@ export const RemotionRoot: React.FC = () => (
       <Composition
         id="MaziFilm1x1"
         component={MaziFilm}
-        durationInFrames={TOTAL}
+        durationInFrames={TOTAL_REAL}
         fps={FPS}
         width={1080}
         height={1080}
@@ -45,7 +45,7 @@ export const RemotionRoot: React.FC = () => (
       <Composition
         id="MaziFilm4x5"
         component={MaziFilm}
-        durationInFrames={TOTAL}
+        durationInFrames={TOTAL_REAL}
         fps={FPS}
         width={1080}
         height={1350}

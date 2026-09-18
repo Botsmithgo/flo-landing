@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { AbsoluteFill } from 'remotion';
 import { COPY } from '../assets';
 import { Atmosphere, Vignette } from '../components/Atmosphere';
 import { Card3D } from '../components/Card3D';
@@ -13,7 +13,7 @@ import { camStyle, composeCam, handheld, impactShake } from '../utils/camera';
 import { C, alpha } from '../utils/colors';
 import { E, drift, fall, ramp, strike } from '../utils/easing';
 import { useLayout, useType } from '../utils/layout';
-import { SCENES } from '../utils/timing';
+import { SCENES, useStoryFrame } from '../utils/timing';
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────
@@ -46,7 +46,7 @@ const SCAN_WAVE = 52;
 const FLARE = 64;
 
 export const Origin: React.FC = () => {
-  const frame = useCurrentFrame();
+  const frame = useStoryFrame();
   const g = frame + SCENES.origin.from;
   const { width, height, u, cx, cy, by } = useLayout();
   const type = useType();
@@ -152,12 +152,12 @@ export const Origin: React.FC = () => {
             {flare > 0.01 ? (
               <div style={{ position: 'absolute', left: '50%', top: '50%' }}>
                 <LightStreak
-                  color={C.ice}
+                  color={C.trustIce}
                   width={width * 0.62 * flare}
                   thickness={2.2 * u}
                   intensity={flare}
                 />
-                <Glow color={C.cyan} size={90 * u * flare} intensity={flare * 1.3} />
+                <Glow color={C.trust} size={90 * u * flare} intensity={flare * 1.3} />
               </div>
             ) : null}
           </div>
@@ -173,10 +173,10 @@ export const Origin: React.FC = () => {
               bottom: 0,
               width: 2,
               background: `linear-gradient(180deg, transparent 0%, ${alpha(
-                C.cyan,
+                C.trust,
                 0.5,
-              )} 30%, ${alpha(C.ice, 0.75)} 50%, ${alpha(C.cyan, 0.5)} 70%, transparent 100%)`,
-              boxShadow: `0 0 ${40 * u}px ${alpha(C.cyan, 0.5)}`,
+              )} 30%, ${alpha(C.trustIce, 0.75)} 50%, ${alpha(C.trust, 0.5)} 70%, transparent 100%)`,
+              boxShadow: `0 0 ${40 * u}px ${alpha(C.trust, 0.5)}`,
               mixBlendMode: 'screen',
             }}
           />
@@ -192,11 +192,11 @@ export const Origin: React.FC = () => {
           reach={width * 0.55}
           life={38}
           flatten={0.42}
-          colors={[C.ice, C.cyan, C.violet, C.bone]}
+          colors={[C.trustIce, C.trust, C.brand, C.bone]}
         />
         <Shockwave frame={frame} at={IGNITE} duration={30} x={`${(cardX / width) * 100}%`} y={`${(cardY / height) * 100}%`} />
         <Flash frame={frame} at={IGNITE} decay={10} intensity={0.95} />
-        <Flash frame={frame} at={FLARE} decay={5} intensity={0.3} color={C.cyan} />
+        <Flash frame={frame} at={FLARE} decay={5} intensity={0.3} color={C.trust} />
 
         {/* ── "LOOK CLOSER" — crosses in FRONT of the card ─────────────── */}
         {headlineVisible ? (
@@ -271,7 +271,7 @@ export const Origin: React.FC = () => {
             opacity: ramp(frame, 20, 18, E.out),
           }}
         >
-          <Mono size={10 * u} color={alpha(C.cyan, 0.8)} tracking={3.4 * u}>
+          <Mono size={10 * u} color={alpha(C.trust, 0.8)} tracking={3.4 * u}>
             <Scramble
               text="SUBJECT ACQUIRED"
               progress={ramp(frame, 22, 26, E.out)}

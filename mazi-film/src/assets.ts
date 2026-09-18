@@ -1,16 +1,32 @@
+import { s } from './utils/timing';
+
 /**
  * ─────────────────────────────────────────────────────────────────────────────
  * ASSET + DATA REGISTRY
  * ─────────────────────────────────────────────────────────────────────────────
- * Everything replaceable lives here. Swapping the placeholder card for a real
- * MAZI hero asset, or the fictional player for a licensed one, should not
- * require touching a single scene.
+ * Everything replaceable lives here. Scenes never hardcode a name, a price or
+ * a path.
  *
- * The card in this film is ORIGINAL AND FICTIONAL. No real player, team,
- * league, manufacturer or photograph is referenced. The athlete is drawn as an
- * abstract silhouette in code (see components/CardFace.tsx) precisely so that
- * nothing copyrighted is involved. If you swap in real photography, clear the
- * rights first — this film is built to be shown publicly.
+ * ── Every number in this file is real ────────────────────────────────────────
+ * The subject of the film is an actual record in the MAZIDEX product database
+ * (Supabase project `mazidex`), pulled 2026-09-18:
+ *
+ *   public_card_id   mazi:bk:1990-fleer:michael-jordan:26
+ *   rung             PSA 9 — 4 verified sales
+ *   last sale        $85.00 · 2026-07-20 · seller dashlive · venue Whatnot
+ *   market range     $71.50 – $135.50 (IQR, verified only, 90-day window, n=3)
+ *
+ * The six sales listed in MARKET.comps are that card's real verified ledger,
+ * sellers and all. The catalog figure in CANDIDATE_STEPS is the real size of
+ * the MAZI catalog spine. Nothing here is illustrative.
+ *
+ * ── On artwork ───────────────────────────────────────────────────────────────
+ * The hero is drawn as a MAZI *record* — the product's own presentation of a
+ * catalog entry — not as a reproduction of the 1990 Fleer card. Naming a card
+ * and printing its verified sale history is what the product does on every card
+ * page; reproducing the printed artwork is a different thing and is not done
+ * here. The only photographs in the film are the four pre-1929 cards in
+ * `ASSETS.vintage`, which are public domain in the US.
  */
 
 /** Drop real files in `public/` and point these at them. Empty = draw in code. */
@@ -21,83 +37,171 @@ export const ASSETS = {
   cardBack: '' as string,
   /** e.g. 'mazi-wordmark.svg'. Empty = use the drawn wordmark in MaziLogo.tsx. */
   wordmark: '' as string,
-  /** Optional audio bed, e.g. 'mazi-score.wav'. See audio-cues.md. */
+  /**
+   * Narration is per-line (see VO_LINES) rather than one take. Set this to
+   * false to render the film silent without deleting the audio files.
+   */
+  narration: true,
+  /** Optional music bed, e.g. 'audio/score.mp3'. See audio-cues.md. */
   score: '' as string,
+  /**
+   * Real card photographs used in the SEARCH lattice.
+   *
+   * All four are pre-1929 tobacco-era and press material and are public domain
+   * in the US — chosen deliberately so the one beat that uses photography can
+   * ship anywhere without a rights conversation. They also earn their place:
+   * a 1909 Ty Cobb tumbling through a machine-readable archive is the whole
+   * idea of the company in one image.
+   */
+  vintage: [
+    'cards/vint-ty-cobb.jpg',
+    'cards/vint-christy-mathewson.jpg',
+    'cards/vint-cy-young.jpg',
+    'cards/vint-walter-johnson.jpg',
+  ] as readonly string[],
 } as const;
 
-/** The subject of the film. Fictional. */
+/**
+ * Narration placement.
+ *
+ * The picture is locked and works silent; the voice fits it. So each line is
+ * its own file dropped at an exact story frame, rather than one long take that
+ * the edit would have to accommodate. Moving a line is changing one number
+ * here — nothing in any scene knows the narration exists.
+ *
+ * Generate with `node scripts/make-vo.mjs`; the script reads these placements
+ * back and warns if a re-recorded line has grown long enough to collide with
+ * the next beat. Copy is in vo-script.md.
+ */
+export const VO_LINES: readonly { at: number; file: string; text: string }[] = [
+  { at: s(0.6), file: 'audio/vo-1.mp3', text: "A card sells live. Then it's gone." },
+  { at: s(4.8), file: 'audio/vo-2.mp3', text: 'MAZI reads it as it happens.' },
+  { at: s(9.4), file: 'audio/vo-3.mp3', text: 'Nine million cards. One match.' },
+  { at: s(13.7), file: 'audio/vo-4.mp3', text: 'Same grade. Fifty-eight dollars, then one eighty-six.' },
+  { at: s(19.7), file: 'audio/vo-5.mp3', text: "Without the record, you're guessing." },
+  { at: s(22.4), file: 'audio/vo-6.mp3', text: 'MAZI. See what you hold.' },
+];
+
+/** Narration level. One number for the whole read — the lines are pre-matched. */
+export const VO_GAIN = 1;
+
+/** The subject of the film. A real MAZIDEX record. */
 export const CARD = {
-  player: 'K. ANSARI',
-  firstName: 'KAI',
+  player: 'MICHAEL JORDAN',
+  firstName: 'MICHAEL',
   position: 'GUARD',
-  club: 'NORTHSIDE',
-  year: '2019',
-  set: 'MERIDIAN',
-  variant: 'ULTRAVIOLET PARALLEL',
-  serial: '07/25',
-  printRun: 25,
-  grade: 'PSA 10',
+  club: 'CHICAGO',
+  year: '1990',
+  set: 'FLEER',
+  variant: 'BASE',
+  number: '#26',
+  serial: '',
+  printRun: 0,
+  grade: 'PSA 9',
+  category: 'BASKETBALL',
   /** Detection confidence the vision system reports. */
   confidence: 99.4,
-  /** MAZI's internal record id — appears as micro-type throughout. */
-  recordId: 'MZ-4417-K9',
+  /** The permanent MAZI global ID. Appears as micro-type throughout. */
+  recordId: 'mazi:bk:1990-fleer:michael-jordan:26',
+  /** Short form, for chrome where the full ID won't fit. */
+  recordShort: 'MAZI · BK · 1990-FLEER · 26',
 } as const;
 
-/** Market intelligence shown in the MARKET beat. Placeholder figures. */
+/** Market intelligence shown in the MARKET beat. Real ledger figures. */
 export const MARKET = {
-  value: 4850,
+  /** Last verified sale on the PSA 9 rung. */
+  value: 85,
   currency: '$',
-  changePct: 12.4,
   windowLabel: '90D',
-  populationTotal: 25,
-  populationGraded: 6,
-  lastSale: 4850,
-  lastSaleDate: '23 AUG',
-  /** Comparable sales, newest last. Streams in as a ledger. */
-  comps: [
-    { date: '14 MAR', grade: 'PSA 10', price: 4120, venue: 'AUCTION' },
-    { date: '02 APR', grade: 'PSA 10', price: 4480, venue: 'PRIVATE' },
-    { date: '19 MAY', grade: 'PSA 9', price: 2960, venue: 'AUCTION' },
-    { date: '08 JUL', grade: 'PSA 10', price: 4910, venue: 'AUCTION' },
-    { date: '23 AUG', grade: 'PSA 10', price: 4850, venue: 'MARKETPLACE' },
-  ],
+  /** Estimated Market Range — the product never publishes a single "worth". */
+  rangeLow: 71.5,
+  rangeHigh: 135.5,
+  rangeSample: 3,
+  lastSale: 85,
+  lastSaleDate: '20 JUL',
+  lastSaleSeller: 'dashlive',
+  rungSales: 4,
   /**
-   * Normalised price history, 0–1. Shape matters more than accuracy: a long
-   * base, a shakeout, then a decisive run. Reads as a real asset, not a line
-   * that goes up because lines in ads go up.
+   * The card's real verified ledger, oldest first. Streams in as rows.
+   *
+   * Note what this actually shows: four PSA 9 sales inside six weeks at $63,
+   * $58, $186 and $85. That spread is not noise to be smoothed away — it is the
+   * argument for the whole product, and the film says so out loud rather than
+   * drawing a tidy line that goes up.
    */
-  series: [
-    0.18, 0.22, 0.19, 0.26, 0.24, 0.31, 0.29, 0.38, 0.34, 0.33, 0.45, 0.52, 0.48, 0.61, 0.58,
-    0.72, 0.79, 0.74, 0.88, 1.0,
+  comps: [
+    { date: '03 JUN', grade: 'RAW', price: 38, venue: 'WHATNOT', seller: 'boss_sports' },
+    { date: '11 JUN', grade: 'PSA 9', price: 63, venue: 'WHATNOT', seller: 'boss_sports' },
+    { date: '18 JUN', grade: 'PSA 8', price: 340, venue: 'WHATNOT', seller: 'sacramentocards' },
+    { date: '02 JUL', grade: 'PSA 9', price: 58, venue: 'WHATNOT', seller: 'blz_cards' },
+    { date: '13 JUL', grade: 'PSA 9', price: 186, venue: 'WHATNOT', seller: 'dashlive' },
+    { date: '20 JUL', grade: 'PSA 9', price: 85, venue: 'WHATNOT', seller: 'dashlive' },
   ],
+  /** The PSA 9 rung only — what the range is actually computed from. */
+  rungPrices: [63, 58, 186, 85],
+  /**
+   * Normalised 0–1 plot of the PSA 9 rung against a $0–$200 axis. Real points,
+   * in sale order. Deliberately not a smooth curve.
+   */
+  series: [0.315, 0.29, 0.93, 0.425],
 } as const;
 
-/** Copy. Six words carry this entire film — they are chosen, not written. */
+/** Copy. Six lines carry this entire film — they are chosen, not written. */
 export const COPY = {
   /** Opens the film, hard-cut over the ignition. */
   open: 'LOOK CLOSER',
   /** The recognition beat's system voice. */
   scanning: 'OPTICAL MATCH',
   /** The emotional line. The one sentence the viewer should remember. */
-  manifesto: ['EVERY CARD', 'HAS A SIGNAL'],
+  manifesto: ['NOTHING WORTH KEEPING', 'SHOULD GO UNRECORDED'],
   /** Under the mark. */
   endline: 'SEE WHAT YOU HOLD',
   /** Micro-type / system chrome. */
-  system: 'MAZI · OPTICAL INTELLIGENCE',
+  system: 'MAZI · THE LIVE MARKET RECORD',
 } as const;
 
-/** Candidate names that flicker through the search field. All fictional. */
-export const CANDIDATE_NAMES = [
-  'R. OYELARAN',
-  'K. ANSARI',
-  'T. VOSS',
-  'M. DELACROIX',
-  'J. HARGROVE',
-  'S. NAKAMURA',
-  'D. ABIOLA',
-  'L. PETROV',
-  'C. MWANGI',
-  'A. FONTAINE',
-  'B. OKONKWO',
-  'N. SOLBERG',
-] as const;
+/**
+ * The SEARCH lattice population — real cards, real grades, real last-sale
+ * prices, taken from the same database as the hero. Flying through a field of
+ * genuine records rather than invented ones costs nothing and means the one
+ * frame a viewer freezes on holds up.
+ */
+export type LatticeCard = {
+  readonly name: string;
+  readonly line: string;
+  readonly grade: string;
+  readonly price: number;
+  readonly cat: 'BK' | 'FB' | 'BB' | 'SC';
+};
+
+export const LATTICE_CARDS: readonly LatticeCard[] = [
+  { name: 'MICHAEL JORDAN', line: '1986 FLEER · 57', grade: 'BGS 9', price: 21100, cat: 'BK' },
+  { name: 'TOM BRADY', line: '2015 FLAWLESS · 23', grade: 'BGS 9', price: 41161, cat: 'FB' },
+  { name: 'SHOHEI OHTANI', line: '2018 TOPPS · 700', grade: 'BGS 10', price: 29251, cat: 'BB' },
+  { name: 'VICTOR WEMBANYAMA', line: '2023 ONE AND ONE · 22', grade: 'PSA 10', price: 27955, cat: 'BK' },
+  { name: 'TUA TAGOVAILOA', line: '2021 OBSIDIAN · CB-11', grade: 'PSA 9', price: 33000, cat: 'FB' },
+  { name: 'LEBRON JAMES', line: '2003 TOPPS CHROME · 111', grade: 'PSA 9', price: 4901, cat: 'BK' },
+  { name: 'MICKEY MANTLE', line: '1959 TOPPS · 10', grade: 'PSA 7', price: 3301, cat: 'BB' },
+  { name: 'KOBE BRYANT', line: '2005 TOPPS CHROME · 40', grade: 'PSA 9', price: 1220, cat: 'BK' },
+  { name: 'PATRICK MAHOMES II', line: '2017 OPTIC · 177', grade: 'PSA 10', price: 1330, cat: 'FB' },
+  { name: 'LUKA DONCIC', line: '2023 ONE AND ONE · 25', grade: 'PSA 10', price: 2540, cat: 'BK' },
+  { name: 'STEPHEN CURRY', line: '2020 OBSIDIAN · 29', grade: 'BGS 9', price: 2900, cat: 'BK' },
+  { name: 'KEN GRIFFEY JR.', line: '1992 TOPPS · 50', grade: 'PSA 10', price: 1550, cat: 'BB' },
+  { name: 'CRISTIANO RONALDO', line: '2018 DONRUSS · 9', grade: 'PSA 10', price: 1332, cat: 'SC' },
+  { name: 'NEYMAR JR', line: '2025 PRIZM FIFA · 16', grade: 'PSA 10', price: 3953, cat: 'SC' },
+  { name: 'AARON JUDGE', line: '2017 TOPPS · 287', grade: 'PSA 9', price: 1850, cat: 'BB' },
+  { name: 'ANTHONY EDWARDS', line: '2020 PRIZM · 258', grade: 'PSA 9', price: 5000, cat: 'BK' },
+  { name: 'JOSH ALLEN', line: '2021 KABOOM · K34', grade: 'PSA 10', price: 3700, cat: 'FB' },
+  { name: 'BOB CLEMENTE', line: '1960 TOPPS · 326', grade: 'PSA 8', price: 1820, cat: 'BB' },
+  { name: 'NIKOLA JOKIC', line: '2025 FINEST · H-5', grade: 'PSA 9', price: 1660, cat: 'BK' },
+  { name: 'MIKE TROUT', line: '2019 MYTHICAL · M-1', grade: 'PSA 8', price: 1201, cat: 'BB' },
+  { name: 'RYNE SANDBERG', line: '1983 TOPPS · 83', grade: 'PSA 10', price: 1990, cat: 'BB' },
+  { name: 'MICHAEL JORDAN', line: '1994 FINEST · 331', grade: 'PSA 9', price: 3611, cat: 'BK' },
+  { name: 'CAM SKATTEBO', line: '2025 DOWNTOWN · 19', grade: 'PSA 10', price: 8100, cat: 'FB' },
+  { name: 'DREW BREES', line: '2025 PRIZM BLACK · 3', grade: 'PSA 10', price: 1330, cat: 'FB' },
+];
+
+/** Candidate names that flicker through the search field — all real records. */
+export const CANDIDATE_NAMES = LATTICE_CARDS.map((c) => c.name).filter(
+  (n, i, a) => a.indexOf(n) === i,
+);

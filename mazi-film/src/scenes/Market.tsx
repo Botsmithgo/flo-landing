@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { AbsoluteFill } from 'remotion';
 import { CARD, MARKET } from '../assets';
 import { Atmosphere, Vignette } from '../components/Atmosphere';
 import { CARD_RATIO } from '../components/CardFace';
@@ -12,7 +12,7 @@ import { camStyle, composeCam, handheld, impactShake } from '../utils/camera';
 import { C, alpha } from '../utils/colors';
 import { E, drift, ramp, strike } from '../utils/easing';
 import { useLayout, useType } from '../utils/layout';
-import { IMPACTS, SCENES } from '../utils/timing';
+import { IMPACTS, SCENES, useStoryFrame } from '../utils/timing';
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────
@@ -45,7 +45,7 @@ import { IMPACTS, SCENES } from '../utils/timing';
 const VALUE = IMPACTS.value - SCENES.market.from; // 60
 
 export const Market: React.FC = () => {
-  const frame = useCurrentFrame();
+  const frame = useStoryFrame();
   const g = frame + SCENES.market.from;
   const { width, height, u, cx, cy, by, pad, isWide } = useLayout();
   const type = useType();
@@ -123,7 +123,7 @@ export const Market: React.FC = () => {
             width: colW * 1.1,
             height: height * 0.62,
             background: `radial-gradient(ellipse at 22% 34%, ${alpha(
-              C.amber,
+              C.goldDeep,
               0.1 * ramp(frame, VALUE - 8, 26, E.out),
             )} 0%, transparent 66%)`,
             filter: `blur(${60 * u}px)`,
@@ -167,7 +167,7 @@ export const Market: React.FC = () => {
           >
             <Rule progress={ramp(frame, 22, 18, E.out)} width={cardW} origin="left" />
             <div style={{ marginTop: 10 * u }}>
-              <Mono size={11 * u} color={C.paper} tracking={2.6 * u} weight={500}>
+              <Mono size={11 * u} color={C.paperInk} tracking={2.6 * u} weight={500}>
                 {CARD.player}
               </Mono>
             </div>
@@ -187,7 +187,7 @@ export const Market: React.FC = () => {
           targets={graphTargets}
           spread={width * 0.22}
           size={3 * u}
-          color={C.cyan}
+          color={C.trust}
           seed="tomarket"
           dissolveAfter={10}
         />
@@ -203,7 +203,7 @@ export const Market: React.FC = () => {
               marginBottom: 22 * u,
             }}
           >
-            <Mono size={10.5 * u} color={alpha(C.cyan, 0.9)} tracking={4.6 * u}>
+            <Mono size={10.5 * u} color={alpha(C.trust, 0.9)} tracking={4.6 * u}>
               MARKET INTELLIGENCE
             </Mono>
             <div style={{ flex: 1 }}>
@@ -275,7 +275,7 @@ export const Market: React.FC = () => {
           style={{
             background: `radial-gradient(60% 50% at ${(colX / width) * 100}% ${
               (colY / height) * 100
-            }%, ${alpha(C.amber, 0.14 * strike(frame, VALUE, 14, 2))} 0%, transparent 70%)`,
+            }%, ${alpha(C.goldDeep, 0.14 * strike(frame, VALUE, 14, 2))} 0%, transparent 70%)`,
             mixBlendMode: 'screen',
             pointerEvents: 'none',
           }}

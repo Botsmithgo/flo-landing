@@ -1,8 +1,15 @@
 # MAZI — Brand Film
 
-A 26-second futuristic brand film for **MAZI**, an intelligence platform for
-sports cards and collectibles. Built in Remotion. Renders to 16:9, 9:16, 1:1 and
-4:5 from one source tree.
+A 26-second futuristic brand film for **MAZI**, the live market record for
+sports cards. Built in Remotion, narrated with ElevenLabs, rendered at 60fps to
+16:9, 9:16, 1:1 and 4:5 from one source tree.
+
+**The subject is a real record.** The card is `mazi:bk:1990-fleer:michael-jordan:26`
+— a 1990 Fleer Michael Jordan, PSA 9 — and every figure on screen is that card's
+actual row in the MAZIDEX product database: four verified sales, a last sale of
+$85.00 on 20 July, and an Estimated Market Range of $71.50–$135.50. The records
+flying past in the SEARCH beat are real catalog rows too. Nothing in the film is
+illustrative.
 
 > **Self-contained and portable.** This folder has its own `package.json` and
 > depends on nothing outside itself — drop it into any repo, run `npm install`,
@@ -11,6 +18,18 @@ sports cards and collectibles. Built in Remotion. Renders to 16:9, 9:16, 1:1 and
 > pointing at that project.
 
 ---
+
+## Voice
+
+```bash
+export ELEVENLABS_API_KEY=...
+node scripts/make-vo.mjs      # writes public/audio/vo-1..6.mp3
+```
+
+Six lines, one file each, placed at exact frames by `VO_LINES` in `src/assets.ts`.
+The script measures every take and warns if a rewrite has grown long enough to
+collide with the next beat. Copy, voice id and the source of every spoken number
+are in [`vo-script.md`](vo-script.md).
 
 ## Run it
 
@@ -49,7 +68,7 @@ npx remotion still MaziFilm16x9 out/frame.png --frame=703
 | 05 | **MANIFESTO** | 18:12–22:12 | Everything stops. One card, small, in a very large dark room, lit by a single shaft. **EVERY CARD HAS A SIGNAL** crosses the frame in two halves, behind the object. |
 | 06 | **REVEAL** | 22:06–26:00 | The room implodes to a point. Surviving matter converges onto the letterforms. A bar of light crosses and paints the mark solid behind it. **MAZI** — *see what you hold*. |
 
-Runtime 26:00 at 30fps (780 frames).
+Runtime 26:00 at 60fps (1,560 frames), authored at 30.
 
 ---
 
@@ -113,13 +132,25 @@ processes, so `Math.random()` would make particles teleport between frames.
 `DirectionalBlur` is an anisotropic SVG blur rotated into the direction of
 travel. Fast movement without smear is the fastest way to look cheap.
 
-**Two typographic voices, never mixed in one line.** Inter Tight is the brand
-speaking. IBM Plex Mono is the system speaking. Every number, label and readout
-in the film is mono; every brand statement is Inter Tight.
+**Two clocks.** The film is authored at 30fps and rendered at 60. Everything
+creative is in *story frames*; `real()` converts only at the `<Sequence>`
+boundary, and scenes read `useStoryFrame()`. So the whole edit was doubled in
+temporal resolution without a single beat moving. Raising `RENDER_FPS` again
+needs no other edit. Motion blur carries a global `BLUR_GAIN` because a 60fps
+frame integrates half the time — without it, doubling the frame rate makes fast
+motion *crisper per frame* and more strobe-like, not less.
 
-**Chroma is a tool, not wallpaper.** Cyan is the machine — detection, scanning,
-certainty, and *nothing else in the film is cyan*. Violet is the field. Amber is
-money, and it appears in exactly two places in 26 seconds.
+**Three typographic voices, never mixed in one line.** Teko is the brand
+speaking. Barlow is a person speaking. JetBrains Mono is the system speaking.
+All three are the product's own faces. (Register weights as *ranges* — a face
+declared as exactly `700` does not satisfy a request for `800`, and the family
+silently falls out to the system grotesque.)
+
+**Chroma is a tool, not wallpaper.** The palette is lifted verbatim from
+`mazi-hq/mazi-status`: trust green `#46C878` is the machine — detection,
+scanning, verification — and *nothing else in the film is that green*. Brand blue
+`#7DA2FF` is the field. Gold `#D9B24A` is money, and only money. Surfaces are the
+product's `--paper` and `--panel`.
 
 **Fonts are self-hosted.** `public/fonts/` holds the woff2 files, loaded through
 the CSS Font Loading API with `delayRender()`. No CDN call at render time, so
@@ -151,10 +182,21 @@ Adding a format is adding a `<Composition>` in `Root.tsx`.
 
 Everything swappable is in **`src/assets.ts`**.
 
-**The card is original and fictional.** No real player, team, league,
-manufacturer or photograph is referenced — the athlete is an abstract silhouette
-drawn in code precisely so nothing copyrighted is involved. If you swap in real
-photography, clear the rights first: this film is built to be shown publicly.
+**What is real, and what is drawn.** The card's *identity and numbers* are real
+— they are the product's own catalog and ledger, the same data a MAZI card page
+publishes. The card's *artwork* is MAZI's own drawing: a silhouette and a court,
+built in code. The 1990 Fleer card is named, not reproduced.
+
+The only photographs in the film are the four in `ASSETS.vintage` — Ty Cobb,
+Christy Mathewson, Cy Young, Walter Johnson — all pre-1929 and public domain in
+the US, and graded down hard so they read as archive texture rather than as
+hero images.
+
+⚠️ There are modern athlete press photographs in the MAZI prototype's asset
+folder. They are third-party editorial images, they are **not** cleared, and
+they are deliberately not used here. If you want real modern card fronts in the
+lattice, the clean source is Andy's per-slice export into the MAZIDEX bucket —
+not the prototype placeholders.
 
 | To replace | Do this |
 |---|---|

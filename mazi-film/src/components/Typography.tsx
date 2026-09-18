@@ -43,7 +43,7 @@ export const Scramble: React.FC<{
         if (i > head) return <span key={i} style={{ opacity: 0 }}>{ch}</span>;
         const r = makeRand(`${seed}:${i}:${Math.floor(frame / 2)}`);
         return (
-          <span key={i} style={{ opacity: 0.55, color: C.cyan }}>
+          <span key={i} style={{ opacity: 0.55, color: C.trust }}>
             {GLYPHS[Math.floor(r.next() * GLYPHS.length)]}
           </span>
         );

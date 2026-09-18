@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, useCurrentFrame } from 'remotion';
+import { AbsoluteFill } from 'remotion';
 import { CARD, COPY } from '../assets';
 import { Atmosphere, Vignette } from '../components/Atmosphere';
 import { CARD_RATIO } from '../components/CardFace';
@@ -21,7 +21,7 @@ import { camStyle, composeCam, handheld, impactShake } from '../utils/camera';
 import { C, FONT, alpha } from '../utils/colors';
 import { E, drift, fall, ramp, strike } from '../utils/easing';
 import { useLayout } from '../utils/layout';
-import { IMPACTS, SCENES } from '../utils/timing';
+import { IMPACTS, SCENES, useStoryFrame } from '../utils/timing';
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────
@@ -58,7 +58,7 @@ const SCAN_START = 42;
 const SCAN_DUR = 34;
 
 export const Scan: React.FC = () => {
-  const frame = useCurrentFrame();
+  const frame = useStoryFrame();
   const g = frame + SCENES.scan.from;
   const { width, height, u, cx, cy, by, pad } = useLayout();
 
@@ -220,7 +220,7 @@ export const Scan: React.FC = () => {
           life={40}
           flatten={0.18}
           seed="detonate"
-          colors={[C.ice, C.cyan, C.violet, C.magenta, C.bone]}
+          colors={[C.trustIce, C.trust, C.brand, C.sage, C.bone]}
         />
         <Shockwave
           frame={frame}
@@ -252,10 +252,10 @@ export const Scan: React.FC = () => {
             style={{
               fontFamily: FONT.mono,
               fontSize: 30 * u,
-              color: C.cyan,
+              color: C.trust,
               letterSpacing: 1 * u,
               fontVariantNumeric: 'tabular-nums',
-              textShadow: `0 0 ${20 * u}px ${alpha(C.cyan, 0.6)}`,
+              textShadow: `0 0 ${20 * u}px ${alpha(C.trust, 0.6)}`,
             }}
           >
             {confidence.toFixed(1)}%
@@ -276,14 +276,14 @@ export const Scan: React.FC = () => {
             style={{
               width: `${(confidence / 100) * 100}%`,
               height: '100%',
-              background: C.cyan,
-              boxShadow: `0 0 ${10 * u}px ${C.cyan}`,
+              background: C.trust,
+              boxShadow: `0 0 ${10 * u}px ${C.trust}`,
             }}
           />
         </div>
 
         <div style={{ marginTop: 14 * u, opacity: ramp(frame, 126, 10, E.out) }}>
-          <Mono size={13 * u} color={C.ice} tracking={5 * u} weight={500}>
+          <Mono size={13 * u} color={C.trustIce} tracking={5 * u} weight={500}>
             <Scramble
               text={COPY.scanning}
               progress={ramp(frame, 126, 14, E.out)}

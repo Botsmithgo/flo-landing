@@ -90,10 +90,10 @@ export const Chrome: React.FC<Props> = ({
           style={{
             width: 5 * u,
             height: 5 * u,
-            background: C.cyan,
+            background: C.trust,
             borderRadius: '50%',
             opacity: 0.45 + 0.55 * Math.abs(Math.sin(globalFrame * 0.11)),
-            boxShadow: `0 0 ${7 * u}px ${C.cyan}`,
+            boxShadow: `0 0 ${7 * u}px ${C.trust}`,
           }}
         />
         <Mono size={10 * u} color={alpha(C.muted, 0.95)} tracking={3.4 * u}>
@@ -118,7 +118,7 @@ export const Chrome: React.FC<Props> = ({
         }}
       >
         {stageIndex !== undefined ? (
-          <Mono size={10 * u} color={alpha(C.cyan, 0.85)} tracking={2 * u}>
+          <Mono size={10 * u} color={alpha(C.trust, 0.85)} tracking={2 * u}>
             {String(stageIndex).padStart(2, '0')}
           </Mono>
         ) : null}
@@ -150,7 +150,7 @@ export const Chrome: React.FC<Props> = ({
           width={1}
           height={1}
         >
-          <g stroke={alpha(C.cyan, 0.55)} strokeWidth={1}>
+          <g stroke={alpha(C.trust, 0.55)} strokeWidth={1}>
             <path d={`M${-28 * u} 0 L${-9 * u} 0 M${9 * u} 0 L${28 * u} 0`} />
             <path d={`M0 ${-28 * u} L0 ${-9 * u} M0 ${9 * u} L0 ${28 * u}`} />
           </g>

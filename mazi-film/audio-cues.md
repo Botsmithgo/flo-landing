@@ -1,8 +1,28 @@
 # MAZI — Audio Cue Sheet
 
-Picture is locked to 30fps / 26:00 (780 frames). Every cue below corresponds to
-an entry in `src/utils/timing.ts › AUDIO_CUES`, which is the machine-readable
-source of truth — if you move a cue here, move it there too.
+Picture is locked to 26:00, authored at 30fps (780 story frames) and rendered at
+60 (1,560). Every cue below is in **story frames** and corresponds to an entry in
+`src/utils/timing.ts › AUDIO_CUES`, which is the machine-readable source of truth
+— if you move a cue here, move it there too.
+
+## State of the mix
+
+| Layer | Status |
+|---|---|
+| **Narration** | ✅ Shipped. Six ElevenLabs lines, placed by `VO_LINES` in `src/assets.ts`. See `vo-script.md`. |
+| **Music + sound design** | ⬜ Not built. Everything below is the brief for it. |
+
+The film currently plays with voice over silence. It reads, but the dynamics
+described in this sheet are what make the cut land — the ignition, the match and
+the mark are all carrying impacts that do not exist yet.
+
+**Where the voice sits.** The narration occupies 0:00.6–0:04, 0:04.8–0:06.6,
+0:09.4–0:13.5, 0:13.7–0:17.9, 0:19.7–0:22 and 0:22.4–0:25.8. Three gaps are
+deliberate and the mix should protect them rather than fill them: **0:06.6–0:09.4**
+(the machine working, no voice), **0:17.9–0:19.7** (the beat before the thesis
+line) and **0:22.0–0:22.4** (the breath before the mark). The manifesto card
+itself is the quietest passage in the film by design — one short line, then
+nothing.
 
 The film was animated *to* this sheet, not the other way round. Several beats
 only work with the sound: the 180ms duck after the ignition, and the four

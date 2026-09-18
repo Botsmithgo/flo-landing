@@ -1,8 +1,26 @@
+import { useCurrentFrame } from 'remotion';
+
 /**
  * MAZI — the timeline.
  *
  * One file owns every number that decides *when*. Scenes never hardcode a
  * global frame; they read from here. Re-cutting the film is editing this file.
+ *
+ * ── Two clocks, and why ──────────────────────────────────────────────────────
+ * The film is AUTHORED at 30fps and RENDERED at 60fps.
+ *
+ * Everything creative — scene bounds, impacts, counter steps, and every beat
+ * constant inside a scene — is expressed in **story frames** at STORY_FPS. The
+ * only place real frames exist is the `<Sequence>` props in MaziFilm.tsx and
+ * the grain seed, both of which go through `real()`.
+ *
+ * Scenes call `useStoryFrame()` instead of `useCurrentFrame()`. At 60fps that
+ * returns halves — 40.5, 41.0, 41.5 — and every interpolation in the film is
+ * float-safe, so the same authored curve is simply sampled twice as densely.
+ *
+ * That is the whole 60fps story: no beat moved, no constant was retuned, and
+ * fast motion now has twice the temporal resolution. Raising RENDER_FPS again
+ * (to 120, say) needs no other edit in the repo.
  *
  * Rhythm intent:
  *   ORIGIN     hold ....... ignite ... IMPACT ... accelerate
@@ -13,10 +31,23 @@
  *   REVEAL     collapse → light draws the mark → still
  */
 
-export const FPS = 30;
+/** The clock the film is written in. Every constant below is in these frames. */
+export const STORY_FPS = 30;
 
-/** Seconds → frames. Storyboards are written in seconds; code runs on frames. */
-export const s = (sec: number): number => Math.round(sec * FPS);
+/** The clock it is rendered on. 60 buys smooth whips and clean fast motion. */
+export const RENDER_FPS = 60;
+
+/** Story frames → render frames. */
+export const RATE = RENDER_FPS / STORY_FPS;
+
+/** The composition fps. Named FPS because Remotion helpers expect that name. */
+export const FPS = RENDER_FPS;
+
+/** Seconds → story frames. Storyboards are written in seconds. */
+export const s = (sec: number): number => Math.round(sec * STORY_FPS);
+
+/** Story frames → real frames. Only <Sequence> and the grain seed need this. */
+export const real = (storyFrames: number): number => Math.round(storyFrames * RATE);
 
 type Scene = {
   readonly id: string;
@@ -31,8 +62,8 @@ const scene = (id: string, fromSec: number, toSec: number): Scene => ({
 });
 
 /**
- * Scenes overlap by ~6 frames so transitions cross-cut rather than cut-to-black.
- * The outgoing scene is still alive underneath the incoming whip.
+ * Scenes overlap by ~6 story frames so transitions cross-cut rather than
+ * cut-to-black. The outgoing scene is still alive underneath the incoming whip.
  */
 export const SCENES = {
   origin: scene('origin', 0.0, 4.0),
@@ -43,11 +74,15 @@ export const SCENES = {
   reveal: scene('reveal', 22.2, 26.0),
 } as const;
 
+/** Story frames. */
 export const TOTAL = s(26);
+
+/** Real frames — what the <Composition> is given. */
+export const TOTAL_REAL = real(TOTAL);
 
 /**
  * Hard impacts — frames where the whole frame is allowed to be violent.
- * Shake, flash, chroma split and (later) sub-bass all key off these.
+ * Shake, flash, chroma split and sub-bass all key off these.
  */
 export const IMPACTS = {
   /** First strike. Darkness breaks. */
@@ -69,13 +104,20 @@ export const IMPACTS = {
   mark: s(23.43),
 } as const;
 
-/** Where the counter steps down during SEARCH (frame → candidates remaining). */
+/**
+ * Where the counter steps down during SEARCH (frame → candidates remaining).
+ *
+ * These are not invented numbers. 9,076,034 is the size of the MAZI catalog
+ * spine — every card with a permanent global ID — and the ladder below is that
+ * population narrowing by the attributes the vision pass actually reads:
+ * sport, era, set, card number, grade. It ends at 1.
+ */
 export const CANDIDATE_STEPS: readonly { frame: number; value: number }[] = [
-  { frame: s(9.3), value: 12847 },
-  { frame: s(10.25), value: 3106 },
-  { frame: s(10.95), value: 412 },
-  { frame: s(11.6), value: 27 },
-  { frame: s(12.1), value: 3 },
+  { frame: s(9.3), value: 9076034 },
+  { frame: s(10.25), value: 118402 },
+  { frame: s(10.95), value: 3106 },
+  { frame: s(11.6), value: 412 },
+  { frame: s(12.1), value: 27 },
   // Lands ~9 frames before the match so "1" is readable as its own beat rather
   // than being stepped on by the impact.
   { frame: s(12.35), value: 1 },
@@ -88,7 +130,7 @@ export const CANDIDATE_STEPS: readonly { frame: number; value: number }[] = [
 export type AudioCue = {
   readonly frame: number;
   readonly id: string;
-  readonly kind: 'sub' | 'impact' | 'texture' | 'ui' | 'riser' | 'silence' | 'music';
+  readonly kind: 'sub' | 'impact' | 'texture' | 'ui' | 'riser' | 'silence' | 'music' | 'vo';
   readonly note: string;
 };
 
@@ -109,13 +151,13 @@ export const AUDIO_CUES: readonly AudioCue[] = [
   { frame: s(10.25), id: 'step-1', kind: 'ui', note: 'Counter step. Pitched blip, +2 semitones each subsequent step.' },
   { frame: s(10.95), id: 'step-2', kind: 'ui', note: 'Counter step.' },
   { frame: s(11.6), id: 'step-3', kind: 'ui', note: 'Counter step. Bed starts filtering upward.' },
-  { frame: s(12.1), id: 'step-4', kind: 'ui', note: 'Counter step → 3. Everything begins to compress.' },
+  { frame: s(12.1), id: 'step-4', kind: 'ui', note: 'Counter step → 27. Everything begins to compress.' },
   { frame: s(12.35), id: 'step-5', kind: 'ui', note: 'Counter step → 1. Highest pitch. The search is over.' },
   { frame: s(12.45), id: 'pre-match-silence', kind: 'silence', note: 'Cut ALL audio for 4 frames. Absolute silence before the match.' },
   { frame: s(12.6), id: 'match', kind: 'impact', note: 'MATCH. The loudest moment. Sub + metallic lock + short reverse tail.' },
   { frame: s(13.7), id: 'market-bed', kind: 'music', note: 'Warm low pad enters. Tension releases. Money feels calm.' },
   { frame: s(14.1), id: 'ledger', kind: 'ui', note: 'Comp rows stream in: soft data ticks, 3 frames apart, low velocity.' },
-  { frame: s(15.6), id: 'value', kind: 'impact', note: 'Valuation lands. Warm sub thud — round, not aggressive. Amber = money.' },
+  { frame: s(15.6), id: 'value', kind: 'impact', note: 'Valuation lands. Warm sub thud — round, not aggressive. Gold = money.' },
   { frame: s(18.3), id: 'manifesto-void', kind: 'silence', note: 'Everything drops to the room tone + one sustained low string.' },
   { frame: s(19.4), id: 'signal-line', kind: 'texture', note: 'Headline crosses frame: one long airy swell, no transient.' },
   { frame: s(22.35), id: 'collapse', kind: 'sub', note: 'Reverse suck — pitch-rising whoosh collapsing to a point.' },
@@ -126,3 +168,16 @@ export const AUDIO_CUES: readonly AudioCue[] = [
 
 /** Frames since a scene started. Scenes receive global frames from Sequence-local time. */
 export const local = (frame: number, from: number): number => frame - from;
+
+/**
+ * The clock every scene should read.
+ *
+ * Returns the current frame expressed in STORY frames, so a scene authored
+ * against "local frames @30fps" keeps working verbatim at any render fps. At
+ * 60fps this yields halves (40, 40.5, 41 …) and that is the point: identical
+ * curve, twice the samples.
+ *
+ * Use `useCurrentFrame()` directly ONLY for things that are properties of the
+ * render rather than the story — the grain seed is the one real example.
+ */
+export const useStoryFrame = (): number => useCurrentFrame() / RATE;

@@ -169,14 +169,14 @@ export const MaziLogo: React.FC<Props> = ({ frame, start, width, force, style })
           <linearGradient id={id('markFill')} x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="#FFFFFF" />
             <stop offset="46%" stopColor={C.bone} />
-            <stop offset="100%" stopColor={C.paper} />
+            <stop offset="100%" stopColor={C.paperInk} />
           </linearGradient>
 
           <linearGradient id={id('bar')} x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="transparent" />
-            <stop offset="42%" stopColor={alpha(C.cyan, 0.5)} />
+            <stop offset="42%" stopColor={alpha(C.trust, 0.5)} />
             <stop offset="50%" stopColor="#FFFFFF" />
-            <stop offset="58%" stopColor={alpha(C.violet, 0.5)} />
+            <stop offset="58%" stopColor={alpha(C.brand, 0.5)} />
             <stop offset="100%" stopColor="transparent" />
           </linearGradient>
         </defs>
@@ -189,7 +189,7 @@ export const MaziLogo: React.FC<Props> = ({ frame, start, width, force, style })
                 key={`${li}-${pi}`}
                 d={toPath(poly, L.x)}
                 fill="none"
-                stroke={alpha(C.cyan, 0.9 * (1 - settle * 0.72))}
+                stroke={alpha(C.trust, 0.9 * (1 - settle * 0.72))}
                 strokeWidth={1.6}
                 pathLength={1}
                 strokeDasharray={1}
@@ -203,8 +203,8 @@ export const MaziLogo: React.FC<Props> = ({ frame, start, width, force, style })
         <g clipPath={`url(#${id('paint')})`}>
           {chroma > 0.15 ? (
             <g style={{ mixBlendMode: 'screen' }}>
-              <Marks fill={C.cyan} opacity={0.55} dx={-chroma} />
-              <Marks fill={C.magenta} opacity={0.5} dx={chroma} />
+              <Marks fill={C.trust} opacity={0.55} dx={-chroma} />
+              <Marks fill={C.sage} opacity={0.5} dx={chroma} />
             </g>
           ) : null}
           <Marks fill={`url(#${id('markFill')})`} />
@@ -237,7 +237,7 @@ export const MaziLogo: React.FC<Props> = ({ frame, start, width, force, style })
       >
         <svg viewBox={`0 0 ${LOGO_VIEW.w} ${LOGO_VIEW.h}`} width={width} height={height}>
           <g clipPath={`url(#${id('paint')})`}>
-            <Marks fill={C.ice} opacity={0.9} />
+            <Marks fill={C.trustIce} opacity={0.9} />
           </g>
         </svg>
       </div>
@@ -252,9 +252,9 @@ export const MaziLogo: React.FC<Props> = ({ frame, start, width, force, style })
           marginLeft: -width * 0.95,
           marginTop: -height * 1.6,
           background: `radial-gradient(ellipse at center, ${alpha(
-            C.cyan,
+            C.trust,
             0.16 * bloom,
-          )} 0%, ${alpha(C.violet, 0.08 * bloom)} 40%, transparent 70%)`,
+          )} 0%, ${alpha(C.brand, 0.08 * bloom)} 40%, transparent 70%)`,
           filter: `blur(${width * 0.06}px)`,
           mixBlendMode: 'screen',
           pointerEvents: 'none',

@@ -144,7 +144,7 @@ export const Card3D: React.FC<Props> = ({
             borderRadius: width * 0.04,
             boxShadow: `inset ${rotY > 0 ? '-' : ''}${Math.abs(rotY) * 0.04 + 1}px 0 ${
               2 + Math.abs(rotY) * 0.05
-            }px ${alpha(C.ice, 0.1 + Math.abs(Math.sin((rotY * Math.PI) / 180)) * 0.35)}`,
+            }px ${alpha(C.trustIce, 0.1 + Math.abs(Math.sin((rotY * Math.PI) / 180)) * 0.35)}`,
             pointerEvents: 'none',
           }}
         />
@@ -179,9 +179,9 @@ export const Card3D: React.FC<Props> = ({
             marginLeft: -width * 1.1,
             marginTop: -height * 0.95,
             background: `radial-gradient(ellipse at center, ${alpha(
-              C.violet,
+              C.brand,
               0.3 * halo,
-            )} 0%, ${alpha(C.cyanDeep, 0.12 * halo)} 42%, transparent 72%)`,
+            )} 0%, ${alpha(C.trustDeep, 0.12 * halo)} 42%, transparent 72%)`,
             filter: `blur(${width * 0.08}px)`,
             mixBlendMode: 'screen',
             pointerEvents: 'none',
@@ -220,7 +220,7 @@ export const Card3D: React.FC<Props> = ({
 const CardBack: React.FC<{ width: number; height: number }> = ({ width, height }) => (
   <svg viewBox={`0 0 ${CARD_W} ${CARD_H}`} width={width} height={height} style={{ display: 'block' }}>
     <rect width={CARD_W} height={CARD_H} fill="#080D18" />
-    <rect width={CARD_W} height={CARD_H} fill={alpha(C.violetDeep, 0.18)} />
+    <rect width={CARD_W} height={CARD_H} fill={alpha(C.brandDeep, 0.18)} />
     {Array.from({ length: 26 }, (_, i) => (
       <line
         key={i}
@@ -239,14 +239,14 @@ const CardBack: React.FC<{ width: number; height: number }> = ({ width, height }
       height={CARD_H - 8}
       rx="17"
       fill="none"
-      stroke={alpha(C.cyan, 0.3)}
+      stroke={alpha(C.trust, 0.3)}
       strokeWidth="2"
     />
     <text
       x={CARD_W / 2}
       y="330"
       textAnchor="middle"
-      fill={alpha(C.paper, 0.5)}
+      fill={alpha(C.paperInk, 0.5)}
       fontFamily={FONT.mono}
       fontSize="18"
       letterSpacing="7"

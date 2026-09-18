@@ -26,7 +26,7 @@ export const Flash: React.FC<{
   color?: string;
   /** Flash from a point rather than the whole frame. */
   origin?: { x: string; y: string };
-}> = ({ frame, at, decay = 9, intensity = 1, color = C.ice, origin }) => {
+}> = ({ frame, at, decay = 9, intensity = 1, color = C.trustIce, origin }) => {
   const e = strike(frame, at, decay, 1.5) * intensity;
   if (e <= 0.004) return null;
   const ox = origin?.x ?? '50%';
@@ -39,7 +39,7 @@ export const Flash: React.FC<{
           background: `radial-gradient(ellipse 80% 70% at ${ox} ${oy}, ${alpha(
             '#FFFFFF',
             0.9 * e,
-          )} 0%, ${alpha(color, 0.55 * e)} 22%, ${alpha(C.violet, 0.2 * e)} 48%, transparent 76%)`,
+          )} 0%, ${alpha(color, 0.55 * e)} 22%, ${alpha(C.brand, 0.2 * e)} 48%, transparent 76%)`,
           mixBlendMode: 'screen',
           pointerEvents: 'none',
         }}
@@ -48,7 +48,7 @@ export const Flash: React.FC<{
       <AbsoluteFill
         style={{
           background: `radial-gradient(ellipse 120% 100% at ${ox} ${oy}, ${alpha(
-            C.violet,
+            C.brand,
             0.22 * Math.sqrt(e),
           )} 0%, transparent 70%)`,
           mixBlendMode: 'screen',
@@ -71,7 +71,7 @@ export const Shockwave: React.FC<{
   y?: string;
   color?: string;
   maxScale?: number;
-}> = ({ frame, at, duration = 26, x = '50%', y = '50%', color = C.ice, maxScale = 2.6 }) => {
+}> = ({ frame, at, duration = 26, x = '50%', y = '50%', color = C.trustIce, maxScale = 2.6 }) => {
   const p = ramp(frame, at, duration, E.expoOut);
   if (p <= 0 || p >= 1) return null;
   const { width } = useLayout();
