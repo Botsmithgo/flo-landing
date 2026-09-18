@@ -75,22 +75,36 @@ export const Market: React.FC = () => {
     portrait: width - pad * 2,
     tall: width - pad * 2,
   });
-  const colY = by({ wide: cy - height * 0.24, square: height * 0.48, portrait: height * 0.46, tall: height * 0.45 });
+  const colY = by({
+    wide: cy - height * 0.24,
+    square: height * 0.48,
+    // 4:5 is the tightest frame in the set — the readout column has to start
+    // higher and run shorter or the ledger walks into the viewfinder chrome.
+    portrait: height * 0.43,
+    tall: height * 0.45,
+  });
 
   const graphW = by({ wide: colW * 0.62, square: colW, portrait: colW, tall: colW });
-  const graphH = by({ wide: height * 0.2, square: height * 0.15, tall: height * 0.13 });
+  const graphH = by({
+    wide: height * 0.2,
+    square: height * 0.15,
+    portrait: height * 0.115,
+    tall: height * 0.13,
+  });
+  const graphTop =
+    colY +
+    by({ wide: height * 0.27, square: height * 0.2, portrait: height * 0.17, tall: height * 0.18 });
+  const ledgerGap = height * by({ wide: 0.055, square: 0.055, portrait: 0.035, tall: 0.055 });
 
   // Particles that peel off the object and land where the graph will draw.
-  const graphTargets = useMemo(() => {
-    const originY = colY + by({ wide: height * 0.27, square: height * 0.2, tall: height * 0.18 });
-    return MARKET.series.map((v, i) => ({
-      x: colX + (i / (MARKET.series.length - 1)) * graphW,
-      y: originY + (1 - v) * graphH * 0.8 + graphH * 0.1,
-    }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [colX, colY, graphW, graphH, height]);
-
-  const graphTop = colY + by({ wide: height * 0.27, square: height * 0.2, tall: height * 0.18 });
+  const graphTargets = useMemo(
+    () =>
+      MARKET.series.map((v, i) => ({
+        x: colX + (i / (MARKET.series.length - 1)) * graphW,
+        y: graphTop + (1 - v) * graphH * 0.8 + graphH * 0.1,
+      })),
+    [colX, graphTop, graphW, graphH],
+  );
 
   return (
     <AbsoluteFill style={{ opacity: 1 - outro * 0.96 }}>
@@ -242,7 +256,7 @@ export const Market: React.FC = () => {
             style={{
               position: 'absolute',
               left: colX,
-              top: graphTop + graphH + height * 0.055,
+              top: graphTop + graphH + ledgerGap,
               width: colW,
             }}
           >

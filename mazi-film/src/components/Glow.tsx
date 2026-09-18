@@ -74,53 +74,6 @@ export const Glow: React.FC<GlowProps> = ({
 };
 
 /**
- * Object bloom. Wraps real content and adds blurred, screen-blended copies of
- * it behind itself, so the light appears to *come off* the artwork rather than
- * being painted underneath it.
- */
-export const Bloom: React.FC<{
-  children: React.ReactNode;
-  /** Blur radius of the main bloom pass. */
-  radius?: number;
-  intensity?: number;
-  /** Adds a second, much wider pass. Expensive — use on hero elements only. */
-  wide?: boolean;
-  style?: React.CSSProperties;
-}> = ({ children, radius = 18, intensity = 0.8, wide = true, style }) => (
-  <div style={{ position: 'relative', ...style }}>
-    {wide ? (
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          inset: 0,
-          filter: `blur(${radius * 3.4}px) saturate(1.5)`,
-          opacity: intensity * 0.42,
-          mixBlendMode: 'screen',
-          pointerEvents: 'none',
-        }}
-      >
-        {children}
-      </div>
-    ) : null}
-    <div
-      aria-hidden
-      style={{
-        position: 'absolute',
-        inset: 0,
-        filter: `blur(${radius}px) saturate(1.35)`,
-        opacity: intensity,
-        mixBlendMode: 'screen',
-        pointerEvents: 'none',
-      }}
-    >
-      {children}
-    </div>
-    <div style={{ position: 'relative' }}>{children}</div>
-  </div>
-);
-
-/**
  * Anamorphic streak — the horizontal flare a cine lens throws off a hard
  * specular highlight. Used only on genuine specular events (the ignition, the
  * card's rim light, the match lock).

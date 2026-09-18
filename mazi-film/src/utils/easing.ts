@@ -60,22 +60,6 @@ export const fall = (
   easing: (t: number) => number = E.out,
 ): number => range(frame, [start, start + len], [1, 0], { easing });
 
-/** Rise, hold, fall — a single value for "this element exists right now". */
-export const pulse = (
-  frame: number,
-  start: number,
-  rise: number,
-  hold: number,
-  decay: number,
-  easing: (t: number) => number = E.out,
-): number =>
-  interpolate(
-    frame,
-    [start, start + rise, start + rise + hold, start + rise + hold + decay],
-    [0, 1, 1, 0],
-    { easing, extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
-  );
-
 /** Sharp attack, exponential decay — impacts, flashes, shockwaves. */
 export const strike = (frame: number, at: number, decay: number, attack = 2): number => {
   if (frame < at - attack) return 0;

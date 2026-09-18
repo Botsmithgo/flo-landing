@@ -56,37 +56,10 @@ export const alpha = (hex: string, a: number): string => {
   return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
 };
 
-/** Linear blend between two hex colours, t in [0,1]. */
-export const mix = (a: string, b: string, t: number): string => {
-  const p = (h: string) => {
-    const s = h.replace('#', '');
-    const n = parseInt(s, 16);
-    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-  };
-  const [r1, g1, b1] = p(a);
-  const [r2, g2, b2] = p(b);
-  const l = (x: number, y: number) => Math.round(x + (y - x) * t);
-  return `rgb(${l(r1, r2)}, ${l(g1, g2)}, ${l(b1, b2)})`;
-};
-
-/** Named gradients used across scenes so the world stays one world. */
+/** The one gradient the whole film sits on. Scene-local washes build on it. */
 export const GRAD = {
-  /** The base environment wash — never flat black. */
+  /** The base environment wash — never flat black, always a graded light. */
   world: `radial-gradient(120% 90% at 50% 38%, ${C.navy} 0%, ${C.abyss} 46%, ${C.void} 100%)`,
-  /** Cool field bloom behind the intelligence scenes. */
-  field: `radial-gradient(70% 55% at 50% 50%, ${alpha(C.violet, 0.3)} 0%, ${alpha(
-    C.violetDeep,
-    0.12,
-  )} 40%, transparent 72%)`,
-  /** The scanning machine. */
-  machine: `linear-gradient(90deg, transparent 0%, ${alpha(C.cyan, 0.9)} 50%, transparent 100%)`,
-  /** Foil sweep across the card surface. */
-  foil: `linear-gradient(105deg, transparent 18%, ${alpha(C.ice, 0.5)} 38%, ${alpha(
-    C.violet,
-    0.55,
-  )} 48%, ${alpha(C.magenta, 0.4)} 56%, ${alpha(C.cyan, 0.5)} 66%, transparent 86%)`,
-  /** Money. Twice only. */
-  value: `linear-gradient(180deg, ${C.amber} 0%, ${C.gold} 100%)`,
 } as const;
 
 /** Typography stack. Loaded in src/utils/fonts.ts, mirrored here for style objects. */

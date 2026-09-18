@@ -18,7 +18,7 @@ import {
   ScanPlane,
 } from '../components/Vision';
 import { camStyle, composeCam, handheld, impactShake } from '../utils/camera';
-import { C, alpha } from '../utils/colors';
+import { C, FONT, alpha } from '../utils/colors';
 import { E, drift, fall, ramp, strike } from '../utils/easing';
 import { useLayout } from '../utils/layout';
 import { IMPACTS, SCENES } from '../utils/timing';
@@ -250,7 +250,7 @@ export const Scan: React.FC = () => {
           </Mono>
           <span
             style={{
-              fontFamily: '"IBM Plex Mono", monospace',
+              fontFamily: FONT.mono,
               fontSize: 30 * u,
               color: C.cyan,
               letterSpacing: 1 * u,

@@ -73,7 +73,7 @@ src/
 │  ├─ Typography.tsx     Kinetic, Scramble, Odometer, Mono, Rule
 │  ├─ Particles.tsx      DustField, Sparks, Converge
 │  ├─ MotionBlur.tsx     MotionTrail, DirectionalBlur, Smear
-│  ├─ Glow.tsx           layered glow, object bloom, anamorphic streaks
+│  ├─ Glow.tsx           layered point glow + anamorphic streaks
 │  ├─ Transitions.tsx    Flash, Shockwave, ChromaSplit
 │  ├─ Chrome.tsx         viewfinder micro-type
 │  └─ Grain.tsx          cinematic grain + lens fringe

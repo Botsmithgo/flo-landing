@@ -60,16 +60,3 @@ export const depthStyle = (opts: DepthOpts, cam?: { x?: number; y?: number }): R
     willChange: 'transform, filter, opacity',
   };
 };
-
-/** Named planes. Keeps scenes from inventing arbitrary z values. */
-export const PLANE = {
-  /** Dust and lens dirt, right on the glass. Always blurred, always drifting. */
-  lens: 120,
-  foreground: 380,
-  /** Where the hero card lives. Sharp. */
-  subject: 900,
-  midground: 1500,
-  background: 2600,
-  /** The far field — card lattice, haze, the sense of a very large room. */
-  deep: 4800,
-} as const;
