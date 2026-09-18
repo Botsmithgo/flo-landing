@@ -54,11 +54,11 @@ export const Origin: React.FC = () => {
   // ── Camera ──────────────────────────────────────────────────────────────
   // Two moves only: an almost-imperceptible drift, then a violent push.
   const drift1 = ramp(frame, 0, 82, E.linear) * 14 * u;
-  const push = ramp(frame, LAUNCH, 20, E.expoIn);
+  const push = ramp(frame, LAUNCH, 24, E.glide);
   const zoom = 1 + ramp(frame, 60, 22, E.glide) * 0.04 + push * 1.55;
 
   const shake = impactShake(frame, [
-    { at: IGNITE, power: 26 * u, decay: 11 },
+    { at: IGNITE, power: 13 * u, decay: 11 },
     { at: LAUNCH, power: 16 * u, decay: 8 },
   ]);
   const hh = handheld(frame, 1.1);
@@ -74,8 +74,8 @@ export const Origin: React.FC = () => {
     90 -
     ramp(frame, 12, 58, E.breath) * 13 - // 90 → 77, imperceptible thickening
     ramp(frame, 74, 8, E.expoIn) * 6 - // anticipation: a little more turn
-    ramp(frame, IGNITE, 16, E.expoOut) * 52; // 71 → 19, the reveal
-  const rotX = drift(frame, 0.012, 2.2, 1.3) - ramp(frame, IGNITE, 22, E.out) * 5;
+    ramp(frame, IGNITE, 30, E.out) * 52; // 71 → 19, the reveal — eased, not snapped
+  const rotX = drift(frame, 0.012, 2.2, 1.3) - ramp(frame, IGNITE, 30, E.out) * 5;
   const rotZ = drift(frame, 0.009, 1.1, 0.4);
 
   // Scale: tiny and far, then thrown at the lens.
@@ -84,12 +84,12 @@ export const Origin: React.FC = () => {
     by({ wide: 0.13, square: 0.2, portrait: 0.22, tall: 0.26 }) *
     (0.24 +
       ramp(frame, 12, 66, E.breath) * 0.16 +
-      ramp(frame, IGNITE, 20, E.expoOut) * 1.05 +
-      ramp(frame, LAUNCH, 18, E.expoIn) * 2.4);
+      ramp(frame, IGNITE, 30, E.out) * 1.05 +
+      ramp(frame, LAUNCH, 22, E.glide) * 2.4);
 
   // Off-centre until the ignition, then it claims the frame.
-  const cardX = cx + by({ wide: 0.11, tall: 0.06 }) * width * (1 - ramp(frame, IGNITE, 24, E.out));
-  const cardY = cy - height * 0.03 * (1 - ramp(frame, IGNITE, 24, E.out));
+  const cardX = cx + by({ wide: 0.11, tall: 0.06 }) * width * (1 - ramp(frame, IGNITE, 34, E.out));
+  const cardY = cy - height * 0.03 * (1 - ramp(frame, IGNITE, 34, E.out));
 
   const exposure =
     ramp(frame, 8, 26, E.out) * (0.4 + ramp(frame, IGNITE, 9, E.expoOut) * 0.6) +

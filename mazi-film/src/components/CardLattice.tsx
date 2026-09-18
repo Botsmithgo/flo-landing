@@ -197,13 +197,13 @@ export const MiniCard: React.FC<{
           0.94,
         )} 46%, ${alpha(C.graphite, 0.96)} 100%)`,
         border: `${Math.max(0.6, w * 0.008)}px solid ${alpha(
-          candidate ? C.trust : tint,
+          candidate ? C.gold : tint,
           (candidate ? 0.95 : 0.34) * edge,
         )}`,
         boxShadow: candidate
-          ? `0 0 ${w * 0.32}px ${alpha(C.trust, 0.45 * edge)}, inset 0 0 ${w * 0.16}px ${alpha(
-              C.trust,
-              0.2 * edge,
+          ? `0 0 ${w * 0.32}px ${alpha(C.gold, 0.4 * edge)}, inset 0 0 ${w * 0.16}px ${alpha(
+              C.gold,
+              0.18 * edge,
             )}`
           : edge > 0.35
             ? `0 ${h * 0.04}px ${h * 0.1}px ${alpha('#000', 0.5)}`
@@ -358,7 +358,7 @@ export const MiniCard: React.FC<{
             fontFamily: FONT.mono,
             fontSize: Math.max(5, w * 0.11),
             letterSpacing: w * 0.012,
-            color: alpha(C.trust, 0.9),
+            color: alpha(C.goldLift, 0.9),
             whiteSpace: 'nowrap',
           }}
         >

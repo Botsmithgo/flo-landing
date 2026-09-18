@@ -52,12 +52,25 @@ export const C = {
   sage: '#7BAA93', // --seg-b
   mist: '#C9D6CE', // --seg-c
 
-  // ── Accent: value (money — sparingly) ────────────────────────────────────
-  gold: '#D9B24A', // --warn
-  goldSoft: '#2E2712', // --warn-soft
+  // ── Accent: MAZI gold ────────────────────────────────────────────────────
+  /**
+   * The website's gold (mazidex.com, `--gold`), not mazi-status's. The two
+   * properties disagree by a shade and the customer-facing one wins, because
+   * the end card has to match the site the viewer lands on. Gold is now both
+   * the machine READING (scan chrome, corner locks) and money; green is
+   * reserved for a VERIFIED state — the seal, trusted records in the field.
+   */
+  gold: '#E9BE4F', // site --gold
+  goldSoft: '#2E2712',
   /** Trim and hairlines that must read as gold without competing with a value. */
-  goldDeep: '#A8863A',
-  goldLift: '#F0D089',
+  goldDeep: '#B8923A',
+  goldLift: '#F5D98A',
+
+  // ── The website's lockup ─────────────────────────────────────────────────
+  /** mazidex.com `--text` — the "MAZI" of the wordmark. */
+  siteInk: '#F4F1E9',
+  /** mazidex.com `--red` — the dot after the wordmark. */
+  siteRed: '#FF6759',
 
   // ── Semantic ─────────────────────────────────────────────────────────────
   positive: '#46C878',

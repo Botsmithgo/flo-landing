@@ -220,7 +220,7 @@ export const Scan: React.FC = () => {
           life={40}
           flatten={0.18}
           seed="detonate"
-          colors={[C.trustIce, C.trust, C.brand, C.sage, C.bone]}
+          colors={[C.goldLift, C.gold, C.goldDeep, C.brand, C.bone]}
         />
         <Shockwave
           frame={frame}
@@ -252,10 +252,10 @@ export const Scan: React.FC = () => {
             style={{
               fontFamily: FONT.mono,
               fontSize: 30 * u,
-              color: C.trust,
+              color: C.gold,
               letterSpacing: 1 * u,
               fontVariantNumeric: 'tabular-nums',
-              textShadow: `0 0 ${20 * u}px ${alpha(C.trust, 0.6)}`,
+              textShadow: `0 0 ${20 * u}px ${alpha(C.gold, 0.6)}`,
             }}
           >
             {confidence.toFixed(1)}%
@@ -276,14 +276,14 @@ export const Scan: React.FC = () => {
             style={{
               width: `${(confidence / 100) * 100}%`,
               height: '100%',
-              background: C.trust,
-              boxShadow: `0 0 ${10 * u}px ${C.trust}`,
+              background: C.gold,
+              boxShadow: `0 0 ${10 * u}px ${C.gold}`,
             }}
           />
         </div>
 
         <div style={{ marginTop: 14 * u, opacity: ramp(frame, 126, 10, E.out) }}>
-          <Mono size={13 * u} color={C.trustIce} tracking={5 * u} weight={500}>
+          <Mono size={13 * u} color={C.goldLift} tracking={5 * u} weight={500}>
             <Scramble
               text={COPY.scanning}
               progress={ramp(frame, 126, 14, E.out)}

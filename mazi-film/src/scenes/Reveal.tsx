@@ -8,9 +8,9 @@ import { Glow, LightStreak } from '../components/Glow';
 import { LOGO_VIEW, MaziLogo, sampleLogoPoints } from '../components/MaziLogo';
 import { Converge, DustField } from '../components/Particles';
 import { Flash, Shockwave } from '../components/Transitions';
-import { Mono, Rule } from '../components/Typography';
+import { Rule } from '../components/Typography';
 import { camStyle, composeCam, handheld, impactShake } from '../utils/camera';
-import { C, alpha } from '../utils/colors';
+import { C, FONT, alpha } from '../utils/colors';
 import { E, drift, ramp, strike } from '../utils/easing';
 import { useLayout, useType } from '../utils/layout';
 import { field } from '../utils/random';
@@ -64,7 +64,7 @@ export const Reveal: React.FC = () => {
   const cardH = cardW / CARD_RATIO;
 
   // ── The mark ────────────────────────────────────────────────────────────
-  const logoW = width * by({ wide: 0.34, square: 0.6, portrait: 0.66, tall: 0.72 });
+  const logoW = width * by({ wide: 0.4, square: 0.7, portrait: 0.76, tall: 0.82 });
   const logoH = (logoW / LOGO_VIEW.w) * LOGO_VIEW.h;
   const logoX = cx - logoW / 2;
   const logoY = cy - logoH / 2 - height * by({ wide: 0.035, square: 0.04, tall: 0.05 });
@@ -88,7 +88,7 @@ export const Reveal: React.FC = () => {
         dist: r.between(0.5, 1.5),
         len: r.between(0.4, 1),
         delay: r.between(0, 0.35),
-        color: r.pick([C.trust, C.trustIce, C.brand] as const),
+        color: r.pick([C.gold, C.goldLift, C.brand] as const),
       })),
     [by],
   );
@@ -167,7 +167,7 @@ export const Reveal: React.FC = () => {
         {/* The singularity the room collapses into */}
         {frame > COLLAPSE && frame < MARK + 6 ? (
           <Glow
-            color={C.trustIce}
+            color={C.goldLift}
             size={
               Math.max(6, width * 0.05 * collapse) *
               (1 + strike(frame, LOGO_START - 2, 10, 2) * 2.4)
@@ -186,7 +186,7 @@ export const Reveal: React.FC = () => {
           targets={logoTargets}
           spread={width * 0.42}
           size={2.4 * u}
-          color={C.trustIce}
+          color={C.goldLift}
           seed="mark"
           dissolveAfter={10}
         />
@@ -196,7 +196,7 @@ export const Reveal: React.FC = () => {
           <MaziLogo frame={frame} start={LOGO_START} width={logoW} />
         </div>
 
-        <Shockwave frame={frame} at={MARK} duration={44} maxScale={5} color={C.trustIce} />
+        <Shockwave frame={frame} at={MARK} duration={44} maxScale={5} color={C.goldLift} />
         <Flash frame={frame} at={MARK} decay={14} intensity={0.8} />
 
         {/* ── Endline ──────────────────────────────────────────────────── */}
@@ -221,16 +221,41 @@ export const Reveal: React.FC = () => {
             style={{
               opacity: endlineIn,
               transform: `translateY(${(1 - endlineIn) * 12 * u}px)`,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 14 * u,
             }}
           >
-            <Mono
-              size={by({ wide: 16, square: 17, tall: 16 }) * u}
-              color={alpha(C.paperInk, 0.92)}
-              tracking={by({ wide: 8.5, square: 7, tall: 5.5 }) * u}
-              weight={400}
+            <span
+              style={{
+                fontFamily: FONT.body,
+                fontWeight: 500,
+                fontSize: by({ wide: 22, square: 23, tall: 21 }) * u,
+                letterSpacing: by({ wide: 6.5, square: 5.5, tall: 4.5 }) * u,
+                color: alpha(C.siteInk, 0.9),
+                textTransform: 'uppercase',
+                whiteSpace: 'nowrap',
+              }}
             >
               {COPY.endline}
-            </Mono>
+            </span>
+            {/*
+              The one element borrowed from the site: its address. It arrives
+              a beat after the endline and sits at caption weight. Anything
+              louder than this on the last frame competes with the mark.
+            */}
+            <span
+              style={{
+                opacity: ramp(frame, ENDLINE + 12, 18, E.out),
+                fontFamily: FONT.mono,
+                fontSize: by({ wide: 13, square: 13, tall: 12 }) * u,
+                letterSpacing: 4 * u,
+                color: alpha(C.gold, 0.78),
+              }}
+            >
+              {COPY.url}
+            </span>
           </div>
         </div>
 

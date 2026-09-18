@@ -1,5 +1,6 @@
 import React, { useId } from 'react';
-import { CARD } from '../assets';
+import { Img, staticFile } from 'remotion';
+import { ASSETS, CARD } from '../assets';
 import { C, FONT, alpha } from '../utils/colors';
 
 /**
@@ -16,8 +17,14 @@ import { C, FONT, alpha } from '../utils/colors';
  * art.
  */
 
+/**
+ * The object's aspect. A raw card is 2.5:3.5; a PSA slab is taller, and the
+ * hero is now a photograph of a slab (380×637), so the whole film's card box
+ * follows the slab. Every scene derives its card height from CARD_RATIO, so
+ * this is the only place the shape is decided.
+ */
 export const CARD_W = 500;
-export const CARD_H = 700;
+export const CARD_H = 838;
 export const CARD_RATIO = CARD_W / CARD_H;
 
 type Props = {
@@ -43,6 +50,88 @@ export const CardFace: React.FC<Props> = ({
   const id = (n: string) => `${n}-${raw}`;
 
   const sweepX = -0.45 + sweep * 1.9; // in fractional card widths
+
+  /**
+   * ── The photograph path ──────────────────────────────────────────────────
+   * A real slab, photographed, is the object. Only two things are drawn over
+   * it: the moving foil sweep and the static gloss, both screen-blended, so
+   * the surface still answers to the film's light as the card turns. Nothing
+   * else — no plate, no seal, no chrome — because the thing that makes a
+   * photograph read as real is that nobody has drawn on it.
+   *
+   * During the detonation (`wireframe`) the photo is pushed to a luminance
+   * silhouette so it can shatter the same way the drawn card did.
+   */
+  if (ASSETS.cardFront) {
+    return (
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          borderRadius: `${(14 / CARD_W) * 100}% / ${(14 / CARD_H) * 100}%`,
+          overflow: 'hidden',
+          opacity: exposure,
+          background: '#0A0A0A',
+          ...style,
+        }}
+      >
+        <Img
+          src={staticFile(ASSETS.cardFront)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            filter:
+              wireframe > 0.5
+                ? `grayscale(1) contrast(1.6) brightness(1.3)`
+                : `contrast(1.04) saturate(1.06)`,
+          }}
+        />
+        {/* foil sweep */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: `linear-gradient(105deg, transparent ${(sweepX - 0.22) * 100}%, ${alpha(
+              '#FFFFFF',
+              0.12,
+            )} ${(sweepX - 0.06) * 100}%, ${alpha('#FFF6E2', 0.3)} ${sweepX * 100}%, ${alpha(
+              C.goldLift,
+              0.16,
+            )} ${(sweepX + 0.05) * 100}%, transparent ${(sweepX + 0.2) * 100}%)`,
+            mixBlendMode: 'screen',
+            pointerEvents: 'none',
+          }}
+        />
+        {/* gloss */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: `linear-gradient(160deg, ${alpha('#FFFFFF', 0.11)} 0%, ${alpha(
+              '#FFFFFF',
+              0.02,
+            )} 38%, transparent 100%)`,
+            mixBlendMode: 'screen',
+            pointerEvents: 'none',
+          }}
+        />
+        {wireframe > 0.5 ? (
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: alpha(C.gold, 0.22 * wireframe),
+              mixBlendMode: 'screen',
+            }}
+          />
+        ) : null}
+      </div>
+    );
+  }
 
   return (
     <svg

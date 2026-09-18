@@ -24,7 +24,7 @@ cd "$(dirname "$0")"
 SCORE="public/audio/score.wav"
 IN="out/mazi-16x9.mp4"
 OUT="out/MAZI-BRAND-FILM.mp4"
-DUCK=7          # dB the bed drops under the voice
+DUCK=9          # dB the bed drops under the voice
 LUFS=-14        # integrated target for the master
 DUR=26
 
@@ -62,6 +62,19 @@ done
 
 [[ -f "$IN" ]] || { echo "no render at $IN — run 'npm run build' first" >&2; exit 1; }
 
+# ── 0 · The impacts, from timing.ts ──────────────────────────────────────────
+# IMPACTS in src/utils/timing.ts is where the picture keys its shake, flash
+# and chroma split. The sound keys off the same numbers, read here rather than
+# retyped, so the two cannot drift.
+cue() { grep -o "$1: s([0-9.]*)" src/utils/timing.ts | grep -o '[0-9.]\{1,\}' | head -1; }
+T_IGNITE=$(cue ignite); T_MATCH=$(cue match); T_MARK=$(cue mark)
+ms() { awk -v a="$1" -v off="${2:-0}" 'BEGIN{printf "%d", (a + off) * 1000}'; }
+# sfx-match.wav carries a 120ms reverse swell before its hit, so it starts early.
+D_IGNITE=$(ms "$T_IGNITE"); D_MATCH=$(ms "$T_MATCH" -0.12); D_MARK=$(ms "$T_MARK")
+# The four frames of absolute silence before the match: bed and voice both.
+CUT_A=$(awk -v m="$T_MATCH" 'BEGIN{printf "%.4f", m - 0.12 - 4/60}')
+CUT_B=$(awk -v m="$T_MATCH" 'BEGIN{printf "%.4f", m}')
+
 # ── 1 · The narration stem ───────────────────────────────────────────────────
 # One source of truth for placement: the same VO_LINES the film renders from.
 # Read with a while-loop rather than `mapfile`: macOS ships bash 3.2, where
@@ -88,6 +101,24 @@ ffmpeg -y -loglevel error "${VO_IN[@]}" \
   -filter_complex "${VO_FILTER}${VO_MIX}amix=inputs=${N}:normalize=0:dropout_transition=0[m];[m]apad=whole_dur=${DUR}[o]" \
   -map "[o]" -ar 48000 -ac 2 -c:a pcm_s16le /tmp/mazi-vo-stem.wav
 
+# ── 1b · The sound-design stem ───────────────────────────────────────────────
+SFX_OK=1
+for f in ignite match mark; do [[ -f "public/audio/sfx-$f.wav" ]] || SFX_OK=0; done
+if (( SFX_OK )); then
+  echo "▸ sound design — ignite @${T_IGNITE}s · match @${T_MATCH}s · mark @${T_MARK}s"
+  ffmpeg -y -loglevel error \
+    -i public/audio/sfx-ignite.wav -i public/audio/sfx-match.wav -i public/audio/sfx-mark.wav \
+    -filter_complex "\
+      [0:a]volume=0.62,adelay=${D_IGNITE}|${D_IGNITE}[a]; \
+      [1:a]volume=1.0,adelay=${D_MATCH}|${D_MATCH}[b]; \
+      [2:a]volume=0.9,adelay=${D_MARK}|${D_MARK}[c]; \
+      [a][b][c]amix=inputs=3:normalize=0:dropout_transition=0,apad=whole_dur=${DUR},atrim=0:${DUR}[o]" \
+    -map "[o]" -ar 48000 -ac 2 -c:a pcm_s16le /tmp/mazi-sfx-stem.wav
+else
+  echo "▸ no sound-design hits (run scripts/make-sfx.sh) — mixing without them"
+  ffmpeg -y -loglevel error -f lavfi -i "anullsrc=r=48000:cl=stereo" -t "$DUR" -c:a pcm_s16le /tmp/mazi-sfx-stem.wav
+fi
+
 # ── 2 · The bed, ducked under the voice ──────────────────────────────────────
 if [[ -f "$SCORE" ]]; then
   # threshold 0.03 ≈ −30dBFS: the compressor reacts to speech, not to the noise
@@ -98,7 +129,7 @@ if [[ -f "$SCORE" ]]; then
   # The ratio is derived from the requested duck, but the DELIVERED duck also
   # depends on how far the voice sits above the threshold, so the script
   # measures what it actually got rather than claiming the number back at you.
-  RATIO=$(awk -v d="$DUCK" 'BEGIN{printf "%.1f", 1 + d / 2}')
+  RATIO=$(awk -v d="$DUCK" 'BEGIN{printf "%.1f", 1 + d}')
   OFF_MS=$(awk -v o="$SCORE_OFFSET" 'BEGIN{printf "%d", o * 1000}')
   echo "▸ bed — offset +${SCORE_OFFSET}s, fade in ${SCORE_FADE}s"
   echo "▸ sidechain — targeting ${DUCK}dB duck (ratio ${RATIO})"
@@ -108,7 +139,7 @@ if [[ -f "$SCORE" ]]; then
     -filter_complex "\
       [0:a]aformat=sample_rates=48000:channel_layouts=stereo,afade=t=in:st=0:d=${SCORE_FADE},adelay=${OFF_MS}|${OFF_MS},atrim=0:${DUR},asetpts=PTS-STARTPTS,apad=whole_dur=${DUR}[bed]; \
       [1:a]aformat=sample_rates=48000:channel_layouts=stereo[key]; \
-      [bed][key]sidechaincompress=threshold=0.03:ratio=${RATIO}:attack=20:release=260:makeup=1[out]" \
+      [bed][key]sidechaincompress=threshold=0.022:ratio=${RATIO}:attack=20:release=260:makeup=1[out]" \
     -map "[out]" -t "$DUR" -ar 48000 -ac 2 -c:a pcm_s16le /tmp/mazi-bed-ducked.wav
 
   # Measure: bed level 1.2s into the first line, versus 0.5s after it ends.
@@ -119,15 +150,19 @@ if [[ -f "$SCORE" ]]; then
     awk -v u="$under" -v c="$clear" 'BEGIN{printf "  measured: bed %.1f dB under voice vs %.1f dB in the gap = %.1f dB duck\n", u, c, c - u}'
   fi
 
-  ffmpeg -y -loglevel error -i /tmp/mazi-bed-ducked.wav -i /tmp/mazi-vo-stem.wav \
-    -filter_complex "[0:a][1:a]amix=inputs=2:normalize=0:weights='1 1.25':dropout_transition=0[mix]; \
-      [mix]alimiter=limit=0.95,loudnorm=I=${LUFS}:TP=-1.0:LRA=9[out]" \
+  echo "▸ cut — bed out ${CUT_A}s → ${CUT_B}s (four frames of silence, then the breath, then the hit)"
+  ffmpeg -y -loglevel error -i /tmp/mazi-bed-ducked.wav -i /tmp/mazi-vo-stem.wav -i /tmp/mazi-sfx-stem.wav \
+    -filter_complex "\
+      [0:a]volume=0:enable='between(t,${CUT_A},${CUT_B})'[bedcut]; \
+      [bedcut][1:a][2:a]amix=inputs=3:normalize=0:weights='1 1.25 1.1':dropout_transition=0[mix]; \
+      [mix]alimiter=limit=0.95,loudnorm=I=${LUFS}:TP=-1.0:LRA=11[out]" \
     -map "[out]" -ar 48000 -ac 2 -c:a pcm_s16le /tmp/mazi-mix.wav
 else
   echo "▸ no score at $SCORE — voice only (see MUSIC-BRIEF.md)"
-  ffmpeg -y -loglevel error -i /tmp/mazi-vo-stem.wav \
-    -af "alimiter=limit=0.95,loudnorm=I=${LUFS}:TP=-1.0:LRA=9" \
-    -ar 48000 -ac 2 -c:a pcm_s16le /tmp/mazi-mix.wav
+  ffmpeg -y -loglevel error -i /tmp/mazi-vo-stem.wav -i /tmp/mazi-sfx-stem.wav \
+    -filter_complex "[0:a][1:a]amix=inputs=2:normalize=0:weights='1.25 1.1':dropout_transition=0[mix]; \
+      [mix]alimiter=limit=0.95,loudnorm=I=${LUFS}:TP=-1.0:LRA=11[out]" \
+    -map "[out]" -ar 48000 -ac 2 -c:a pcm_s16le /tmp/mazi-mix.wav
 fi
 
 # ── 3 · Mux ──────────────────────────────────────────────────────────────────

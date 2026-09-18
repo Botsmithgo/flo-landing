@@ -55,12 +55,12 @@ export const CornerLocks: React.FC<
             <path
               d={`M0 ${size} L0 0 L${size} 0`}
               fill="none"
-              stroke={C.trust}
+              stroke={C.gold}
               strokeWidth={weight}
               strokeLinecap="square"
             />
             {/* a brighter nub at the vertex — the actual "lock" */}
-            <rect x={-1} y={-1} width={9} height={9} fill={C.trustIce} opacity={p} />
+            <rect x={-1} y={-1} width={9} height={9} fill={C.goldLift} opacity={p} />
           </g>
         );
       })}
@@ -103,15 +103,15 @@ export const ContourTrace: React.FC<Box & { frame: number; start?: number; durat
         height={h}
         rx={r}
         fill="none"
-        stroke={alpha(C.trust, 0.9)}
+        stroke={alpha(C.gold, 0.9)}
         strokeWidth={2}
         strokeDasharray={perim}
         strokeDashoffset={perim * (1 - p)}
       />
       {p > 0.02 && p < 0.995 ? (
         <>
-          <circle cx={hx} cy={hy} r={4.5} fill={C.trustIce} />
-          <circle cx={hx} cy={hy} r={13} fill="none" stroke={alpha(C.trustIce, 0.4)} strokeWidth={1} />
+          <circle cx={hx} cy={hy} r={4.5} fill={C.goldLift} />
+          <circle cx={hx} cy={hy} r={13} fill="none" stroke={alpha(C.goldLift, 0.4)} strokeWidth={1} />
         </>
       ) : null}
     </svg>
@@ -143,7 +143,7 @@ export const ScanPlane: React.FC<
           top: dir === 1 ? 0 : y,
           height: dir === 1 ? y : h - y,
           background: `linear-gradient(${dir === 1 ? 180 : 0}deg, transparent 0%, ${alpha(
-            C.trust,
+            C.gold,
             0.06,
           )} 100%)`,
           mixBlendMode: 'screen',
@@ -158,9 +158,9 @@ export const ScanPlane: React.FC<
           top: y - bandH / 2,
           height: bandH,
           background: `linear-gradient(180deg, transparent 0%, ${alpha(
-            C.trust,
+            C.gold,
             0.22,
-          )} 46%, ${alpha(C.trustIce, 0.32)} 50%, ${alpha(C.trust, 0.22)} 54%, transparent 100%)`,
+          )} 46%, ${alpha(C.goldLift, 0.32)} 50%, ${alpha(C.gold, 0.22)} 54%, transparent 100%)`,
           mixBlendMode: 'screen',
           filter: 'blur(1px)',
         }}
@@ -173,8 +173,8 @@ export const ScanPlane: React.FC<
           width: w * 1.12,
           top: y - 1,
           height: 2,
-          background: `linear-gradient(90deg, transparent 0%, ${C.trustIce} 18%, #FFFFFF 50%, ${C.trustIce} 82%, transparent 100%)`,
-          boxShadow: `0 0 ${w * 0.04}px ${alpha(C.trust, 0.8)}`,
+          background: `linear-gradient(90deg, transparent 0%, ${C.goldLift} 18%, #FFFFFF 50%, ${C.goldLift} 82%, transparent 100%)`,
+          boxShadow: `0 0 ${w * 0.04}px ${alpha(C.gold, 0.8)}`,
         }}
       />
     </div>
@@ -237,7 +237,7 @@ export const FeaturePoints: React.FC<
           <g key={i} transform={`translate(${pt.x * w}, ${pt.y * h})`} opacity={o}>
             <path
               d={`M${-size} 0 L${size} 0 M0 ${-size} L0 ${size}`}
-              stroke={pt.big ? C.trustIce : C.trust}
+              stroke={pt.big ? C.goldLift : C.gold}
               strokeWidth={1.2}
             />
             {pt.big ? (
@@ -247,7 +247,7 @@ export const FeaturePoints: React.FC<
                 width={size * 3}
                 height={size * 3}
                 fill="none"
-                stroke={alpha(C.trust, 0.45)}
+                stroke={alpha(C.gold, 0.45)}
                 strokeWidth={1}
                 transform={`rotate(${pt.rot * (1 - settle)})`}
               />
@@ -256,7 +256,7 @@ export const FeaturePoints: React.FC<
               <text
                 x={size * 2.2}
                 y={3.5}
-                fill={alpha(C.trust, 0.75)}
+                fill={alpha(C.gold, 0.75)}
                 fontFamily={FONT.mono}
                 fontSize={9.5}
                 letterSpacing="0.8"
@@ -290,7 +290,7 @@ export const DataLabel: React.FC<{
   scale?: number;
   /** Highlight (used for the value that matters most in a scene). */
   accent?: string;
-}> = ({ x, y, dx, dy, label, value, frame, start = 0, scale = 1, accent = C.trust }) => {
+}> = ({ x, y, dx, dy, label, value, frame, start = 0, scale = 1, accent = C.gold }) => {
   const line = ramp(frame, start, 9, E.snap);
   const textIn = ramp(frame, start + 6, 12, E.out);
   const side = dx >= 0 ? 1 : -1;
@@ -406,7 +406,7 @@ export const DepthMesh: React.FC<Box & { frame: number; start: number; duration:
             key={r}
             points={pts}
             fill="none"
-            stroke={alpha(C.trust, 0.55)}
+            stroke={alpha(C.gold, 0.55)}
             strokeWidth={0.8}
           />
         );

@@ -31,8 +31,16 @@ import { s } from './utils/timing';
 
 /** Drop real files in `public/` and point these at them. Empty = draw in code. */
 export const ASSETS = {
-  /** e.g. 'card-hero.png' — a front-facing card render, transparent background. */
-  cardFront: '' as string,
+  /**
+   * The hero is a PHOTOGRAPH of a real graded card — the same 1996 Topps Kobe
+   * Bryant slab the MAZI investor film used. When this is set, CardFace draws
+   * the photo instead of its SVG artwork and keeps only the foil sweep and
+   * gloss over it, so the object still responds to the room's light.
+   *
+   * The grade and cert on the label are blurred in the source image on
+   * purpose; see the note on CARD.grade.
+   */
+  cardFront: 'cards/kobe-slab-psa.png' as string,
   /** e.g. 'card-back.png' */
   cardBack: '' as string,
   /** e.g. 'mazi-wordmark.svg'. Empty = use the drawn wordmark in MaziLogo.tsx. */
@@ -84,91 +92,108 @@ export const ASSETS = {
  */
 export const VO_LINES: readonly { at: number; file: string; text: string }[] = [
   { at: s(0.6), file: 'audio/vo-1.mp3', text: "A card sells. Live. Then it's gone." },
-  { at: s(4.6), file: 'audio/vo-2.mp3', text: "MAZI is watching. Player. Set. Grade." },
-  { at: s(9.4), file: 'audio/vo-3.mp3', text: "Nine million cards. It finds the one." },
-  { at: s(13.8), file: 'audio/vo-4.mp3', text: "Same grade. Fifty-eight dollars. Then one eighty-six." },
-  { at: s(19.0), file: 'audio/vo-5.mp3', text: "Without a record, it's just a rumour." },
-  { at: s(22.4), file: 'audio/vo-6.mp3', text: "MAZI. See what you hold." },
+  { at: s(4.4), file: 'audio/vo-2.mp3', text: 'MAZI keeps the record. The player. The set. The grade. The price.' },
+  { at: s(9.9), file: 'audio/vo-3.mp3', text: 'Millions of cards. It finds the one.' },
+  { at: s(13.8), file: 'audio/vo-4.mp3', text: 'Same card. Two hundred dollars, or two thousand. The grade decides.' },
+  { at: s(19.9), file: 'audio/vo-5.mp3', text: "Without a record, it's just a rumour." },
+  { at: s(22.4), file: 'audio/vo-6.mp3', text: 'MAZI. See what you hold.' },
 ];
 
 /** Narration level. One number for the whole read — the lines are pre-matched. */
 export const VO_GAIN = 1;
 
-/** The subject of the film. A real MAZIDEX record. */
+/**
+ * The subject of the film. A real row in the MAZI trusted ledger.
+ *
+ *   source_key   identified_sweep::MC-20260730132954-p94312-0019-a30
+ *   title        1996 TOPPS KOBE BRYANT · #138 · graded slab
+ *   sale         $2,069.00 · 30 Jul 2026 · seller debutsports_ · Whatnot
+ *   trust        TRUSTED (trust_bucket), confidence high
+ *
+ * This is the sale the MAZI investor film is built around, and the photograph
+ * in `ASSETS.cardFront` is of this slab.
+ *
+ * ON THE GRADE. The ledger row reads PSA 10. The investor film's production
+ * notes say the real sale was a 9, and blurred the label for that reason. The
+ * two have not been reconciled, so this film does what the last one did: it
+ * shows the card as GRADED and never prints the number. The market beat's
+ * argument does not depend on it — see MARKET.
+ */
 export const CARD = {
-  player: 'MICHAEL JORDAN',
-  firstName: 'MICHAEL',
+  player: 'KOBE BRYANT',
+  firstName: 'KOBE',
   position: 'GUARD',
-  club: 'CHICAGO',
-  /** Worn number. Real, and the fastest single cue that this is who it is. */
-  jersey: '23',
-  year: '1990',
-  set: 'FLEER',
-  variant: 'BASE',
-  number: '#26',
+  club: 'LOS ANGELES',
+  jersey: '8',
+  year: '1996',
+  set: 'TOPPS',
+  variant: 'ROOKIE',
+  number: '#138',
   serial: '',
   printRun: 0,
-  grade: 'PSA 9',
+  /** Deliberately not a number. See the note above. */
+  grade: 'PSA · GRADED',
   category: 'BASKETBALL',
   /** Detection confidence the vision system reports. */
   confidence: 99.4,
-  /** The permanent MAZI global ID. Appears as micro-type throughout. */
-  recordId: 'mazi:bk:1990-fleer:michael-jordan:26',
+  /** The ledger key. Appears as micro-type throughout. */
+  recordId: 'identified_sweep::MC-20260730132954-p94312-0019-a30',
   /** Short form, for chrome where the full ID won't fit. */
-  recordShort: 'MAZI · BK · 1990-FLEER · 26',
+  recordShort: 'MAZI · BK · 1996-TOPPS · 138',
 } as const;
 
-/** Market intelligence shown in the MARKET beat. Real ledger figures. */
+/**
+ * Market intelligence shown in the MARKET beat. Real ledger figures.
+ *
+ * Five trusted sales of the 1996 Topps Kobe Bryant #138 inside ten weeks,
+ * from the same ledger the hero row lives in (mirror_sales, trusted = true,
+ * base set only — the Chrome and the Youthquake insert are different cards
+ * and are left out):
+ *
+ *   10 JUN  PSA 8      $200    dashlive
+ *   14 JUN  9.5        $2,550  boss_sports
+ *   29 JUL  PSA 8      $200    dashlive
+ *   30 JUL  graded     $2,069  debutsports_   ← the hero sale
+ *   12 AUG  PSA 10     $2,603  dashlive
+ *
+ * That is the argument of the beat: the same card trades at $200 or at two
+ * thousand, and the grade is the whole difference. It holds whether the hero
+ * slab is a 9 or a 10 — a 9 at $2,069 between a 9.5 at $2,550 and a 10 at
+ * $2,603 is exactly where a 9 should sit.
+ */
 export const MARKET = {
-  /** Last verified sale on the PSA 9 rung. */
-  value: 85,
+  /** The hero sale. */
+  value: 2069,
   currency: '$',
   windowLabel: '90D',
-  /** Estimated Market Range — the product never publishes a single "worth". */
-  rangeLow: 71.5,
-  rangeHigh: 135.5,
-  rangeSample: 3,
-  lastSale: 85,
-  lastSaleDate: '20 JUL',
-  lastSaleSeller: 'dashlive',
-  rungSales: 4,
   /**
-   * The card's real verified ledger, oldest first. Streams in as rows.
-   *
-   * Note what this actually shows: four PSA 9 sales inside six weeks at $63,
-   * $58, $186 and $85. That spread is not noise to be smoothed away — it is the
-   * argument for the whole product, and the film says so out loud rather than
-   * drawing a tidy line that goes up.
+   * No Estimated Market Range: this card has not resolved into the product
+   * catalog yet (it is in the review lane), so there is no rung to compute one
+   * on. The readout shows the observed spread instead, and says so.
    */
+  rangeLow: 200,
+  rangeHigh: 2603,
+  rangeLabel: 'SPREAD',
+  rangeSample: 5,
+  lastSale: 2069,
+  lastSaleDate: '30 JUL',
+  lastSaleSeller: 'debutsports_',
+  rungSales: 5,
   comps: [
-    { date: '03 JUN', grade: 'RAW', price: 38, venue: 'WHATNOT', seller: 'boss_sports' },
-    { date: '11 JUN', grade: 'PSA 9', price: 63, venue: 'WHATNOT', seller: 'boss_sports' },
-    { date: '18 JUN', grade: 'PSA 8', price: 340, venue: 'WHATNOT', seller: 'sacramentocards' },
-    { date: '02 JUL', grade: 'PSA 9', price: 58, venue: 'WHATNOT', seller: 'blz_cards' },
-    { date: '13 JUL', grade: 'PSA 9', price: 186, venue: 'WHATNOT', seller: 'dashlive' },
-    { date: '20 JUL', grade: 'PSA 9', price: 85, venue: 'WHATNOT', seller: 'dashlive' },
+    { date: '10 JUN', grade: 'PSA 8', price: 200, venue: 'WHATNOT', seller: 'dashlive' },
+    { date: '14 JUN', grade: '9.5', price: 2550, venue: 'WHATNOT', seller: 'boss_sports' },
+    { date: '29 JUL', grade: 'PSA 8', price: 200, venue: 'WHATNOT', seller: 'dashlive' },
+    { date: '30 JUL', grade: 'GRADED', price: 2069, venue: 'WHATNOT', seller: 'debutsports_' },
+    { date: '12 AUG', grade: 'PSA 10', price: 2603, venue: 'WHATNOT', seller: 'dashlive' },
   ],
-  /** The PSA 9 rung only — what the range is actually computed from. */
-  rungPrices: [63, 58, 186, 85],
-  /** Top of the value axis. Everything normalised below divides by this. */
-  axisMax: 200,
-  /**
-   * Where each plotted sale sits on the time axis, 0–1.
-   *
-   * The four PSA 9 sales are 11 Jun, 02 Jul, 13 Jul and 20 Jul — a long quiet
-   * stretch, then three trades in eighteen days. Spacing them evenly threw that
-   * away and made the line look like a four-step diagram; spacing them by the
-   * dates they actually happened on is both truer and reads far more like a
-   * price chart, because real ones are unevenly sampled.
-   */
-  seriesX: [0, 0.538, 0.821, 1],
-  /** What the plotted rung actually covers — 11 Jun to 20 Jul 2026. */
-  seriesSpan: '11 JUN – 20 JUL',
-  /**
-   * Normalised 0–1 plot of the PSA 9 rung against a $0–$200 axis. Real points,
-   * in sale order. Deliberately not a smooth curve.
-   */
-  series: [0.315, 0.29, 0.93, 0.425],
+  /** The top-grade sales — what the line plots. Three points, all real. */
+  rungPrices: [2550, 2069, 2603],
+  axisMax: 3000,
+  /** 14 Jun → 30 Jul → 12 Aug over a 59-day window. */
+  seriesX: [0, 0.78, 1],
+  seriesSpan: '14 JUN – 12 AUG',
+  /** rungPrices / axisMax. */
+  series: [0.85, 0.69, 0.868],
 } as const;
 
 /** Copy. Six lines carry this entire film — they are chosen, not written. */
@@ -181,6 +206,8 @@ export const COPY = {
   manifesto: ['NOTHING WORTH KEEPING', 'SHOULD GO UNRECORDED'],
   /** Under the mark. */
   endline: 'SEE WHAT YOU HOLD',
+  /** Under the endline. The site, and nothing else. */
+  url: 'mazidex.com',
   /** Micro-type / system chrome. */
   system: 'MAZI · THE LIVE MARKET RECORD',
 } as const;

@@ -224,28 +224,42 @@ export const Manifesto: React.FC = () => {
           ))}
         </svg>
 
-        {/* ── The object. In front of the words. ───────────────────────── */}
-        <div
-          style={{
-            position: 'absolute',
-            left: cx,
-            top: cardY + drift(frame, 0.009, 6 * u, 1.2),
-            width: cardW,
-            marginLeft: -cardW / 2,
-            marginTop: -cardH / 2,
-          }}
-        >
-          <Card3D
-            width={cardW}
-            rotX={drift(frame, 0.0085, 2.4, 0.5)}
-            rotY={-7 + drift(frame, 0.0105, 4.2, 2.2)}
-            rotZ={drift(frame, 0.007, 0.8, 3)}
-            thickness={5 * u}
-            sweep={0.1 + ramp(frame, 0, 120, E.linear) * 0.85}
-            halo={0.75}
-            reflection={0.85}
-          />
-        </div>
+        {/* ── The object. In front of the words — then behind them. ─────
+            It used to sit still for four seconds. Now it recedes: over the
+            length of the beat it shrinks, lifts and dims, travelling *into*
+            the archive the words are describing, so by the time the line has
+            landed the card is small and far and the room is what's left.
+            The reveal that follows collapses it the rest of the way. */}
+        {(() => {
+          const recede = ramp(frame, 22, 96, E.breath);
+          const sc = 1 - recede * 0.46;
+          return (
+            <div
+              style={{
+                position: 'absolute',
+                left: cx,
+                top: cardY - recede * height * 0.09 + drift(frame, 0.009, 6 * u, 1.2),
+                width: cardW,
+                marginLeft: -cardW / 2,
+                marginTop: -cardH / 2,
+                transform: `scale(${sc})`,
+                opacity: 1 - recede * 0.28,
+                filter: recede > 0.4 ? `blur(${(recede - 0.4) * 2.4 * u}px)` : undefined,
+              }}
+            >
+              <Card3D
+                width={cardW}
+                rotX={drift(frame, 0.0085, 2.4, 0.5) + recede * 6}
+                rotY={-7 + drift(frame, 0.0105, 4.2, 2.2) - recede * 10}
+                rotZ={drift(frame, 0.007, 0.8, 3)}
+                thickness={5 * u}
+                sweep={0.1 + ramp(frame, 0, 120, E.linear) * 0.85}
+                halo={0.75 - recede * 0.5}
+                reflection={0.85 * (1 - recede)}
+              />
+            </div>
+          );
+        })()}
 
         <Vignette strength={1.05} />
       </div>

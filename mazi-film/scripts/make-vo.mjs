@@ -34,11 +34,11 @@ const FALLBACK_MODEL = 'eleven_multilingual_v2';
  */
 const LINES = [
   "A card sells. Live. Then it's gone.",
-  "Mahzee is watching. Player. Set. Grade.",
-  "Nine million cards. It finds the one.",
-  "Same grade. Fifty-eight dollars. Then one eighty-six.",
+  'Mahzee keeps the record. The player. The set. The grade. The price.',
+  'Millions of cards. It finds the one.',
+  'Same card. Two hundred dollars, or two thousand. The grade decides.',
   "Without a record, it's just a rumour.",
-  "Mahzee. See what you hold.",
+  'Mahzee. See what you hold.',
 ];
 
 const KEY = process.env.ELEVENLABS_API_KEY;

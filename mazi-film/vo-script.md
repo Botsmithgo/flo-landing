@@ -26,13 +26,13 @@ talking so the line can land on its own.
 | # | Beat | In at | Spoken |
 |---|---|---|---|
 | 1 | ORIGIN | 0:00.6 | A card sells. Live. Then it's gone. |
-| 2 | SCAN | 0:04.6 | Mahzee is watching. Player. Set. Grade. |
-| 3 | SEARCH | 0:09.4 | Nine million cards. It finds the one. |
-| 4 | MARKET | 0:13.8 | Same grade. Fifty-eight dollars. Then one eighty-six. |
-| 5 | MANIFESTO | 0:19.0 | Without a record, it's just a rumour. |
+| 2 | SCAN | 0:04.4 | Mahzee keeps the record. The player. The set. The grade. The price. |
+| 3 | SEARCH | 0:09.9 | Millions of cards. It finds the one. |
+| 4 | MARKET | 0:13.8 | Same card. Two hundred dollars, or two thousand. The grade decides. |
+| 5 | MANIFESTO | 0:19.9 | Without a record, it's just a rumour. |
 | 6 | REVEAL | 0:22.4 | Mahzee. See what you hold. |
 
-41 words of speech across 26 seconds of film — 15.4 seconds of voice and 10.6 seconds of
+50 words of speech across 26 seconds of film — 20.3 seconds of voice and 5.7 seconds of
 deliberate silence. The silence is the point: the picture is doing the work, and every line is
 short enough that the viewer finishes it in their head before the next one starts.
 
@@ -46,9 +46,10 @@ Checked against the MAZIDEX product database on 2026-09-18. None of these are il
 | Line | Claim | Source |
 |---|---|---|
 | 2 | reads player / set / grade live | the capture and identification pipeline's actual output fields |
-| 3 | "nine million cards in the index" | `catalog_card` — the catalog spine, 9,076,034 permanent global IDs. Cards, not sales: the on-screen counter starts at the same number. |
-| 4 | "four verified sales" | `card_rungs` for `mazi:bk:1990-fleer:michael-jordan:26`, rung PSA 9 → 4 sales |
-| 4 | "$58 … then $186" | two of that rung's real verified sales — 02 JUL `blz_cards` $58, 13 JUL `dashlive` $186 |
+| 2 | "keeps the record … player, set, grade, price" | the fields every trusted ledger row carries (`mirror_sales`: player, set_name, grade, sold_price) |
+| 3 | "millions of cards" | `catalog_card` — 9,076,034 permanent global IDs. Spoken unpinned on purpose; the on-screen counter keeps the exact figure. |
+| 4 | "two hundred dollars, or two thousand" | trusted sales of the 1996 Topps Kobe Bryant #138: PSA 8 at $200 (10 JUN, 29 JUL, `dashlive`) against $2,069 (30 JUL, `debutsports_`), $2,550 (14 JUN, grade 9.5) and $2,603 (12 AUG, PSA 10) |
+| 4 | "the grade decides" | the same rows — the $200 sales are PSA 8, the $2,000+ sales are 9.5 and above |
 | 5 | no claim | deliberate. The thesis line carries no number |
 
 Line 1 carries no number, and line 5 carries no claim — both deliberate. The only numbers spoken

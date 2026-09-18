@@ -100,14 +100,14 @@ Michael (ElevenLabs), six lines, already built into `public/audio/`:
 | Line | In | Out |
 |---|---|---|
 | A card sells. Live. Then it's gone. | 0:00.6 | 0:03.4 |
-| MAZI is watching. Player. Set. Grade. | 0:04.6 | 0:07.7 |
-| Nine million cards. It finds the one. | 0:09.4 | 0:11.7 |
-| Same grade. Fifty-eight dollars. Then one eighty-six. | 0:13.8 | 0:17.2 |
-| Without a record, it's just a rumour. | 0:19.0 | 0:20.8 |
-| MAZI. See what you hold. | 0:22.4 | 0:24.4 |
+| MAZI keeps the record. The player. The set. The grade. The price. | 0:04.4 | 0:09.7 |
+| Millions of cards. It finds the one. | 0:09.9 | 0:12.2 |
+| Same card. Two hundred dollars, or two thousand. The grade decides. | 0:13.8 | 0:19.7 |
+| Without a record, it's just a rumour. | 0:19.9 | 0:21.7 |
+| MAZI. See what you hold. | 0:22.4 | 0:24.6 |
 
 The music does not need to avoid these — `postmix.sh` sidechains the bed under
-the voice automatically (§5). It *does* need to leave 0:11.7–0:13.8 loud, since
+the voice automatically (§5). It *does* need to leave 0:12.2–0:13.8 loud, since
 that stretch carries the match with no narration over it.
 
 ---
@@ -147,10 +147,12 @@ for t in $(seq 0 25); do
 done
 ```
 
-What the track does NOT have, against §2: no impact at 0:02.75, no cut to
-silence at 0:12.45, and no single hit at 0:23.43. Those are sound-design events
-rather than music, and the film currently plays without them. They are the
-biggest remaining upgrade to the audio.
+The track has no impact at 0:02.75, no cut at 0:12.45 and no hit at 0:23.43 —
+those are sound-design events, not music. They now exist as three synthesised
+hits in `public/audio/sfx-*.wav` (built by `scripts/make-sfx.sh`, peak-normalised
+to −1 dBFS) and `postmix.sh` places them from `IMPACTS` in `src/utils/timing.ts`
+and mutes the bed for the four frames before the match. Their relative levels
+are the mix weights in `postmix.sh`; the match is the loudest by design.
 
 ---
 

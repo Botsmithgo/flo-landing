@@ -144,7 +144,7 @@ export const Card3D: React.FC<Props> = ({
             borderRadius: width * 0.04,
             boxShadow: `inset ${rotY > 0 ? '-' : ''}${Math.abs(rotY) * 0.04 + 1}px 0 ${
               2 + Math.abs(rotY) * 0.05
-            }px ${alpha(C.trustIce, 0.1 + Math.abs(Math.sin((rotY * Math.PI) / 180)) * 0.35)}`,
+            }px ${alpha(C.goldLift, 0.1 + Math.abs(Math.sin((rotY * Math.PI) / 180)) * 0.35)}`,
             pointerEvents: 'none',
           }}
         />
@@ -181,7 +181,7 @@ export const Card3D: React.FC<Props> = ({
             background: `radial-gradient(ellipse at center, ${alpha(
               C.brand,
               0.3 * halo,
-            )} 0%, ${alpha(C.trustDeep, 0.12 * halo)} 42%, transparent 72%)`,
+            )} 0%, ${alpha(C.goldDeep, 0.12 * halo)} 42%, transparent 72%)`,
             filter: `blur(${width * 0.08}px)`,
             mixBlendMode: 'screen',
             pointerEvents: 'none',
@@ -239,7 +239,7 @@ const CardBack: React.FC<{ width: number; height: number }> = ({ width, height }
       height={CARD_H - 8}
       rx="17"
       fill="none"
-      stroke={alpha(C.trust, 0.3)}
+      stroke={alpha(C.gold, 0.3)}
       strokeWidth="2"
     />
     <text

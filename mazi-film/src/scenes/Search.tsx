@@ -102,14 +102,14 @@ export const Search: React.FC = () => {
   return (
     <AbsoluteFill>
       <div style={camStyle(camera)}>
-        <Atmosphere intensity={0.55 + converge * 0.35} hue={-0.35 + converge * 0.8} />
+        <Atmosphere intensity={0.55 + converge * 0.25} hue={-0.35 + converge * 0.2} />
 
         {/* ── The database ────────────────────────────────────────────── */}
         <div style={{ opacity: (1 - fieldOut) * ramp(frame, 0, 8, E.out) }}>
           <CardLattice
             camZ={camZ}
             count={by({ wide: 160, square: 130, tall: 110 })}
-            candidateRate={0.1 + converge * 0.22}
+            candidateRate={0.08 + converge * 0.06}
             converge={converge}
             spread={1 - converge * 0.1}
             opacity={0.95}
@@ -135,7 +135,7 @@ export const Search: React.FC = () => {
                   }}
                 >
                   <LightStreak
-                    color={i % 3 === 0 ? C.brand : C.trust}
+                    color={i % 3 === 0 ? C.brand : C.goldDeep}
                     width={(90 + (i % 5) * 70) * u * speed}
                     thickness={1.1 * u}
                     intensity={0.32 * speed}
@@ -179,14 +179,14 @@ export const Search: React.FC = () => {
                   }}
                 >
                   <Smear
-                    length={gone * 70 * u}
+                    length={gone * 22 * u}
                     angle={throwDir < 0 ? 180 : 0}
-                    copies={4}
+                    copies={3}
                   >
                     <MiniCard
                       w={w}
                       h={w / CARD_RATIO}
-                      tint={survives ? C.trust : C.slate}
+                      tint={survives ? C.gold : C.slate}
                       candidate
                       name={survives ? CARD.player : CANDIDATE_NAMES[i * 3 + 2]}
                     />
@@ -194,7 +194,7 @@ export const Search: React.FC = () => {
                   <div style={{ marginTop: 10 * u, textAlign: 'center' }}>
                     <Mono
                       size={10 * u}
-                      color={survives ? C.trustIce : alpha(C.faint, 1)}
+                      color={survives ? C.goldLift : alpha(C.faint, 1)}
                       tracking={2 * u}
                     >
                       {survives ? '99.4%' : i === 0 ? '61.2%' : '48.7%'}
@@ -227,7 +227,7 @@ export const Search: React.FC = () => {
                 frames and it is the difference between "a card appeared" and
                 "something just happened". */}
             <ChromaSplit frame={frame} at={MATCH} decay={7} amount={18 * u}>
-              <DirectionalBlur amount={(1 - matchIn) * 40 * u} angle={90}>
+              <DirectionalBlur amount={(1 - matchIn) * 18 * u} angle={90}>
                   <Card3D
                   width={heroW}
                   rotX={2 - settle * 2 + drift(frame, 0.014, 1.1, 0.3)}
@@ -320,7 +320,7 @@ export const Search: React.FC = () => {
               ) *
                 0.62),
           )}
-          color={candidates === 1 ? C.trustIce : C.bone}
+          color={candidates === 1 ? C.goldLift : C.bone}
           mono
           weight={500}
         />

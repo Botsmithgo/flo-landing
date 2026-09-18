@@ -345,7 +345,7 @@ export const Valuation: React.FC<{
     <div>
       <div style={{ opacity: labelIn, marginBottom: 10 * scale }}>
         <Mono size={11 * scale} color={alpha(C.muted, 0.9)} tracking={4.4 * scale}>
-          ESTIMATED MARKET VALUE
+          VERIFIED SALE
         </Mono>
       </div>
 
@@ -383,10 +383,10 @@ export const Valuation: React.FC<{
           }}
         >
           <Mono size={11 * scale} color={C.faint} tracking={2.4 * scale} weight={500}>
-            RANGE
+            {MARKET.rangeLabel}
           </Mono>
           <Mono size={16 * scale} color={C.goldDeep} tracking={0.6 * scale} weight={500}>
-            {`$${MARKET.rangeLow}–$${MARKET.rangeHigh}`}
+            {`$${MARKET.rangeLow.toLocaleString('en-US')}–$${MARKET.rangeHigh.toLocaleString('en-US')}`}
           </Mono>
         </span>
       </div>
