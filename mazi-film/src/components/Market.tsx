@@ -1,0 +1,313 @@
+import React from 'react';
+import { MARKET } from '../assets';
+import { C, FONT, alpha } from '../utils/colors';
+import { E, ramp, sprSnap, stagger } from '../utils/easing';
+import { Mono, Odometer } from './Typography';
+
+/**
+ * MARKET INTELLIGENCE.
+ *
+ * The brief's trap here is the SaaS dashboard, so this beat is built as a
+ * *chart hanging in space*, not a card in a UI. No panels, no rounded
+ * containers, no drop shadows on white. Three elements only: a line, a ledger,
+ * and a number. Everything else is negative space.
+ *
+ * The line is drawn with straight segments, not a smoothed spline — real price
+ * history is angular, and a suspiciously smooth curve reads as decoration.
+ */
+
+type GraphProps = {
+  frame: number;
+  start: number;
+  width: number;
+  height: number;
+  /** Override the draw progress (0–1). Defaults to an internal ramp. */
+  progress?: number;
+  series?: readonly number[];
+  color?: string;
+};
+
+export const MarketGraph: React.FC<GraphProps> = ({
+  frame,
+  start,
+  width,
+  height,
+  progress,
+  series = MARKET.series,
+  color = C.cyan,
+}) => {
+  const p = progress ?? ramp(frame, start, 34, E.glide);
+  const pad = height * 0.1;
+  const innerH = height - pad * 2;
+
+  const pts = series.map((v, i) => ({
+    x: (i / (series.length - 1)) * width,
+    y: pad + (1 - v) * innerH,
+  }));
+
+  const d = pts.map((pt, i) => `${i === 0 ? 'M' : 'L'}${pt.x.toFixed(1)} ${pt.y.toFixed(1)}`).join(' ');
+  const areaD = `${d} L${width} ${height} L0 ${height} Z`;
+
+  // Head of the draw, so a light can ride the line as it's laid down.
+  const headIdx = p * (series.length - 1);
+  const i0 = Math.min(series.length - 1, Math.floor(headIdx));
+  const i1 = Math.min(series.length - 1, i0 + 1);
+  const ft = headIdx - i0;
+  const hx = pts[i0].x + (pts[i1].x - pts[i0].x) * ft;
+  const hy = pts[i0].y + (pts[i1].y - pts[i0].y) * ft;
+
+  const gid = `mg-${Math.round(width)}-${Math.round(height)}`;
+
+  return (
+    <svg width={width} height={height} style={{ overflow: 'visible', display: 'block' }}>
+      <defs>
+        <linearGradient id={`${gid}-area`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={alpha(color, 0.34)} />
+          <stop offset="60%" stopColor={alpha(color, 0.06)} />
+          <stop offset="100%" stopColor="transparent" />
+        </linearGradient>
+        <linearGradient id={`${gid}-line`} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor={alpha(color, 0.45)} />
+          <stop offset="72%" stopColor={color} />
+          <stop offset="100%" stopColor={C.ice} />
+        </linearGradient>
+        <clipPath id={`${gid}-clip`}>
+          <rect x={0} y={-height} width={width * p} height={height * 3} />
+        </clipPath>
+      </defs>
+
+      {/* Reference hairlines — three, unlabelled except the top. */}
+      {[0.12, 0.5, 0.88].map((t, i) => (
+        <line
+          key={i}
+          x1={0}
+          y1={pad + t * innerH}
+          x2={width}
+          y2={pad + t * innerH}
+          stroke={alpha(C.smoke, 0.34)}
+          strokeWidth={1}
+          strokeDasharray="2 7"
+          opacity={ramp(frame, start + i * 2, 12, E.out)}
+        />
+      ))}
+
+      <g clipPath={`url(#${gid}-clip)`}>
+        <path d={areaD} fill={`url(#${gid}-area)`} />
+        <path
+          d={d}
+          fill="none"
+          stroke={`url(#${gid}-line)`}
+          strokeWidth={2.4}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          style={{ filter: `drop-shadow(0 0 ${height * 0.05}px ${alpha(color, 0.8)})` }}
+        />
+        {/* data ticks */}
+        {pts.map((pt, i) => (
+          <rect
+            key={i}
+            x={pt.x - 0.6}
+            y={pt.y - 3}
+            width={1.2}
+            height={6}
+            fill={alpha(C.ice, 0.5)}
+          />
+        ))}
+      </g>
+
+      {/* Drawing head */}
+      {p > 0.02 && p < 0.995 ? (
+        <>
+          <circle cx={hx} cy={hy} r={4} fill="#FFFFFF" />
+          <circle cx={hx} cy={hy} r={12} fill="none" stroke={alpha(C.ice, 0.4)} strokeWidth={1} />
+          <line x1={hx} y1={hy} x2={hx} y2={height} stroke={alpha(color, 0.3)} strokeWidth={1} />
+        </>
+      ) : null}
+
+      {/* Terminal marker — the current value */}
+      {p >= 0.995 ? (
+        <g>
+          <circle
+            cx={pts[pts.length - 1].x}
+            cy={pts[pts.length - 1].y}
+            r={5 + sprSnap(frame - start - 34) * 2}
+            fill={C.amber}
+          />
+          <circle
+            cx={pts[pts.length - 1].x}
+            cy={pts[pts.length - 1].y}
+            r={10 + ((frame - start - 34) % 26) * 1.4}
+            fill="none"
+            stroke={alpha(C.amber, Math.max(0, 0.5 - ((frame - start - 34) % 26) * 0.019))}
+            strokeWidth={1.2}
+          />
+        </g>
+      ) : null}
+    </svg>
+  );
+};
+
+/**
+ * The comparable-sales ledger. Rows arrive bottom-up on a stagger, mono, with
+ * the price right-aligned on a tabular figure so the column edge is dead
+ * straight. The straightness is the entire point — it says "record", not "UI".
+ */
+type Comp = { date: string; grade: string; price: number; venue: string };
+
+export const CompLedger: React.FC<{
+  frame: number;
+  start: number;
+  width: number;
+  scale?: number;
+  rows?: readonly Comp[];
+}> = ({ frame, start, width, scale = 1, rows = MARKET.comps }) => (
+  <div style={{ width }}>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        paddingBottom: 8 * scale,
+        borderBottom: `1px solid ${alpha(C.smoke, 0.5)}`,
+        marginBottom: 10 * scale,
+        opacity: ramp(frame, start, 10, E.out),
+      }}
+    >
+      <Mono size={10 * scale} color={alpha(C.muted, 0.9)} tracking={3 * scale}>
+        COMPARABLE SALES
+      </Mono>
+      <Mono size={10 * scale} color={alpha(C.muted, 0.6)} tracking={3 * scale}>
+        {MARKET.windowLabel}
+      </Mono>
+    </div>
+
+    {rows.map((row, i) => {
+      const d = start + 4 + stagger(i, 3.4);
+      const p = ramp(frame, d, 11, E.out);
+      const isLast = i === rows.length - 1;
+      return (
+        <div
+          key={i}
+          style={{
+            display: 'flex',
+            alignItems: 'baseline',
+            justifyContent: 'space-between',
+            padding: `${5 * scale}px 0`,
+            opacity: p,
+            transform: `translateY(${(1 - p) * 10 * scale}px)`,
+          }}
+        >
+          <span style={{ display: 'flex', gap: 14 * scale, alignItems: 'baseline' }}>
+            <Mono size={11.5 * scale} color={alpha(C.muted, 0.95)} tracking={1.8 * scale}>
+              {row.date}
+            </Mono>
+            <Mono
+              size={11.5 * scale}
+              color={isLast ? C.cyan : alpha(C.faint, 1)}
+              tracking={1.8 * scale}
+            >
+              {row.grade}
+            </Mono>
+          </span>
+          <span
+            style={{
+              fontFamily: FONT.mono,
+              fontSize: 14 * scale,
+              color: isLast ? C.amber : C.paper,
+              fontVariantNumeric: 'tabular-nums',
+              letterSpacing: 0.6 * scale,
+            }}
+          >
+            ${row.price.toLocaleString('en-US')}
+          </span>
+        </div>
+      );
+    })}
+  </div>
+);
+
+/** The headline number. Amber — one of only two places in the film it appears. */
+export const Valuation: React.FC<{
+  frame: number;
+  start: number;
+  size: number;
+  scale?: number;
+}> = ({ frame, start, size, scale = 1 }) => {
+  const labelIn = ramp(frame, start - 6, 12, E.out);
+  const deltaIn = ramp(frame, start + 16, 14, E.out);
+
+  return (
+    <div>
+      <div style={{ opacity: labelIn, marginBottom: 10 * scale }}>
+        <Mono size={11 * scale} color={alpha(C.muted, 0.9)} tracking={4.4 * scale}>
+          ESTIMATED MARKET VALUE
+        </Mono>
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          gap: 18 * scale,
+          filter: `drop-shadow(0 0 ${size * 0.22}px ${alpha(C.amber, 0.28)})`,
+        }}
+      >
+        <Odometer
+          frame={frame}
+          start={start}
+          value={MARKET.value}
+          size={size}
+          prefix={MARKET.currency}
+          color={C.amber}
+          weight={700}
+        />
+        <span
+          style={{
+            opacity: deltaIn,
+            transform: `translateY(${(1 - deltaIn) * 8 * scale}px)`,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6 * scale,
+          }}
+        >
+          <svg width={10 * scale} height={11 * scale} viewBox="0 0 10 11">
+            <path d="M5 0 L10 7 L0 7 Z" fill={C.positive} />
+          </svg>
+          <Mono size={15 * scale} color={C.positive} tracking={1.2 * scale} weight={500}>
+            {MARKET.changePct}%
+          </Mono>
+        </span>
+      </div>
+
+      <div style={{ display: 'flex', gap: 34 * scale, marginTop: 20 * scale, opacity: deltaIn }}>
+        <Stat label="LAST SALE" value={`$${MARKET.lastSale.toLocaleString('en-US')}`} scale={scale} />
+        <Stat label="POPULATION" value={`${MARKET.populationTotal}`} scale={scale} />
+        <Stat label="PSA 10 POP" value={`${MARKET.populationGraded}`} scale={scale} />
+      </div>
+    </div>
+  );
+};
+
+const Stat: React.FC<{ label: string; value: string; scale: number }> = ({
+  label,
+  value,
+  scale,
+}) => (
+  <div>
+    <div style={{ marginBottom: 5 * scale }}>
+      <Mono size={9.5 * scale} color={alpha(C.faint, 1)} tracking={2.6 * scale}>
+        {label}
+      </Mono>
+    </div>
+    <div
+      style={{
+        fontFamily: FONT.mono,
+        fontSize: 17 * scale,
+        color: C.paper,
+        letterSpacing: 0.8 * scale,
+        fontVariantNumeric: 'tabular-nums',
+      }}
+    >
+      {value}
+    </div>
+  </div>
+);
