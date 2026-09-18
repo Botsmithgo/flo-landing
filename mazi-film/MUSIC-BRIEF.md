@@ -112,14 +112,63 @@ that stretch carries the match with no narration over it.
 
 ---
 
+## 4b · The track that is actually in the film
+
+`public/audio/score.wav` — "Certainty", 25.56s, 48kHz stereo, −18.5 LUFS, LRA 8.6.
+
+Measured shape, in one-second windows:
+
+| Window | Level | Reads as |
+|---|---|---|
+| 0:00–0:19 | −16 to −23 dB | sustained body, hot from the first sample |
+| 0:20–0:21 | −27 → −34 dB | decay begins |
+| 0:22–0:25 | −42 → −61 dB | silence |
+
+Two things fight the picture, and both are fixed in the mix rather than in the
+music:
+
+1. **It starts at full level.** The film opens in near-darkness and wants three
+   quiet seconds. `--score-fade 2.2` brings the bed up so it arrives *with* the
+   ignition at 0:02.75 instead of being there before the first frame.
+2. **It has finished by 0:22.** The film's final hit — THE MARK — is at 0:23.43,
+   so the track's own decay would land a second and a half early and leave the
+   mark unsupported. `--score-offset 1.4` slides the whole bed later, which puts
+   its natural fade directly under the mark.
+
+Both are defaults in `postmix.sh`, so `./postmix.sh` with no arguments does the
+right thing for this track. A different track will want different numbers —
+profile it the same way first:
+
+```bash
+for t in $(seq 0 25); do
+  printf "%2ds %s\n" "$t" "$(ffmpeg -hide_banner -nostats -ss $t -t 1 \
+    -i public/audio/score.wav -af volumedetect -f null - 2>&1 \
+    | grep mean_volume | sed 's/.*mean_volume: //')"
+done
+```
+
+What the track does NOT have, against §2: no impact at 0:02.75, no cut to
+silence at 0:12.45, and no single hit at 0:23.43. Those are sound-design events
+rather than music, and the film currently plays without them. They are the
+biggest remaining upgrade to the audio.
+
+---
+
 ## 5 · Dropping the music in
 
 ```bash
-cp your-track.mp3 public/audio/score.mp3
-# set ASSETS.score = 'audio/score.mp3' in src/assets.ts
-npm run build          # renders picture + voice + music
-./postmix.sh           # sidechain duck, loudness master
+cp your-track.wav public/audio/score.wav
+npm run build     # renders picture + voice (Remotion cannot sidechain)
+./postmix.sh      # bed + duck + master + mux  →  out/MAZI-BRAND-FILM.mp4
 ```
+
+The music is deliberately NOT in the Remotion render. Ducking needs the
+narration as its own key signal, so `postmix.sh` rebuilds the audio from stems
+and replaces the render's track wholesale. The video stream is copied, never
+re-encoded, so the mix costs seconds and loses nothing.
+
+Knobs: `--duck 7` (dB under the voice), `--score-offset 1.4`,
+`--score-fade 2.2`, `--lufs -14`.
 
 `postmix.sh` ducks the bed ~7dB under the narration with a 20ms attack and
 260ms release, then masters to −14 LUFS. Run `./postmix.sh --help` for the knobs.

@@ -38,6 +38,8 @@ type GraphProps = {
   /** Override the draw progress (0–1). Defaults to an internal ramp. */
   progress?: number;
   series?: readonly number[];
+  /** Time position of each point, 0–1. Defaults to even spacing by index. */
+  xs?: readonly number[];
   color?: string;
   /** Estimated Market Range as [low, high], normalised 0–1 like `series`. */
   band?: readonly [number, number];
@@ -54,6 +56,7 @@ export const MarketGraph: React.FC<GraphProps> = ({
   height,
   progress,
   series = MARKET.series,
+  xs = MARKET.seriesX,
   color = C.trust,
   band,
   labels,
@@ -63,8 +66,9 @@ export const MarketGraph: React.FC<GraphProps> = ({
   const pad = height * 0.1;
   const innerH = height - pad * 2;
 
+  const at = (i: number) => (xs && xs.length === series.length ? xs[i] : i / (series.length - 1));
   const pts = series.map((v, i) => ({
-    x: (i / (series.length - 1)) * width,
+    x: at(i) * width,
     y: pad + (1 - v) * innerH,
   }));
 
@@ -72,10 +76,13 @@ export const MarketGraph: React.FC<GraphProps> = ({
   const areaD = `${d} L${width} ${height} L0 ${height} Z`;
 
   // Head of the draw, so a light can ride the line as it's laid down.
-  const headIdx = p * (series.length - 1);
-  const i0 = Math.min(series.length - 1, Math.floor(headIdx));
+  // Walk the segments by their real widths, so the head travels at a constant
+  // speed across the frame rather than pausing on the long early stretch.
+  let i0 = 0;
+  while (i0 < series.length - 2 && at(i0 + 1) < p) i0 += 1;
   const i1 = Math.min(series.length - 1, i0 + 1);
-  const ft = headIdx - i0;
+  const span = Math.max(1e-6, at(i1) - at(i0));
+  const ft = Math.max(0, Math.min(1, (p - at(i0)) / span));
   const hx = pts[i0].x + (pts[i1].x - pts[i0].x) * ft;
   const hy = pts[i0].y + (pts[i1].y - pts[i0].y) * ft;
 

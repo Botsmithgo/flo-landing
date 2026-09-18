@@ -21,12 +21,28 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-SCORE="public/audio/score.mp3"
+SCORE="public/audio/score.wav"
 IN="out/mazi-16x9.mp4"
 OUT="out/MAZI-BRAND-FILM.mp4"
 DUCK=7          # dB the bed drops under the voice
 LUFS=-14        # integrated target for the master
 DUR=26
+
+# ── Fitting a generated track to a locked picture ────────────────────────────
+# Generators do not know the cut, so two knobs put the bed where the film needs
+# it without re-editing the music:
+#
+#   SCORE_OFFSET  slides the whole bed later. The supplied track runs hot from
+#                 its first sample and decays to silence around 0:22, while the
+#                 film opens in near-darkness and lands its final hit at 0:23.4.
+#                 Sliding the bed 1.4s later puts its natural decay under THE
+#                 MARK instead of a second and a half before it.
+#   SCORE_FADE    fades the bed in, so the opening is genuinely quiet and the
+#                 music arrives with the ignition at 0:02.75 rather than being
+#                 already there. The first three seconds being near-silent is
+#                 structural — see MUSIC-BRIEF.md §3.
+SCORE_OFFSET=1.4
+SCORE_FADE=2.2
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -35,6 +51,8 @@ while [[ $# -gt 0 ]]; do
     --out)   OUT="$2";   shift 2 ;;
     --duck)  DUCK="$2";  shift 2 ;;
     --lufs)  LUFS="$2";  shift 2 ;;
+    --score-offset) SCORE_OFFSET="$2"; shift 2 ;;
+    --score-fade)   SCORE_FADE="$2";   shift 2 ;;
     -h|--help)
       sed -n '2,20p' "$0" | sed 's/^# \{0,1\}//'
       exit 0 ;;
@@ -81,12 +99,14 @@ if [[ -f "$SCORE" ]]; then
   # depends on how far the voice sits above the threshold, so the script
   # measures what it actually got rather than claiming the number back at you.
   RATIO=$(awk -v d="$DUCK" 'BEGIN{printf "%.1f", 1 + d / 2}')
+  OFF_MS=$(awk -v o="$SCORE_OFFSET" 'BEGIN{printf "%d", o * 1000}')
+  echo "▸ bed — offset +${SCORE_OFFSET}s, fade in ${SCORE_FADE}s"
   echo "▸ sidechain — targeting ${DUCK}dB duck (ratio ${RATIO})"
 
   # Ducked bed kept as its own intermediate so it can be measured below.
   ffmpeg -y -loglevel error -i "$SCORE" -i /tmp/mazi-vo-stem.wav \
     -filter_complex "\
-      [0:a]atrim=0:${DUR},asetpts=PTS-STARTPTS,apad=whole_dur=${DUR},aformat=sample_rates=48000:channel_layouts=stereo[bed]; \
+      [0:a]aformat=sample_rates=48000:channel_layouts=stereo,afade=t=in:st=0:d=${SCORE_FADE},adelay=${OFF_MS}|${OFF_MS},atrim=0:${DUR},asetpts=PTS-STARTPTS,apad=whole_dur=${DUR}[bed]; \
       [1:a]aformat=sample_rates=48000:channel_layouts=stereo[key]; \
       [bed][key]sidechaincompress=threshold=0.03:ratio=${RATIO}:attack=20:release=260:makeup=1[out]" \
     -map "[out]" -t "$DUR" -ar 48000 -ac 2 -c:a pcm_s16le /tmp/mazi-bed-ducked.wav

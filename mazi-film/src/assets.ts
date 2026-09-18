@@ -42,8 +42,17 @@ export const ASSETS = {
    * false to render the film silent without deleting the audio files.
    */
   narration: true,
-  /** Optional music bed, e.g. 'audio/score.mp3'. See audio-cues.md. */
+  /**
+   * The music bed. Left OUT of the Remotion render on purpose.
+   *
+   * Remotion can mix it, but it cannot sidechain — and the bed has to duck
+   * under the narration, which needs the voice as a separate key signal. So the
+   * render carries picture + voice, and postmix.sh adds the music with real
+   * ducking and masters the result. See MUSIC-BRIEF.md §5.
+   */
   score: '' as string,
+  /** What postmix.sh picks up. Not read by the renderer. */
+  scoreFile: 'public/audio/score.wav',
   /**
    * Real card photographs used in the SEARCH lattice.
    *
@@ -143,6 +152,16 @@ export const MARKET = {
   rungPrices: [63, 58, 186, 85],
   /** Top of the value axis. Everything normalised below divides by this. */
   axisMax: 200,
+  /**
+   * Where each plotted sale sits on the time axis, 0–1.
+   *
+   * The four PSA 9 sales are 11 Jun, 02 Jul, 13 Jul and 20 Jul — a long quiet
+   * stretch, then three trades in eighteen days. Spacing them evenly threw that
+   * away and made the line look like a four-step diagram; spacing them by the
+   * dates they actually happened on is both truer and reads far more like a
+   * price chart, because real ones are unevenly sampled.
+   */
+  seriesX: [0, 0.538, 0.821, 1],
   /** What the plotted rung actually covers — 11 Jun to 20 Jul 2026. */
   seriesSpan: '11 JUN – 20 JUL',
   /**

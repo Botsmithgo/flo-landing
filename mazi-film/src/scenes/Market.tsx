@@ -216,15 +216,7 @@ export const Market: React.FC = () => {
 
         {/* ── Price history ───────────────────────────────────────────── */}
         <div style={{ position: 'absolute', left: colX, top: graphTop }}>
-          <MarketGraph
-            frame={frame}
-            start={18}
-            width={graphW}
-            height={graphH}
-            axisMax={MARKET.axisMax}
-            band={[MARKET.rangeLow / MARKET.axisMax, MARKET.rangeHigh / MARKET.axisMax]}
-            labels={MARKET.rungPrices}
-          />
+          <MarketGraph frame={frame} start={18} width={graphW} height={graphH} />
           <div
             style={{
               display: 'flex',
