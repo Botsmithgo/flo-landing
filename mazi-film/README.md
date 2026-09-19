@@ -46,6 +46,26 @@ The script measures every take and warns if a rewrite has grown long enough to
 collide with the next beat. Copy, voice id and the source of every spoken number
 are in [`vo-script.md`](vo-script.md).
 
+## Watch it
+
+**https://mazi-brand-film.vercel.app** — Vercel project `mazi-brand-film` (team
+`botsmithgos-projects`), serving the static page in `watch/`.
+
+```bash
+npm run build && ./postmix.sh                      # render + mix
+cp out/MAZI-BRAND-FILM.mp4 watch/mazi-brand-film.mp4
+# bump the ?v= cache-buster on the <video> in watch/index.html
+cd watch && vercel deploy --prod                   # ~30s, no build step
+```
+
+Two things that bit on the first deploy, so you don't rediscover them:
+
+- **New Vercel projects default to SSO deployment protection**, which answers
+  every URL with a 302 to a login page — `text/plain`, no error. It is off on
+  this project (`ssoProtection: null`); if a link ever 302s, that is why.
+- The mp4 is gitignored as a render output, so `watch/.vercelignore` exists to
+  stop the CLI from inheriting `.gitignore` and skipping it.
+
 ## Run it
 
 ```bash
