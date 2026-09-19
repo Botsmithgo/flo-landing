@@ -4,12 +4,18 @@ A 26-second futuristic brand film for **MAZI**, the live market record for
 sports cards. Built in Remotion, narrated with ElevenLabs, rendered at 60fps to
 16:9, 9:16, 1:1 and 4:5 from one source tree.
 
-**The subject is a real record.** The card is `mazi:bk:1990-fleer:michael-jordan:26`
-— a 1990 Fleer Michael Jordan, PSA 9 — and every figure on screen is that card's
-actual row in the MAZIDEX product database: four verified sales, a last sale of
-$85.00 on 20 July, and an Estimated Market Range of $71.50–$135.50. The records
-flying past in the SEARCH beat are real catalog rows too. Nothing in the film is
-illustrative.
+**The subject is a real card and a real sale.** The hero is a photograph of the
+1996 Topps Kobe Bryant PSA slab from the MAZI investor film, and the record
+under it is that slab's trusted-ledger row: $2,069 on 30 July 2026, seller
+`debutsports_`, on Whatnot. The MARKET beat plots the same card's five trusted
+sales — PSA 8 at $200, then $2,069 / $2,550 / $2,603 at 9.5 and above — which
+is the film's argument in one chart. The records flying past in SEARCH are real
+catalog rows. Nothing in the film is illustrative.
+
+**The film ends on the website's lockup.** MAZI in the site's ink, DEX in its
+gold, the red dot, Teko 600 — set in the real typeface with the trace / paint /
+bloom reveal kept, so the last frame of the film is the first frame of
+mazidex.com.
 
 > **Self-contained and portable.** This folder has its own `package.json` and
 > depends on nothing outside itself — drop it into any repo, run `npm install`,
@@ -19,12 +25,21 @@ illustrative.
 
 ---
 
-## Voice
+## Sound
 
 ```bash
 export ELEVENLABS_API_KEY=...
-node scripts/make-vo.mjs      # writes public/audio/vo-1..6.mp3
+npm run vo                 # Michael, six lines → public/audio/vo-1..6.mp3
+scripts/make-sfx.sh        # the three hits → public/audio/sfx-{ignite,match,mark}.wav
+./postmix.sh               # bed + duck + hits + cut + master → out/MAZI-BRAND-FILM.mp4
 ```
+
+The music bed is deliberately not in the Remotion render: ducking needs the
+narration as its own key signal, so `postmix.sh` rebuilds the audio from stems
+and replaces the render's track. It reads voice placements from `VO_LINES` and
+impact frames from `IMPACTS`, so neither can drift from the picture, and it
+measures the duck and the cut it actually delivered rather than asserting them.
+`MUSIC-BRIEF.md` has the frame map and the generator prompt.
 
 Six lines, one file each, placed at exact frames by `VO_LINES` in `src/assets.ts`.
 The script measures every take and warns if a rewrite has grown long enough to
@@ -146,11 +161,12 @@ All three are the product's own faces. (Register weights as *ranges* — a face
 declared as exactly `700` does not satisfy a request for `800`, and the family
 silently falls out to the system grotesque.)
 
-**Chroma is a tool, not wallpaper.** The palette is lifted verbatim from
-`mazi-hq/mazi-status`: trust green `#46C878` is the machine — detection,
-scanning, verification — and *nothing else in the film is that green*. Brand blue
-`#7DA2FF` is the field. Gold `#D9B24A` is money, and only money. Surfaces are the
-product's `--paper` and `--panel`.
+**Chroma is a tool, not wallpaper.** Surfaces, ink and brand blue are lifted
+from `mazi-hq/mazi-status`; the gold is the website's (`#E9BE4F`), so the scan
+chrome and the end card share one colour. **Gold is the machine reading** —
+corner locks, contour trace, scan plane, labels, the match. **Green is a
+verified state** — the MAZIFIED seal, trusted records in the field — and
+nothing else. The card itself is a photograph and keeps its own colours.
 
 **Fonts are self-hosted.** `public/fonts/` holds the woff2 files, loaded through
 the CSS Font Loading API with `delayRender()`. No CDN call at render time, so
@@ -182,10 +198,12 @@ Adding a format is adding a `<Composition>` in `Root.tsx`.
 
 Everything swappable is in **`src/assets.ts`**.
 
-**What is real, and what is drawn.** The card's *identity and numbers* are real
-— they are the product's own catalog and ledger, the same data a MAZI card page
-publishes. The card's *artwork* is MAZI's own drawing: a silhouette and a court,
-built in code. The 1990 Fleer card is named, not reproduced.
+**What is real, and what is drawn.** The hero is a photograph (`ASSETS.cardFront`);
+when that is set, `CardFace` draws the photo and keeps only the foil sweep and
+gloss over it. Clear it and the SVG artwork path — a drawn silhouette and court
+— comes back. The grade and cert on the slab's label are blurred in the source
+image: the ledger row reads PSA 10 and the investor film's notes say 9, and until
+that is reconciled the film shows GRADED and never the number.
 
 The only photographs in the film are the four in `ASSETS.vintage` — Ty Cobb,
 Christy Mathewson, Cy Young, Walter Johnson — all pre-1929 and public domain in
