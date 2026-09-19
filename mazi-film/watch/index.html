@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>MAZIDEX — Brand Film</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Teko:wght@600;700&family=Barlow:wght@500&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+  :root{
+    --bg:#0D0C0A; --deep:#080807; --line:rgba(245,238,224,.12);
+    --text:#F4F1E9; --dim:#BDB7A8; --faint:#847F6F;
+    --gold:#E9BE4F; --gold-hi:#F5CD66; --red:#FF6759;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--deep); color:var(--text);
+    font-family:'JetBrains Mono',Menlo,monospace;
+    min-height:100svh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; padding:34px 18px 44px;
+    overflow-x:hidden; position:relative;
+  }
+
+  /* ── the drifting card field ─────────────────────────────── */
+  .field{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+  .field i{
+    position:absolute; display:block; border-radius:7px;
+    background-size:cover; background-position:center;
+    will-change:transform; animation:drift linear infinite;
+  }
+  .far {width:112px; height:157px; filter:blur(3.4px) saturate(.72); opacity:.13}
+  .mid {width:150px; height:210px; filter:blur(1.8px) saturate(.85); opacity:.19}
+  .near{width:198px; height:277px; filter:blur(.7px)  saturate(.95);  opacity:.25}
+  .slab{aspect-ratio:380/637; height:auto}
+  .slab.near{width:170px} .slab.mid{width:130px} .slab.far{width:98px}
+
+  @keyframes drift{
+    0%  {transform:translate3d(0,0,0) rotate(var(--r,0deg))}
+    50% {transform:translate3d(var(--dx,20px),var(--dy,-26px),0) rotate(calc(var(--r,0deg) + var(--dr,3deg)))}
+    100%{transform:translate3d(0,0,0) rotate(var(--r,0deg))}
+  }
+
+  .wash{
+    position:fixed; inset:0; z-index:1; pointer-events:none;
+    background:
+      radial-gradient(780px 540px at 50% 44%, rgba(8,8,7,.95) 36%, rgba(8,8,7,.58) 68%, transparent 100%),
+      radial-gradient(1400px 900px at 50% -12%, rgba(233,190,79,.055), transparent 62%),
+      linear-gradient(180deg, rgba(8,8,7,.55), transparent 22%, transparent 74%, rgba(8,8,7,.82));
+  }
+
+  /* ── content ─────────────────────────────────────────────── */
+  .wrap{position:relative; z-index:2; width:100%; max-width:1080px; display:flex; flex-direction:column; align-items:center}
+  .brand{
+    font-family:'Teko',Impact,sans-serif; font-weight:600;
+    font-size:clamp(42px,6.4vw,62px); letter-spacing:.005em; line-height:1;
+    margin:0 0 7px; display:inline-flex; align-items:baseline;
+    text-shadow:0 0 46px rgba(233,190,79,.16);
+  }
+  .brand span{color:var(--gold)}
+  .brand i{width:7px;height:7px;border-radius:50%;background:var(--red);margin-left:7px;align-self:center;display:inline-block}
+  .sub{
+    font-size:10px; letter-spacing:.26em; text-transform:uppercase;
+    color:var(--faint); margin:0 0 30px; text-align:center;
+  }
+  .frame{
+    width:min(100%, calc((100svh - 250px) * 1.7778));
+    border:1px solid var(--line); border-radius:15px; overflow:hidden;
+    background:#000; box-shadow:0 60px 150px rgba(0,0,0,.85), 0 0 0 1px rgba(233,190,79,.07);
+  }
+  video{display:block;width:100%;height:auto;background:#000}
+  .line{
+    margin-top:26px; font-family:'Barlow',sans-serif; font-weight:500;
+    font-size:13px; letter-spacing:.32em; text-transform:uppercase; color:var(--dim); text-align:center;
+  }
+  .foot{
+    margin-top:14px; font-size:9.5px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--faint); display:flex; gap:20px; flex-wrap:wrap; justify-content:center; text-align:center;
+  }
+  .foot b{color:var(--gold);font-weight:700}
+  .foot a{color:var(--gold);text-decoration:none}
+
+  @media (max-width:720px){
+    .field i.far{display:none}
+    .near{width:132px;height:185px}
+    .mid{width:104px;height:146px}
+    .slab.near{width:112px} .slab.mid{width:88px}
+  }
+  @media (prefers-reduced-motion:reduce){ .field i{animation:none} }
+</style>
+</head>
+<body>
+
+<!--
+  The card field uses only what the film itself is cleared to use: the four
+  pre-1929 cards (public domain) and the slab the film is about. Nothing else.
+-->
+<div class="field" aria-hidden="true">
+  <i class="near slab" style="left:-2%;  top:12%; --dx:14px; --dy:-30px; --r:-9deg;  --dr:2deg;  animation-duration:38s; animation-delay:-4s;  background-image:url(cards/kobe-slab-psa.png)"></i>
+  <i class="mid"       style="left:6%;   top:58%; --dx:-18px;--dy:24px;  --r:7deg;   --dr:-3deg; animation-duration:46s; animation-delay:-19s; background-image:url(cards/vint-ty-cobb.jpg)"></i>
+  <i class="far"       style="left:14%;  top:31%; --dx:22px; --dy:18px;  --r:-14deg; --dr:4deg;  animation-duration:61s; animation-delay:-33s; background-image:url(cards/vint-christy-mathewson.jpg)"></i>
+  <i class="far"       style="left:2%;   top:78%; --dx:-14px;--dy:-22px; --r:11deg;  --dr:-2deg; animation-duration:55s; animation-delay:-11s; background-image:url(cards/vint-cy-young.jpg)"></i>
+  <i class="mid"       style="left:-1%;  top:41%; --dx:20px; --dy:16px;  --r:-4deg;  --dr:3deg;  animation-duration:52s; animation-delay:-27s; background-image:url(cards/vint-walter-johnson.jpg)"></i>
+
+  <i class="near"      style="right:-3%; top:20%; --dx:-16px;--dy:26px;  --r:8deg;   --dr:-3deg; animation-duration:41s; animation-delay:-8s;  background-image:url(cards/vint-ty-cobb.jpg)"></i>
+  <i class="mid slab"  style="right:5%;  top:66%; --dx:18px; --dy:-20px; --r:-11deg; --dr:3deg;  animation-duration:49s; animation-delay:-22s; background-image:url(cards/kobe-slab-psa.png)"></i>
+  <i class="far"       style="right:15%; top:36%; --dx:-20px;--dy:-16px; --r:13deg;  --dr:-4deg; animation-duration:58s; animation-delay:-37s; background-image:url(cards/vint-walter-johnson.jpg)"></i>
+  <i class="far"       style="right:1%;  top:83%; --dx:16px; --dy:20px;  --r:-6deg;  --dr:2deg;  animation-duration:64s; animation-delay:-15s; background-image:url(cards/vint-christy-mathewson.jpg)"></i>
+  <i class="mid"       style="right:-2%; top:47%; --dx:-22px;--dy:-18px; --r:5deg;   --dr:-3deg; animation-duration:44s; animation-delay:-30s; background-image:url(cards/vint-cy-young.jpg)"></i>
+
+  <i class="far"       style="left:38%;  top:-6%;    --dx:18px; --dy:22px;  --r:9deg;   --dr:-3deg; animation-duration:57s; animation-delay:-25s; background-image:url(cards/vint-cy-young.jpg)"></i>
+  <i class="far"       style="right:34%; bottom:-7%; --dx:-18px;--dy:-20px; --r:-8deg;  --dr:3deg;  animation-duration:63s; animation-delay:-6s;  background-image:url(cards/vint-ty-cobb.jpg)"></i>
+  <i class="mid"       style="left:-4%;  top:-4%;    --dx:20px; --dy:24px;  --r:12deg;  --dr:-4deg; animation-duration:53s; animation-delay:-13s; background-image:url(cards/vint-walter-johnson.jpg)"></i>
+  <i class="near"      style="left:9%;   bottom:-9%; --dx:-16px;--dy:-22px; --r:-7deg;  --dr:3deg;  animation-duration:43s; animation-delay:-29s; background-image:url(cards/vint-christy-mathewson.jpg)"></i>
+  <i class="far slab"  style="left:23%;  top:6%;     --dx:-18px;--dy:20px;  --r:15deg;  --dr:-3deg; animation-duration:59s; animation-delay:-41s; background-image:url(cards/kobe-slab-psa.png)"></i>
+  <i class="mid"       style="right:-4%; top:-5%;    --dx:-20px;--dy:22px;  --r:-13deg; --dr:4deg;  animation-duration:51s; animation-delay:-24s; background-image:url(cards/vint-ty-cobb.jpg)"></i>
+  <i class="near"      style="right:8%;  bottom:-8%; --dx:18px; --dy:-24px; --r:9deg;   --dr:-3deg; animation-duration:45s; animation-delay:-9s;  background-image:url(cards/vint-cy-young.jpg)"></i>
+  <i class="far"       style="right:22%; top:4%;     --dx:16px; --dy:18px;  --r:-15deg; --dr:3deg;  animation-duration:60s; animation-delay:-39s; background-image:url(cards/vint-walter-johnson.jpg)"></i>
+  <i class="mid slab"  style="right:19%; bottom:6%;  --dx:-22px;--dy:-16px; --r:11deg;  --dr:-4deg; animation-duration:48s; animation-delay:-20s; background-image:url(cards/kobe-slab-psa.png)"></i>
+</div>
+<div class="wash" aria-hidden="true"></div>
+
+<div class="wrap">
+  <h1 class="brand">MAZI<span>DEX</span><i></i></h1>
+  <p class="sub">The live market record</p>
+  <div class="frame">
+    <video src="mazi-brand-film.mp4?v=20260918b" poster="poster.jpg?v=20260918b" controls playsinline preload="metadata"></video>
+  </div>
+  <p class="line">See what you hold</p>
+  <p class="foot"><span>Brand film · 26s · 2026</span><span><b>MAZIFIED</b> · every number is a ledger row</span><span><a href="https://mazidex.com">mazidex.com</a></span></p>
+</div>
+
+</body>
+</html>
