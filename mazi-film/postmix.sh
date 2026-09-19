@@ -151,9 +151,17 @@ if [[ -f "$SCORE" ]]; then
   fi
 
   echo "▸ cut — bed out ${CUT_A}s → ${CUT_B}s (four frames of silence, then the breath, then the hit)"
+  # NOT `volume=0:enable=…`. On ffmpeg 8 the timeline-gated volume filter only
+  # attenuates the window by ~11 dB — measured, not assumed — because the gain
+  # is smoothed across frame boundaries. Splitting the bed with atrim, muting the
+  # middle piece and concatenating is sample-accurate and measures at −91 dB.
   ffmpeg -y -loglevel error -i /tmp/mazi-bed-ducked.wav -i /tmp/mazi-vo-stem.wav -i /tmp/mazi-sfx-stem.wav \
     -filter_complex "\
-      [0:a]volume=0:enable='between(t,${CUT_A},${CUT_B})'[bedcut]; \
+      [0:a]asplit=3[p][q][r]; \
+      [p]atrim=0:${CUT_A},asetpts=PTS-STARTPTS[pre]; \
+      [q]atrim=${CUT_A}:${CUT_B},asetpts=PTS-STARTPTS,volume=0[gap]; \
+      [r]atrim=${CUT_B},asetpts=PTS-STARTPTS[post]; \
+      [pre][gap][post]concat=n=3:v=0:a=1[bedcut]; \
       [bedcut][1:a][2:a]amix=inputs=3:normalize=0:weights='1 1.25 1.1':dropout_transition=0[mix]; \
       [mix]alimiter=limit=0.95,loudnorm=I=${LUFS}:TP=-1.0:LRA=11[out]" \
     -map "[out]" -ar 48000 -ac 2 -c:a pcm_s16le /tmp/mazi-mix.wav

@@ -32,10 +32,12 @@ import { E, ramp, sprHeavy, sprSnap } from '../utils/easing';
 // y=230, which is the box the previous geometric mark used, so Reveal's
 // layout maths is unchanged. Teko's cap height is ~0.68em, so 200 units of cap
 // is a 294-unit font size. "MAZIDEX" at that size is ~830 units wide plus the
-// dot; the view is 880 so the dot has room.
+// dot. Measured off a render: the X's right edge lands near 895, so the view
+// is 960 and the dot sits at 932 — clear of the X the way the site's
+// `margin-left: 5px` keeps it clear.
 const FONT_SIZE = 294;
 const BASELINE = 230;
-export const LOGO_VIEW = { w: 880, h: 260 };
+export const LOGO_VIEW = { w: 960, h: 260 };
 /** Approximate advance of "MAZI" at FONT_SIZE — where the convergence targets live. */
 const MAZI_W = 462;
 
@@ -250,7 +252,7 @@ export const MaziLogo: React.FC<Props> = ({ frame, start, width, force, style })
 
         {/* the dot — the site's, after the X */}
         <circle
-          cx={LOGO_VIEW.w - 14}
+          cx={932}
           cy={BASELINE - 100}
           r={11 * dot}
           fill={C.siteRed}
