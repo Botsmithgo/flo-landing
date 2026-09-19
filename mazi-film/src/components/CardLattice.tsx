@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { AbsoluteFill, Img, staticFile } from 'remotion';
-import { ASSETS, LATTICE_CARDS, LatticeCard } from '../assets';
+import { CARD_PHOTO_POOL, CardPhoto, LATTICE_CARDS, LatticeCard } from '../assets';
 import { C, FONT, alpha } from '../utils/colors';
 import { FOCAL } from '../utils/depth';
 import { useLayout } from '../utils/layout';
@@ -69,12 +69,13 @@ export const CardLattice: React.FC<Props> = ({
         /** A real row from the MAZI catalog — name, set, grade and last price. */
         card: r.pick(LATTICE_CARDS as readonly LatticeCard[]),
         /**
-         * Roughly one record in five is a photograph rather than a drawn
-         * abstraction. Four real cards, all public domain, cycled through the
-         * cloud — enough that the field stops reading as generated wallpaper
-         * and starts reading as an archive with actual things in it.
+         * Over half the field is now a real photograph rather than a drawn
+         * abstraction. The beat is "millions of cards", and it only lands if
+         * the cards are ones a viewer recognises — so the pool is weighted
+         * toward modern Pokémon and the VeeFriends card, with the slabs and
+         * the tobacco-era cards underneath for depth.
          */
-        photo: r.next() < 0.2 ? r.pick(ASSETS.vintage as readonly string[]) : null,
+        photo: r.next() < 0.58 ? r.pick(CARD_PHOTO_POOL as readonly CardPhoto[]) : null,
         bright: r.between(0.45, 1),
       })),
     [count, seed, candidateRate],
@@ -95,7 +96,10 @@ export const CardLattice: React.FC<Props> = ({
 
         const scale = persp * rec.size;
         const w = cardW * scale;
-        const h = w / CARD_RATIO;
+        // A photograph keeps its own shape. A slab is 0.596 and a raw card is
+        // ~0.72, so forcing both into the film's card box would crop a fifth
+        // off every Pokémon card to make it slab-shaped.
+        const h = w / (rec.photo ? rec.photo.aspect : CARD_RATIO);
         // Cull records before they fill the frame: at that size the abstraction
         // stops reading as "a card" and starts reading as a grey rectangle.
         if (w < 1.2 || w > width * 0.52) return null;
@@ -138,7 +142,7 @@ export const CardLattice: React.FC<Props> = ({
               tint={rec.tint}
               candidate={rec.candidate}
               card={rec.card}
-              photo={rec.photo}
+              photo={rec.photo ? rec.photo.file : null}
               name={rec.candidate && w > 46 ? rec.card.name : undefined}
             />
           </div>
@@ -217,11 +221,14 @@ export const MiniCard: React.FC<{
           {/*
             A real card, in the archive, going past.
 
-            It is graded down hard rather than dropped in clean: desaturated,
-            darkened, and sitting under a wash of the record's own tint. A
-            full-colour photograph at full strength would punch a hole in a
-            frame built out of one dark palette — the point is that the field is
-            made of real things, not that any one of them is legible.
+            The grade here was written when photographs were one record in five
+            and all of them were sepia — hard desaturation and a heavy tint kept
+            them from punching a hole in a dark frame. Now they are most of the
+            field and the whole point is that a viewer RECOGNISES them: a
+            Charizard has to look like a Charizard. So the grade is much
+            lighter, and the tint that sits over them is thinner and no longer
+            multiplied over the middle of the card. They still read as part of
+            the room; they are no longer anonymous.
           */}
           <Img
             src={staticFile(photo)}
@@ -231,18 +238,18 @@ export const MiniCard: React.FC<{
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              filter: 'grayscale(0.55) contrast(1.05) brightness(0.62)',
-              opacity: 0.9,
+              filter: 'grayscale(0.12) contrast(1.06) brightness(0.92) saturate(1.05)',
+              opacity: 0.96,
             }}
           />
           <div
             style={{
               position: 'absolute',
               inset: 0,
-              background: `linear-gradient(160deg, ${alpha(tint, 0.3)} 0%, ${alpha(
+              background: `linear-gradient(160deg, ${alpha(tint, 0.14)} 0%, transparent 42%, ${alpha(
                 C.void,
-                0.55,
-              )} 70%, ${alpha(C.void, 0.85)} 100%)`,
+                0.3,
+              )} 78%, ${alpha(C.void, 0.55)} 100%)`,
               mixBlendMode: 'multiply',
             }}
           />

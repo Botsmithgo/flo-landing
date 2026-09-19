@@ -36,6 +36,8 @@
   .near{width:198px; height:277px; filter:blur(.7px)  saturate(.95);  opacity:.25}
   .slab{aspect-ratio:380/637; height:auto}
   .slab.near{width:170px} .slab.mid{width:130px} .slab.far{width:98px}
+  .raw{aspect-ratio:245/342; height:auto}
+  .raw.near{width:186px} .raw.mid{width:142px} .raw.far{width:106px}
 
   @keyframes drift{
     0%  {transform:translate3d(0,0,0) rotate(var(--r,0deg))}
@@ -94,29 +96,31 @@
 <body>
 
 <!--
-  The card field uses only what the film itself is cleared to use: the four
-  pre-1929 cards (public domain) and the slab the film is about. Nothing else.
+  The same card set the film's SEARCH field uses: modern Pokémon, the
+  VeeFriends card, the film's Kobe slab raw and graded, and the pre-1929
+  tobacco-era cards. Aspect ratios are real — a slab is 0.596, a raw card
+  ~0.72 — so nothing is cropped into the wrong shape.
 -->
 <div class="field" aria-hidden="true">
   <i class="near slab" style="left:-2%;  top:12%; --dx:14px; --dy:-30px; --r:-9deg;  --dr:2deg;  animation-duration:38s; animation-delay:-4s;  background-image:url(cards/kobe-slab-psa.png)"></i>
-  <i class="mid"       style="left:6%;   top:58%; --dx:-18px;--dy:24px;  --r:7deg;   --dr:-3deg; animation-duration:46s; animation-delay:-19s; background-image:url(cards/vint-ty-cobb.jpg)"></i>
-  <i class="far"       style="left:14%;  top:31%; --dx:22px; --dy:18px;  --r:-14deg; --dr:4deg;  animation-duration:61s; animation-delay:-33s; background-image:url(cards/vint-christy-mathewson.jpg)"></i>
+  <i class="mid raw"       style="left:6%;   top:58%; --dx:-18px;--dy:24px;  --r:7deg;   --dr:-3deg; animation-duration:46s; animation-delay:-19s; background-image:url(cards/poke-charizard-151.png)"></i>
+  <i class="far raw"       style="left:14%;  top:31%; --dx:22px; --dy:18px;  --r:-14deg; --dr:4deg;  animation-duration:61s; animation-delay:-33s; background-image:url(cards/poke-umbreon-vmax.png)"></i>
   <i class="far"       style="left:2%;   top:78%; --dx:-14px;--dy:-22px; --r:11deg;  --dr:-2deg; animation-duration:55s; animation-delay:-11s; background-image:url(cards/vint-cy-young.jpg)"></i>
   <i class="mid"       style="left:-1%;  top:41%; --dx:20px; --dy:16px;  --r:-4deg;  --dr:3deg;  animation-duration:52s; animation-delay:-27s; background-image:url(cards/vint-walter-johnson.jpg)"></i>
 
-  <i class="near"      style="right:-3%; top:20%; --dx:-16px;--dy:26px;  --r:8deg;   --dr:-3deg; animation-duration:41s; animation-delay:-8s;  background-image:url(cards/vint-ty-cobb.jpg)"></i>
+  <i class="near raw"      style="right:-3%; top:20%; --dx:-16px;--dy:26px;  --r:8deg;   --dr:-3deg; animation-duration:41s; animation-delay:-8s;  background-image:url(cards/garyvee-card.png)"></i>
   <i class="mid slab"  style="right:5%;  top:66%; --dx:18px; --dy:-20px; --r:-11deg; --dr:3deg;  animation-duration:49s; animation-delay:-22s; background-image:url(cards/kobe-slab-psa.png)"></i>
-  <i class="far"       style="right:15%; top:36%; --dx:-20px;--dy:-16px; --r:13deg;  --dr:-4deg; animation-duration:58s; animation-delay:-37s; background-image:url(cards/vint-walter-johnson.jpg)"></i>
+  <i class="far raw"       style="right:15%; top:36%; --dx:-20px;--dy:-16px; --r:13deg;  --dr:-4deg; animation-duration:58s; animation-delay:-37s; background-image:url(cards/poke-pikachu-base.png)"></i>
   <i class="far"       style="right:1%;  top:83%; --dx:16px; --dy:20px;  --r:-6deg;  --dr:2deg;  animation-duration:64s; animation-delay:-15s; background-image:url(cards/vint-christy-mathewson.jpg)"></i>
-  <i class="mid"       style="right:-2%; top:47%; --dx:-22px;--dy:-18px; --r:5deg;   --dr:-3deg; animation-duration:44s; animation-delay:-30s; background-image:url(cards/vint-cy-young.jpg)"></i>
+  <i class="mid raw"       style="right:-2%; top:47%; --dx:-22px;--dy:-18px; --r:5deg;   --dr:-3deg; animation-duration:44s; animation-delay:-30s; background-image:url(cards/poke-rayquaza-vmax.png)"></i>
 
-  <i class="far"       style="left:38%;  top:-6%;    --dx:18px; --dy:22px;  --r:9deg;   --dr:-3deg; animation-duration:57s; animation-delay:-25s; background-image:url(cards/vint-cy-young.jpg)"></i>
+  <i class="far raw"       style="left:38%;  top:-6%;    --dx:18px; --dy:22px;  --r:9deg;   --dr:-3deg; animation-duration:57s; animation-delay:-25s; background-image:url(cards/poke-gengar-vmax.png)"></i>
   <i class="far"       style="right:34%; bottom:-7%; --dx:-18px;--dy:-20px; --r:-8deg;  --dr:3deg;  animation-duration:63s; animation-delay:-6s;  background-image:url(cards/vint-ty-cobb.jpg)"></i>
-  <i class="mid"       style="left:-4%;  top:-4%;    --dx:20px; --dy:24px;  --r:12deg;  --dr:-4deg; animation-duration:53s; animation-delay:-13s; background-image:url(cards/vint-walter-johnson.jpg)"></i>
+  <i class="mid raw"       style="left:-4%;  top:-4%;    --dx:20px; --dy:24px;  --r:12deg;  --dr:-4deg; animation-duration:53s; animation-delay:-13s; background-image:url(cards/poke-charizard-151.png)"></i>
   <i class="near"      style="left:9%;   bottom:-9%; --dx:-16px;--dy:-22px; --r:-7deg;  --dr:3deg;  animation-duration:43s; animation-delay:-29s; background-image:url(cards/vint-christy-mathewson.jpg)"></i>
   <i class="far slab"  style="left:23%;  top:6%;     --dx:-18px;--dy:20px;  --r:15deg;  --dr:-3deg; animation-duration:59s; animation-delay:-41s; background-image:url(cards/kobe-slab-psa.png)"></i>
   <i class="mid"       style="right:-4%; top:-5%;    --dx:-20px;--dy:22px;  --r:-13deg; --dr:4deg;  animation-duration:51s; animation-delay:-24s; background-image:url(cards/vint-ty-cobb.jpg)"></i>
-  <i class="near"      style="right:8%;  bottom:-8%; --dx:18px; --dy:-24px; --r:9deg;   --dr:-3deg; animation-duration:45s; animation-delay:-9s;  background-image:url(cards/vint-cy-young.jpg)"></i>
+  <i class="near slab"      style="right:8%;  bottom:-8%; --dx:18px; --dy:-24px; --r:9deg;   --dr:-3deg; animation-duration:45s; animation-delay:-9s;  background-image:url(cards/kobe-slab-raw.png)"></i>
   <i class="far"       style="right:22%; top:4%;     --dx:16px; --dy:18px;  --r:-15deg; --dr:3deg;  animation-duration:60s; animation-delay:-39s; background-image:url(cards/vint-walter-johnson.jpg)"></i>
   <i class="mid slab"  style="right:19%; bottom:6%;  --dx:-22px;--dy:-16px; --r:11deg;  --dr:-4deg; animation-duration:48s; animation-delay:-20s; background-image:url(cards/kobe-slab-psa.png)"></i>
 </div>
@@ -126,7 +130,7 @@
   <h1 class="brand">MAZI<span>DEX</span><i></i></h1>
   <p class="sub">The live market record</p>
   <div class="frame">
-    <video src="mazi-brand-film.mp4?v=20260918c" poster="poster.jpg?v=20260918c" controls playsinline preload="metadata"></video>
+    <video src="mazi-brand-film.mp4?v=20260918d" poster="poster.jpg?v=20260918d" controls playsinline preload="metadata"></video>
   </div>
   <p class="line">See what you hold</p>
   <p class="foot"><span>Brand film · 26s · 2026</span><span><b>MAZIFIED</b> · every number is a ledger row</span><span><a href="https://mazidex.com">mazidex.com</a></span></p>

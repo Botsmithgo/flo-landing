@@ -64,11 +64,8 @@ export const ASSETS = {
   /**
    * Real card photographs used in the SEARCH lattice.
    *
-   * All four are pre-1929 tobacco-era and press material and are public domain
-   * in the US — chosen deliberately so the one beat that uses photography can
-   * ship anywhere without a rights conversation. They also earn their place:
-   * a 1909 Ty Cobb tumbling through a machine-readable archive is the whole
-   * idea of the company in one image.
+   * See CARD_PHOTOS below — this list is kept only as the set of images that
+   * are unambiguously public domain, for anywhere the film needs to be certain.
    */
   vintage: [
     'cards/vint-ty-cobb.jpg',
@@ -77,6 +74,53 @@ export const ASSETS = {
     'cards/vint-walter-johnson.jpg',
   ] as readonly string[],
 } as const;
+
+/**
+ * The card photographs that fly past in SEARCH.
+ *
+ * "Millions of cards" should look like cards people recognise, so this is
+ * everything real the project actually has: modern Pokémon, the VeeFriends
+ * card, the film's own Kobe slab raw and graded, and the pre-1929 tobacco-era
+ * cards that give the field some age.
+ *
+ * `aspect` is each image's true width/height, measured, not assumed. A slab is
+ * 0.596 and a raw card is ~0.71–0.73, and forcing them all into one box is the
+ * difference between a field of cards and a field of cropped rectangles.
+ *
+ * `weight` biases the draw. Modern cards are weighted up because the beat is
+ * about the market as it is now; the vintage ones are texture, not subject.
+ *
+ * ── Rights ───────────────────────────────────────────────────────────────────
+ * The four `vint-` images are pre-1929 and public domain in the US. The Pokémon
+ * renders and the VeeFriends card are third-party card artwork, used here at
+ * lattice scale — small, fast and graded down — the same way the MAZI investor
+ * film's watch page already uses this exact set. The slab photographs are of
+ * the card the film is about. NOT used, and deliberately: the modern athlete
+ * images in the prototype's asset folder, which are uncleared press photos of
+ * players rather than photographs of cards.
+ */
+export type CardPhoto = { file: string; aspect: number; weight: number };
+
+export const CARD_PHOTOS: readonly CardPhoto[] = [
+  { file: 'cards/poke-charizard-151.png', aspect: 0.7164, weight: 3 },
+  { file: 'cards/poke-umbreon-vmax.png', aspect: 0.7164, weight: 3 },
+  { file: 'cards/poke-rayquaza-vmax.png', aspect: 0.7164, weight: 2 },
+  { file: 'cards/poke-gengar-vmax.png', aspect: 0.7164, weight: 2 },
+  { file: 'cards/poke-blastoise-base.png', aspect: 0.7273, weight: 2 },
+  { file: 'cards/poke-pikachu-base.png', aspect: 0.7273, weight: 2 },
+  { file: 'cards/garyvee-card.png', aspect: 0.6947, weight: 3 },
+  { file: 'cards/kobe-slab-psa.png', aspect: 0.5965, weight: 2 },
+  { file: 'cards/kobe-slab-raw.png', aspect: 0.5965, weight: 2 },
+  { file: 'cards/vint-ty-cobb.jpg', aspect: 0.5577, weight: 1 },
+  { file: 'cards/vint-christy-mathewson.jpg', aspect: 0.7425, weight: 1 },
+  { file: 'cards/vint-cy-young.jpg', aspect: 0.5766, weight: 1 },
+  { file: 'cards/vint-walter-johnson.jpg', aspect: 0.5656, weight: 1 },
+];
+
+/** Expanded by weight, so `pick` lands on modern cards more often. */
+export const CARD_PHOTO_POOL: readonly CardPhoto[] = CARD_PHOTOS.flatMap((p) =>
+  Array.from({ length: p.weight }, () => p),
+);
 
 /**
  * Narration placement.
