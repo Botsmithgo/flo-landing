@@ -1,13 +1,13 @@
 import React from 'react';
 import { AbsoluteFill } from 'remotion';
-import { CANDIDATE_NAMES, CARD } from '../assets';
+import { CARD } from '../assets';
 import { Atmosphere, Vignette } from '../components/Atmosphere';
 import { CARD_RATIO } from '../components/CardFace';
 import { Card3D } from '../components/Card3D';
-import { CardLattice, MiniCard } from '../components/CardLattice';
+import { CardLattice } from '../components/CardLattice';
 import { Chrome } from '../components/Chrome';
 import { Glow, LightStreak } from '../components/Glow';
-import { DirectionalBlur, Smear } from '../components/MotionBlur';
+import { DirectionalBlur } from '../components/MotionBlur';
 import { Sparks } from '../components/Particles';
 import { ChromaSplit, Flash, Shockwave } from '../components/Transitions';
 import { Kinetic, Mono, Odometer } from '../components/Typography';
@@ -38,7 +38,7 @@ import { CANDIDATE_STEPS, IMPACTS, SCENES, useStoryFrame } from '../utils/timing
  *   000–014  the field rushes in out of the detonation
  *   009–100  flight; the counter steps down five times
  *   078–102  the cloud collapses toward the axis; camera decelerates hard
- *   088–104  three finalists; two are eliminated
+ *   082–108  the one record is spotted, locked, and closed on
  *   104–108  freeze. silence.
  *   108      MATCH — the card slams into place
  *   108–144  lock, hold, and begin the hand-off to MARKET
@@ -60,7 +60,7 @@ export const Search: React.FC = () => {
 
   // ── Compression ─────────────────────────────────────────────────────────
   const converge = ramp(frame, 74, 32, E.snap) * 0.82;
-  const fieldOut = ramp(frame, MATCH - 6, 10, E.expoIn);
+  const fieldOut = ramp(frame, MATCH - 18, 16, E.expoIn);
 
   // ── Camera ──────────────────────────────────────────────────────────────
   const hh = handheld(frame + 900, 1.3);
@@ -88,15 +88,21 @@ export const Search: React.FC = () => {
   const counterKick = strike(frame, stepLocal, 7, 1);
   const counterOut = ramp(frame, MATCH - 6, 7, E.expoIn);
 
-  // ── Finalists ───────────────────────────────────────────────────────────
-  const finalistsIn = ramp(frame, 88, 10, E.out);
-  const eliminate = ramp(frame, 100, 7, E.snap);
-  const finalistsOut = ramp(frame, MATCH - 2, 6, E.expoIn);
+  // ── The approach ────────────────────────────────────────────────────────
+  // Spotted at 82, closed on from 88, arrives on the match at 108. expoIn so
+  // the last third of the travel is most of the distance — the camera does not
+  // drift toward it, it drops on it.
+  const spot = ramp(frame, 82, 12, E.out);
+  const approach = ramp(frame, 88, 20, E.expoIn);
 
   // ── The match ───────────────────────────────────────────────────────────
   const matchIn = ramp(frame, MATCH, 12, E.expoOut);
   const heroW = width * by({ wide: 0.2, square: 0.34, portrait: 0.38, tall: 0.44 });
   const heroH = heroW / CARD_RATIO;
+  // 0.16 → 1.0 of hero size: far enough to read as "in the field", and it
+  // lands at exactly hero size so the match has nothing left to travel.
+  const approachW = heroW * (0.16 + approach * 0.84);
+  const approachH = approachW / CARD_RATIO;
   const settle = ramp(frame, MATCH + 10, 30, E.out);
 
   return (
@@ -145,64 +151,56 @@ export const Search: React.FC = () => {
             })
           : null}
 
-        {/* ── Finalists: three, then one ──────────────────────────────── */}
-        {finalistsIn > 0.01 && finalistsOut < 0.99 ? (
+        {/*
+          ── The approach: it finds the one, and we close on it ──────────
+
+          This replaces a row of three "finalist" cards that were eliminated
+          left and right. Two reasons they are gone. The narration says *it
+          finds the one* — so the picture should find one, not audition three.
+          And the row was broken: each MiniCard asked for `height: 100%` inside
+          a Smear wrapper that had no height of its own, so every card
+          collapsed to zero and rendered as nothing but its own top border —
+          the three yellow hairlines that were sitting across the frame at 0:12.
+
+          What happens instead: the record is spotted deep in the field, small
+          and far, the locks snap onto it, and the camera accelerates toward it
+          until it fills the frame. The match then lands on an object we have
+          already been looking at, which is what makes it read as recognition
+          rather than as a cut.
+        */}
+        {spot > 0.01 && matchIn < 0.02 ? (
           <div
             style={{
               position: 'absolute',
-              left: 0,
-              right: 0,
-              top: cy - heroH * 0.34,
-              display: 'flex',
-              justifyContent: 'center',
-              gap: width * 0.045,
-              opacity: finalistsIn * (1 - finalistsOut),
+              left: cx,
+              top: cy,
+              width: approachW,
+              height: approachH,
+              marginLeft: -approachW / 2,
+              marginTop: -approachH / 2,
+              opacity: spot,
             }}
           >
-            {[0, 1, 2].map((i) => {
-              const survives = i === 1;
-              const gone = survives ? 0 : eliminate;
-              const w = heroW * 0.44;
-              // Losers are thrown outward and streak as they go — elimination
-              // should look like something being discarded, not fading out.
-              const throwDir = i === 0 ? -1 : 1;
-              return (
-                <div
-                  key={i}
-                  style={{
-                    width: w,
-                    height: w / CARD_RATIO,
-                    transform: `translate(${gone * throwDir * width * 0.1}px, ${
-                      (1 - finalistsIn) * 40 * u
-                    }px) scale(${1 - gone * 0.24 + (survives ? eliminate * 0.14 : 0)})`,
-                    opacity: 1 - gone,
-                  }}
-                >
-                  <Smear
-                    length={gone * 22 * u}
-                    angle={throwDir < 0 ? 180 : 0}
-                    copies={3}
-                  >
-                    <MiniCard
-                      w={w}
-                      h={w / CARD_RATIO}
-                      tint={survives ? C.gold : C.slate}
-                      candidate
-                      name={survives ? CARD.player : CANDIDATE_NAMES[i * 3 + 2]}
-                    />
-                  </Smear>
-                  <div style={{ marginTop: 10 * u, textAlign: 'center' }}>
-                    <Mono
-                      size={10 * u}
-                      color={survives ? C.goldLift : alpha(C.faint, 1)}
-                      tracking={2 * u}
-                    >
-                      {survives ? '99.4%' : i === 0 ? '61.2%' : '48.7%'}
-                    </Mono>
-                  </div>
-                </div>
-              );
-            })}
+            <DirectionalBlur amount={approach * 9 * u} angle={90}>
+              <Card3D
+                width={approachW}
+                rotX={4 - approach * 3 + drift(frame, 0.02, 1.2, 0.6)}
+                rotY={-22 + approach * 9 + drift(frame, 0.017, 1.6, 1.4)}
+                thickness={4 * u}
+                sweep={0.18 + approach * 0.5}
+                halo={0.25 + approach * 0.7}
+              >
+                <CornerLocks
+                  w={approachW}
+                  h={approachH}
+                  frame={frame}
+                  start={86}
+                  size={approachW * 0.2}
+                  weight={2 * u}
+                  inset={-approachW * 0.05}
+                />
+              </Card3D>
+            </DirectionalBlur>
           </div>
         ) : null}
 
@@ -217,9 +215,10 @@ export const Search: React.FC = () => {
               height: heroH,
               marginLeft: -heroW / 2,
               marginTop: -heroH / 2,
-              // A 1.1x overshoot, not 2.9x: at three times frame size the card
-              // stopped reading as an object arriving and became a blurred wall.
-              transform: `scale(${1 + (1 - matchIn) * 1.05})`,
+              // Barely an overshoot. The approach has already brought the card
+              // to hero size, so the match is an impact on something present,
+              // not an arrival — a 2x pop here would undo the whole push.
+              transform: `scale(${1 + (1 - matchIn) * 0.1})`,
               opacity: Math.min(1, matchIn * 2.4),
             }}
           >
@@ -227,7 +226,7 @@ export const Search: React.FC = () => {
                 frames and it is the difference between "a card appeared" and
                 "something just happened". */}
             <ChromaSplit frame={frame} at={MATCH} decay={7} amount={18 * u}>
-              <DirectionalBlur amount={(1 - matchIn) * 18 * u} angle={90}>
+              <DirectionalBlur amount={(1 - matchIn) * 9 * u} angle={90}>
                   <Card3D
                   width={heroW}
                   rotX={2 - settle * 2 + drift(frame, 0.014, 1.1, 0.3)}
@@ -261,13 +260,13 @@ export const Search: React.FC = () => {
           life={38}
           flatten={0.28}
           seed="match"
-          colors={[C.trustIce, C.trust, C.bone, C.brand]}
+          colors={[C.goldLift, C.gold, C.bone, C.brand]}
         />
         <Shockwave frame={frame} at={MATCH} duration={36} maxScale={4.4} />
-        <Shockwave frame={frame} at={MATCH + 4} duration={30} maxScale={3} color={C.brand} />
+        <Shockwave frame={frame} at={MATCH + 4} duration={30} maxScale={3} color={C.goldDeep} />
         <Flash frame={frame} at={MATCH} decay={12} intensity={1.15} />
         <Glow
-          color={C.trustIce}
+          color={C.goldLift}
           size={width * 0.2 * strike(frame, MATCH, 14, 2)}
           intensity={strike(frame, MATCH, 14, 2) * 1.2}
           style={{ left: cx, top: cy }}
@@ -292,9 +291,9 @@ export const Search: React.FC = () => {
             style={{
               width: 6 * u,
               height: 6 * u,
-              background: C.trust,
+              background: C.gold,
               opacity: 0.4 + counterKick * 0.6,
-              boxShadow: `0 0 ${10 * u}px ${C.trust}`,
+              boxShadow: `0 0 ${10 * u}px ${C.gold}`,
             }}
           />
           <Mono size={11 * u} color={alpha(C.muted, 0.95)} tracking={4.2 * u}>
@@ -332,8 +331,8 @@ export const Search: React.FC = () => {
               style={{
                 width: i <= stepIndex ? 22 * u : 10 * u,
                 height: 2,
-                background: i <= stepIndex ? C.trust : alpha(C.smoke, 0.7),
-                boxShadow: i === stepIndex ? `0 0 ${8 * u}px ${C.trust}` : undefined,
+                background: i <= stepIndex ? C.gold : alpha(C.smoke, 0.7),
+                boxShadow: i === stepIndex ? `0 0 ${8 * u}px ${C.gold}` : undefined,
               }}
             />
           ))}
@@ -370,7 +369,7 @@ export const Search: React.FC = () => {
             mode="shatter"
             weight={700}
             tracking={0.16}
-            color={C.trustIce}
+            color={C.goldLift}
           >
             MATCH
           </Kinetic>

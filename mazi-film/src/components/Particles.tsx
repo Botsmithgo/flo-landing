@@ -131,7 +131,7 @@ export const Sparks: React.FC<{
   x,
   y,
   reach = 700,
-  colors = [C.trustIce, C.trust, C.brand],
+  colors = [C.goldLift, C.gold, C.brand],
   flatten = 0.35,
   seed = 'sparks',
 }) => {

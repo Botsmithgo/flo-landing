@@ -53,9 +53,12 @@ export const Manifesto: React.FC = () => {
     { zoom: 1.0 + ramp(frame, 0, 120, E.linear) * 0.035 + leave * 0.06 },
   );
 
-  const cardW = width * by({ wide: 0.125, square: 0.2, portrait: 0.22, tall: 0.25 });
+  const cardW = width * by({ wide: 0.082, square: 0.15, portrait: 0.16, tall: 0.18 });
   const cardH = cardW / CARD_RATIO;
-  const cardY = cy - height * by({ wide: 0.055, square: 0.06, tall: 0.07 });
+  // Above the headline, not through it. The card's box is ~263px tall at 16:9
+  // and the first line's box starts at cy − 1.5 × typeSize, so the centre has
+  // to sit high enough that the card clears it entirely.
+  const cardY = cy - height * by({ wide: 0.32, square: 0.3, portrait: 0.31, tall: 0.33 });
 
   // The intelligence field: nodes around the object, lines between near pairs.
   const nodes = useMemo(
