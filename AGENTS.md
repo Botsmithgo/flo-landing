@@ -108,7 +108,7 @@ See `/research/benchmarks-compliance.md` for full 2,100-word brief. Key rules:
 | "Clinically proven" | "Users report" |
 | "Removes 99%" | "Reduces by up to [X]%" (with lab data) |
 
-**Prop 65 warning is already in the footer.** Do not remove. CA orders require it.
+**Prop 65 update — October 7, 2026:** User explicitly requested removal and states the product contains no brass. Removed the generic lead warning and unsupported packaging-warning FAQ. Do not restore either from historical boilerplate. This records the owner’s direction, not a product testing or legal determination.
 
 **If FLO doesn't have NSF 177 certification**, never use the NSF logo, the letters "NSF," or the number 177. Say "independently lab-tested" instead.
 

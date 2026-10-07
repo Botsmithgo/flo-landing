@@ -64,12 +64,6 @@ export default function Footer() {
 
         <div className="mt-20 pt-8 border-t border-bone/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 text-[12px] text-bone/50">
           <p>&copy; {new Date().getFullYear()} Feels Like Om. All rights reserved.</p>
-          <p className="max-w-md leading-relaxed text-[11px]">
-            <strong className="text-bone/70">⚠ Prop 65 Warning (California):</strong> This product
-            can expose you to chemicals including lead, which is known to the State of California
-            to cause cancer and birth defects or other reproductive harm.{" "}
-            <a href="https://www.p65warnings.ca.gov" className="underline">P65Warnings.ca.gov</a>.
-          </p>
         </div>
       </div>
     </footer>

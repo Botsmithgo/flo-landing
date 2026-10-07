@@ -35,10 +35,6 @@ const FAQ = [
     q: "Return policy?",
     a: "60 days, full refund, no questions. If the water isn't better than what you had, we don't want your money.",
   },
-  {
-    q: "Is the housing safe?",
-    a: "The housing is a polished chrome finish with a cream filter face. A California Prop 65 notice ships with the product — that's a broad disclosure required on most metal fixtures in California, not a safety concern specific to this product.",
-  },
 ];
 
 export default function ShowerFAQ() {
