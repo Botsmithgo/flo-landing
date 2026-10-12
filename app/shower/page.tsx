@@ -80,6 +80,9 @@ export default function ShowerPage() {
       {/* 1. TRUST RIBBON — quick numeric trust hit */}
       <BrandCredibility />
 
+      {/* 1b. TIKTOK — real faces and a real shower, right after the offer */}
+      <CustomerUGC />
+
       {/* 2. RESULTS — consolidated panel: comparison image + 4-week study stats */}
       <ShowerResults />
 
@@ -101,9 +104,6 @@ export default function ShowerPage() {
 
       {/* 7. AMAZON REVIEWS — long-form verified proof */}
       <AmazonReviewsGrid />
-
-      {/* 8. CUSTOMER UGC — auto-hides until URLs are added */}
-      <CustomerUGC />
 
       {/* 9. COMPARISON vs Jolie */}
       <ShowerComparison />

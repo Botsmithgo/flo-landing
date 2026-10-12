@@ -1,81 +1,117 @@
 "use client";
 
-import Script from "next/script";
+import Image from "next/image";
+import { useState } from "react";
 import Reveal from "@/components/Reveal";
 import { track } from "@/lib/analytics";
 
 /**
- * Customer-generated TikToks — NOT brand ads. Real customers reacting to FLO.
+ * Top videos from the Feels Like Om TikTok (@feelslikeom.shop), shown as light
+ * poster cards. The TikTok player only loads when a card is tapped, so the page
+ * doesn't pay for four embed iframes up front.
  *
- * Drop URLs into env vars NEXT_PUBLIC_UGC_TIKTOK_1/2/3.
- * Component auto-hides if no URLs are configured.
+ * These are brand-account posts made with creators, so the section is labelled
+ * "from our TikTok", never "real customers, not our ads" (FTC endorsement rules).
  *
- * Format: full TikTok URL like:
- *   https://www.tiktok.com/@username/video/1234567890123456789
+ * View counts were read from TikTok on 2026-10-12. Posters live in /public/ugc.
  */
+const VIDEOS = [
+  { id: "7528596974069746975", views: "1.4M", hook: "Eczema, irritation, and flaking" },
+  { id: "7476519012743056670", views: "1.2M", hook: "Hard water vs. your hair" },
+  { id: "7529031516001815838", views: "965K", hook: "Clean enough to drink, not for your skin" },
+  { id: "7528254919862684958", views: "616K", hook: "Dandruff that won't quit" },
+];
 
-function extractVideoId(url: string): string | null {
-  const m = url.match(/\/video\/(\d+)/);
-  return m ? m[1] : null;
-}
+const PROFILE = "https://www.tiktok.com/@feelslikeom.shop";
 
-const RAW_URLS = [
-  process.env.NEXT_PUBLIC_UGC_TIKTOK_1,
-  process.env.NEXT_PUBLIC_UGC_TIKTOK_2,
-  process.env.NEXT_PUBLIC_UGC_TIKTOK_3,
-].filter((u): u is string => Boolean(u));
-
-const VIDEOS = RAW_URLS.map((url) => ({ url, id: extractVideoId(url) })).filter(
-  (v): v is { url: string; id: string } => v.id !== null
-);
-
-export default function CustomerUGC() {
-  // Auto-hide section if no UGC URLs configured
-  if (VIDEOS.length === 0) return null;
+function VideoCard({ id, views, hook }: (typeof VIDEOS)[number]) {
+  const [playing, setPlaying] = useState(false);
 
   return (
-    <>
-      <section className="bg-water py-28 md:py-36">
-        <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-          <Reveal>
-            <p className="overline text-deep mb-6">Real customers</p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <h2 className="display text-[10vw] md:text-[5vw] leading-[0.98] max-w-3xl mb-12 md:mb-16">
-              Not our ads.
-              <br />
-              <span className="display-italic text-deep">Just real reactions.</span>
-            </h2>
-          </Reveal>
+    <div className="relative aspect-[9/16] w-full overflow-hidden rounded-2xl bg-ink ring-1 ring-ink/10">
+      {playing ? (
+        <iframe
+          src={`https://www.tiktok.com/player/v1/${id}?autoplay=1&music_info=0&description=0&rel=0`}
+          title={hook}
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+          className="absolute inset-0 h-full w-full"
+        />
+      ) : (
+        <button
+          type="button"
+          onClick={() => {
+            setPlaying(true);
+            track("tiktok_click", { source: "ugc_card", video_id: id });
+          }}
+          aria-label={`Play TikTok: ${hook}`}
+          className="group absolute inset-0 text-left"
+        >
+          <Image
+            src={`/ugc/${id}.webp`}
+            alt=""
+            fill
+            sizes="(max-width: 768px) 70vw, 25vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          />
+          <span className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
+          <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[12px] font-semibold text-ink">
+            {views} views
+          </span>
+          <span className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform group-hover:scale-105">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="ml-0.5 text-ink" aria-hidden>
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
+          <span className="absolute inset-x-3 bottom-3 text-[14px] font-medium leading-snug text-white">
+            {hook}
+          </span>
+        </button>
+      )}
+    </div>
+  );
+}
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {VIDEOS.map((v, i) => (
-              <Reveal key={v.id} delay={i * 0.08}>
-                <div
-                  className="relative bg-bone rounded-sm p-5"
-                  onClick={() => track("tiktok_click", { source: "ugc", video_id: v.id })}
-                >
-                  <div className="flex items-center justify-between mb-4 text-[11px] tracking-widest uppercase">
-                    <span className="text-deep font-medium">Customer #{i + 1}</span>
-                    <span className="text-muted">TikTok</span>
-                  </div>
-                  <blockquote
-                    className="tiktok-embed"
-                    cite={v.url}
-                    data-video-id={v.id}
-                    style={{ maxWidth: "605px", minWidth: "280px", margin: 0 }}
-                  >
-                    <section>
-                      <a href={v.url}>View on TikTok</a>
-                    </section>
-                  </blockquote>
-                </div>
-              </Reveal>
-            ))}
+export default function CustomerUGC() {
+  return (
+    <section className="bg-paper py-20 md:py-28">
+      <div className="mx-auto max-w-[1400px] px-5 md:px-10">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-12">
+          <div>
+            <Reveal>
+              <p className="overline text-deep mb-5">From our TikTok</p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h2 className="display text-[10vw] md:text-[4.4vw] leading-[0.98] max-w-3xl">
+                5 million views.
+                <br />
+                <span className="display-italic text-deep">See it in a real shower.</span>
+              </h2>
+            </Reveal>
           </div>
+          <a
+            href={PROFILE}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => track("tiktok_click", { source: "ugc_profile" })}
+            className="rounded-full border border-ink/15 px-4 py-2 text-[13px] font-medium text-ink hover:border-ink/40"
+          >
+            @feelslikeom.shop on TikTok →
+          </a>
         </div>
-      </section>
-      <Script src="https://www.tiktok.com/embed.js" strategy="afterInteractive" />
-    </>
+
+        {/* Phone: swipe row. Desktop: four across. */}
+        <div className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 md:mx-0 md:grid md:grid-cols-4 md:gap-5 md:overflow-visible md:px-0">
+          {VIDEOS.map((v) => (
+            <div key={v.id} className="w-[68vw] max-w-[300px] flex-none snap-start md:w-auto md:max-w-none">
+              <VideoCard {...v} />
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-6 text-[12px] text-muted">
+          Videos from the Feels Like Om TikTok account, made with creators we work with. Individual results vary.
+        </p>
+      </div>
+    </section>
   );
 }

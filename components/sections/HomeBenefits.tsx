@@ -7,7 +7,7 @@ const BENEFITS = [
     icon: "shield",
   },
   {
-    title: "Free U.S. shipping",
+    title: "Free 2-day shipping",
     detail: "On every order over $49.",
     icon: "truck",
   },

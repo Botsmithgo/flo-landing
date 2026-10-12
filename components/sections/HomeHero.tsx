@@ -51,7 +51,7 @@ export default function HomeHero() {
             </svg>
             100,000+ orders shipped
           </span>
-          <span>Free U.S. shipping over $49</span>
+          <span>Free 2-day shipping</span>
           <span>60-day returns</span>
         </div>
       </div>

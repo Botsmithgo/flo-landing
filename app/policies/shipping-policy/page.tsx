@@ -14,7 +14,7 @@ export default function ShippingPolicyPage() {
       </PolicySection>
 
       <PolicySection title="Shipping cost">
-        <p>U.S. orders over $49 ship free. Subscription orders include free U.S. shipping on the first order and scheduled replacement-filter deliveries.</p>
+        <p>Every U.S. order ships free with 2-day delivery, including the first order and every scheduled replacement-filter delivery. Delivery times are counted in business days once the order has been processed.</p>
       </PolicySection>
 
       <PolicySection title="Processing and delivery">

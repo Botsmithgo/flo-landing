@@ -20,7 +20,7 @@ const PLANS: Record<Plan, { label: string; price: number; original: number | nul
     label: "First order",
     price: PRODUCTS.shower.price,
     original: PRODUCTS.shower.msrp,
-    line: "$80 for eligible new customers · No subscription · 60-day returns",
+    line: "$80 first order · No subscription · 60-day returns",
     badge: "Best for first-time buyers",
   },
 };
@@ -113,7 +113,7 @@ export default function ShowerHeroV2() {
             <span className="display text-[26px] text-ink leading-none">${selected.price}</span>
             <span className="text-[13px] text-muted line-through">${PRODUCTS.shower.msrp}</span>
             <span className="text-[12px] text-muted">
-              {plan === "subscribe" ? "first order, then refills" : "first order · 60-day returns"}
+              {plan === "subscribe" ? "first order · then $39 filters every 6 mo" : "first order · free 2-day shipping"}
             </span>
           </p>
         </div>
@@ -256,7 +256,7 @@ export default function ShowerHeroV2() {
                     <span className={`absolute -top-2.5 left-3 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-wide ${
                       isActive ? "bg-action text-white" : "bg-mist text-deeper"
                     }`}>
-                      Refills included
+                      Filter refills
                     </span>
                   )}
                   <span className="flex items-center gap-2 text-[15px] font-semibold leading-tight">
@@ -268,7 +268,7 @@ export default function ShowerHeroV2() {
                   <span className="mt-1.5 block text-[12px] leading-snug text-muted">
                     {isSub
                       ? `New filter every ${PRODUCTS.shower.refillCadenceMonths} months, $${PRODUCTS.shower.refillPrice}. Skip anytime.`
-                      : "Just the shower head. Reorder filters when you like."}
+                      : "Shower head only. Buy filters as needed."}
                   </span>
                 </button>
               );
@@ -317,7 +317,7 @@ export default function ShowerHeroV2() {
           </motion.a>
 
           <p className="mt-3 text-center text-[13px] text-ink">
-            Free U.S. shipping · 60-day money-back guarantee
+            Free 2-day shipping · 60-day money-back guarantee
           </p>
           </div>{/* /offer card */}
 

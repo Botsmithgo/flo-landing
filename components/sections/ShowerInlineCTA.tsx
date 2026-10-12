@@ -31,7 +31,7 @@ export default function ShowerInlineCTA() {
         </Reveal>
         <Reveal delay={0.05}>
           <p className="text-[15px] md:text-[16px] text-muted max-w-xl mx-auto leading-relaxed mb-8">
-            Free shipping. 60-day full refund if you don&apos;t feel it in your
+            Free 2-day shipping. 60-day full refund if you don&apos;t feel it in your
             hair and skin. Skip or cancel anytime.
           </p>
         </Reveal>
@@ -56,7 +56,7 @@ export default function ShowerInlineCTA() {
         </Reveal>
         <Reveal delay={0.15}>
           <p className="mt-5 text-[11px] tracking-widest uppercase text-muted">
-            Free shipping · 60-day returns · Skip or cancel anytime
+            Free 2-day shipping · 60-day returns · Skip or cancel anytime
           </p>
         </Reveal>
       </div>

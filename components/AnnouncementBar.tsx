@@ -10,7 +10,7 @@ type Message = {
 
 const MESSAGES: Message[] = [
   {
-    text: "Free shipping on every subscription order",
+    text: "Free 2-day shipping on every order",
     icon: (
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M1 3h15v13H1zM16 8h4l3 3v5h-7" />
