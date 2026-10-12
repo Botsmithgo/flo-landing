@@ -80,7 +80,7 @@ export default function Nav() {
           <div className="flex items-center gap-3">
             <Link
               href="/shower#offer"
-              className="hidden md:inline-flex text-[12px] tracking-[0.15em] uppercase px-4 py-2 rounded-full bg-deep text-bone hover:bg-ink transition-colors"
+              className="hidden md:inline-flex text-[13px] font-semibold px-4 py-2 rounded-full bg-action text-white hover:bg-action-deep transition-colors"
             >
               Shop
             </Link>

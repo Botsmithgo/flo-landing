@@ -20,9 +20,10 @@
   --deeper: #374F66;      /* deeper blue — used on dark sections */
   --gold: #C9A96E;        /* warm hairline accent — kept for contrast */
   --muted: #4E5A64;       /* cool muted text (darkened 2026-10-12 for contrast) */
-  --action: #1A5EE0;      /* vivid water blue — ONLY for buy actions, nowhere else */
-  --action-deep: #1348B5; /* hover/pressed */
-  --action-glow: rgba(26, 94, 224, 0.32);
+  --action: #3A8EFF;      /* light water blue — ONLY for buy actions, nowhere else */
+  --action-deep: #2578F0; /* hover/pressed */
+  --action-glow: rgba(58, 142, 255, 0.38);
+  --paper: #FBFAF7;       /* near-white hero ground (bone was reading dated) */
 
   --background: var(--bone);
   --foreground: var(--ink);
@@ -43,6 +44,7 @@
   --color-muted: var(--muted);
   --color-action: var(--action);
   --color-action-deep: var(--action-deep);
+  --color-paper: var(--paper);
 
   --font-sans: var(--font-sans-flo);
   --font-serif: var(--font-serif-flo);
@@ -210,4 +212,9 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
