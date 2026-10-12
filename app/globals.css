@@ -76,6 +76,15 @@ body {
   font-weight: 500;
 }
 
+/* Sub-headings under a serif section title: benefit titles, review titles, FAQ
+   questions. Sans so the Fraunces section titles stay the only display voice. */
+.subhead {
+  font-family: var(--font-sans-flo), system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
 /* Editorial serif display */
 .display {
   font-family: var(--font-serif-flo), Georgia, "Times New Roman", serif;

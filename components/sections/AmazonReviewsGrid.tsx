@@ -118,7 +118,7 @@ export default function AmazonReviewsGrid() {
                 </div>
 
                 {/* Title */}
-                <h3 className="display text-[19px] md:text-[20px] text-ink leading-tight mb-3">
+                <h3 className="subhead text-[16px] md:text-[17px] text-ink mb-3">
                   {r.title}
                 </h3>
 

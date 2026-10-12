@@ -80,7 +80,7 @@ export default function ShowerFAQ() {
                     }}
                     aria-expanded={isOpen}
                   >
-                    <h3 className="display text-xl md:text-2xl text-ink group-hover:text-deep transition-colors m-0 font-normal">
+                    <h3 className="subhead text-[16px] md:text-[18px] text-ink group-hover:text-deep transition-colors m-0">
                       {item.q}
                     </h3>
                     <span

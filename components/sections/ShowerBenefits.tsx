@@ -32,7 +32,7 @@ export default function ShowerBenefits() {
                 <div className="flex items-baseline gap-4 mb-5">
                   <span className="overline text-deep">{b.n}</span>
                 </div>
-                <h3 className="display text-[26px] md:text-[30px] text-ink leading-tight mb-4">{b.title}</h3>
+                <h3 className="subhead text-[18px] md:text-[19px] text-ink mb-3">{b.title}</h3>
                 <p className="text-[14px] md:text-[15px] leading-relaxed text-muted">{b.line}</p>
               </div>
             </Reveal>

@@ -51,7 +51,7 @@ export default function ShowerHonesty() {
                     <p className="display italic text-3xl text-sage leading-none">{t.n}</p>
                   </div>
                   <div className="col-span-10 md:col-span-11">
-                    <h3 className="display text-xl md:text-[24px] text-bone mb-3 leading-tight">{t.title}</h3>
+                    <h3 className="subhead text-[17px] md:text-[19px] text-bone mb-3">{t.title}</h3>
                     <p className="text-[14px] md:text-[15px] leading-relaxed text-bone/70">{t.body}</p>
                   </div>
                 </div>

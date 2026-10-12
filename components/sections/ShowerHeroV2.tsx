@@ -34,9 +34,9 @@ const COLORS: Record<Color, {
     label: "Chrome",
     swatch: "bg-gradient-to-br from-bone to-water",
     images: [
-      { src: "/product/product-white-composite.jpg", alt: "Chrome filtered shower head — main view" },
+      { src: "/product/chrome-studio.webp", alt: "Chrome filtered shower head" },
+      { src: "/product/product-white-composite.jpg", alt: "Chrome filtered shower head with packaging" },
       { src: "/product/product-white-face.jpg", alt: "Chrome face-on with specs and trust badges" },
-      { src: "/product/hero-lifestyle.jpg", alt: "Lifestyle shower scene" },
       { src: "/product/dimensions.jpg", alt: "Product dimensions (134mm × 140mm)" },
     ],
   },
@@ -87,19 +87,36 @@ export default function ShowerHeroV2() {
       </div>
 
       <div className="relative mx-auto max-w-[1400px] px-5 md:px-10">
-        {/* MOBILE-ONLY: stars + 100K orders strip appears above image
-            (matches Amazon/TikTok Shop PDP flow: reviews → image → details) */}
-        <div className="lg:hidden flex flex-wrap items-center gap-x-4 gap-y-1 mb-5">
-          <span className="flex items-center gap-2">
-            <span className="text-deep text-base">★★★★★</span>
-            <span className="text-[13px] text-muted">
-              <span className="text-ink font-medium">4.8</span>
+        {/* MOBILE-ONLY: stars → headline → price land in the first screen, before
+            the image. Cold traffic has to know what this is and what it costs
+            before it sees the gallery. */}
+        <div className="lg:hidden mb-6">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-4">
+            <span className="flex items-center gap-2">
+              <span className="text-deep text-base">★★★★★</span>
+              <span className="text-[13px] text-muted">
+                <span className="text-ink font-medium">4.8</span>
+              </span>
             </span>
-          </span>
-          <span className="text-[13px] text-muted">·</span>
-          <span className="text-[13px] text-muted">
-            <span className="text-ink font-medium">100,000+</span> orders shipped
-          </span>
+            <span className="text-[13px] text-muted">·</span>
+            <span className="text-[13px] text-muted">
+              <span className="text-ink font-medium">100,000+</span> orders shipped
+            </span>
+          </div>
+          <h1 className="display leading-[0.98]" style={{ fontSize: "clamp(36px, 10vw, 48px)" }}>
+            Softer hair.
+            <br />
+            Calmer skin.
+            <br />
+            <span className="display-italic text-deep">By your next shower.</span>
+          </h1>
+          <p className="mt-4 flex items-baseline gap-2.5">
+            <span className="display text-[26px] text-ink leading-none">${selected.price}</span>
+            <span className="text-[13px] text-muted line-through">${PRODUCTS.shower.msrp}</span>
+            <span className="text-[12px] text-muted">
+              {plan === "subscribe" ? "first order, then refills" : "first order · 60-day returns"}
+            </span>
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
@@ -191,9 +208,9 @@ export default function ShowerHeroV2() {
             </span>
           </div>
 
-          {/* H1 */}
+          {/* H1 — desktop only; mobile renders it above the image */}
           <h1
-            className="display leading-[0.98]"
+            className="hidden lg:block display leading-[0.98]"
             style={{ fontSize: "clamp(40px, 4.2vw, 58px)" }}
           >
             Softer hair.
@@ -212,11 +229,21 @@ export default function ShowerHeroV2() {
             less acne and skin irritation</span>. Three-minute install. 60-day money-back.
           </p>
 
-          {/* INLINE OFFER — plan picker (vertical stack, larger cards) */}
-          <div className="mt-7 space-y-3">
+          {/* OFFER — one price, stated once and loud. The plans below only differ
+              in what happens after today, so they don't repeat the price. */}
+          <div className="mt-7 flex flex-wrap items-end gap-x-4 gap-y-2">
+            <span className="display text-[44px] md:text-[52px] text-ink leading-none">${selected.price}</span>
+            <span className="text-[16px] text-muted line-through leading-none mb-1.5">${PRODUCTS.shower.msrp}</span>
+            <span className="rounded-full bg-deep px-3 py-1.5 text-[12px] font-medium text-bone leading-none mb-1">
+              {Math.round((1 - selected.price / PRODUCTS.shower.msrp) * 100)}% off your first order
+            </span>
+          </div>
+
+          {/* Plan choice — two clear options, selected one in ink */}
+          <div className="mt-5 grid grid-cols-2 gap-2">
             {(Object.keys(PLANS) as Plan[]).map((p) => {
               const isActive = plan === p;
-              const planInfo = PLANS[p];
+              const isSub = p === "subscribe";
               return (
                 <button
                   key={p}
@@ -224,71 +251,49 @@ export default function ShowerHeroV2() {
                     setOffer({ plan: p });
                     track("plan_switch", { plan: p });
                   }}
-                  className={`relative w-full text-left p-4 md:p-5 rounded-sm border transition-all ${
+                  aria-pressed={isActive}
+                  className={`relative text-left rounded-md border px-4 py-3.5 transition-colors ${
                     isActive
-                      ? "border-deep bg-mist/60 shadow-sm shadow-ink/5"
-                      : "border-ink/15 bg-bone hover:border-ink/30"
+                      ? "border-ink bg-ink text-bone"
+                      : "border-ink/20 bg-bone text-ink hover:border-ink/50"
                   }`}
                 >
-                  {planInfo.badge && (
-                    <span className="absolute -top-2 left-4 overline text-bone bg-deep px-2.5 py-0.5 rounded-full text-[9px]">
-                      {planInfo.badge}
+                  {isSub && (
+                    <span className={`absolute -top-2.5 left-3 rounded-full px-2 py-0.5 text-[10px] font-medium tracking-wide ${
+                      isActive ? "bg-deep text-bone" : "bg-mist text-deep"
+                    }`}>
+                      Refills included
                     </span>
                   )}
-                  <div className="flex items-center gap-4">
-                    {/* Radio */}
-                    <span
-                      className={`h-5 w-5 rounded-full border-2 flex-shrink-0 transition-colors ${
-                        isActive ? "border-deep bg-deep" : "border-ink/30"
-                      }`}
-                    >
-                      {isActive && <span className="block h-full w-full rounded-full bg-bone scale-[0.4]" />}
-                    </span>
-
-                    {/* Label + line */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-3 mb-1">
-                        <span className="text-[15px] font-medium text-ink mt-1">{planInfo.label}</span>
-                        <div className="flex flex-col items-end gap-0.5">
-                          <span className="display text-2xl text-ink leading-none whitespace-nowrap">
-                            ${planInfo.price}
-                            {planInfo.original && (
-                              <span className="ml-2 text-[12px] text-muted line-through font-sans">
-                                ${planInfo.original}
-                              </span>
-                            )}
-                          </span>
-                          {planInfo.original && (
-                            <span className="overline text-deep text-[10px] tracking-widest leading-none">
-                              Save ${(planInfo.original - planInfo.price).toFixed(2)}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <p className="text-[12px] text-muted leading-snug">{planInfo.line}</p>
-                    </div>
-                  </div>
+                  <span className="block text-[15px] font-medium leading-tight">
+                    {isSub ? "Subscribe" : "One-time"}
+                  </span>
+                  <span className={`mt-1 block text-[12px] leading-snug ${isActive ? "text-bone/75" : "text-muted"}`}>
+                    {isSub
+                      ? `New filter every ${PRODUCTS.shower.refillCadenceMonths} months, $${PRODUCTS.shower.refillPrice}. Skip anytime.`
+                      : "Just the shower head. Reorder filters when you like."}
+                  </span>
                 </button>
               );
             })}
           </div>
 
-          {/* INLINE OFFER — colorway picker (compact) */}
-          <div className="mt-5 flex items-center gap-4">
-            <span className="overline text-muted">Color</span>
+          {/* Colorway */}
+          <div className="mt-4 flex items-center gap-3">
             <div className="flex items-center gap-2">
               {(Object.keys(COLORS) as Color[]).map((c) => (
                 <button
                   key={c}
                   onClick={() => pickColor(c)}
                   aria-label={`Select ${COLORS[c].label}`}
+                  aria-pressed={color === c}
                   className={`h-8 w-8 rounded-full border border-ink/20 transition-all ${COLORS[c].swatch} ${
-                    color === c ? "ring-2 ring-offset-2 ring-offset-bone ring-deep" : ""
+                    color === c ? "ring-2 ring-offset-2 ring-offset-bone ring-ink" : ""
                   }`}
                 />
               ))}
             </div>
-            <span className="text-[12px] text-muted">{COLORS[color].label}</span>
+            <span className="text-[13px] text-ink">{COLORS[color].label}</span>
           </div>
 
           {/* PRIMARY CTA */}
@@ -306,7 +311,7 @@ export default function ShowerHeroV2() {
             }
             whileHover={{ scale: 1.005 }}
             whileTap={{ scale: 0.995 }}
-            className="btn-primary w-full justify-center !py-5 mt-6 text-[14px]"
+            className="btn-primary w-full justify-center !py-5 mt-5 !text-[15px] !bg-ink hover:!bg-deep"
           >
             <AnimatePresence mode="wait">
               <motion.span
@@ -322,6 +327,10 @@ export default function ShowerHeroV2() {
               </motion.span>
             </AnimatePresence>
           </motion.a>
+
+          <p className="mt-3 text-center text-[13px] text-ink">
+            Free U.S. shipping · 60-day money-back guarantee
+          </p>
 
           {/* Accepted payment methods — trust signal, not buttons. Inline logos, no
               borders (borders previously implied clickability + clipped wider PayPal SVG). */}
