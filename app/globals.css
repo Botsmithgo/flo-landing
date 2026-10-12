@@ -20,9 +20,9 @@
   --deeper: #374F66;      /* deeper blue — used on dark sections */
   --gold: #C9A96E;        /* warm hairline accent — kept for contrast */
   --muted: #4E5A64;       /* cool muted text (darkened 2026-10-12 for contrast) */
-  --action: #EE6A26;      /* warm coral-orange — ONLY for buy actions, nowhere else */
-  --action-deep: #D5581A; /* hover/pressed */
-  --action-glow: rgba(238, 106, 38, 0.38);
+  --action: #3A8EFF;      /* light water blue — ONLY for buy actions, nowhere else */
+  --action-deep: #2578F0; /* hover/pressed */
+  --action-glow: rgba(58, 142, 255, 0.38);
   --paper: #FBFAF7;       /* near-white hero ground (bone was reading dated) */
 
   --background: var(--bone);
