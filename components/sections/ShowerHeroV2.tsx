@@ -229,17 +229,19 @@ export default function ShowerHeroV2() {
             less acne and skin irritation</span>. Three-minute install. 60-day money-back.
           </p>
 
-          {/* OFFER — one price, stated once and loud. The plans below only differ
-              in what happens after today, so they don't repeat the price. */}
-          <div className="mt-7 flex flex-wrap items-end gap-x-4 gap-y-2">
+          {/* OFFER CARD — a raised white panel so the buy decision sits on its own
+              surface instead of dissolving into the bone background. One price,
+              stated once and loud; the plans only differ in what happens after today. */}
+          <div className="mt-7 rounded-2xl bg-white p-5 md:p-6 shadow-[0_24px_60px_-28px_rgba(20,28,34,0.35)] ring-1 ring-ink/[0.06]">
+          <div className="flex flex-wrap items-end gap-x-4 gap-y-2">
             <span className="display text-[44px] md:text-[52px] text-ink leading-none">${selected.price}</span>
             <span className="text-[16px] text-muted line-through leading-none mb-1.5">${PRODUCTS.shower.msrp}</span>
-            <span className="rounded-full bg-deep px-3 py-1.5 text-[12px] font-medium text-bone leading-none mb-1">
+            <span className="rounded-full bg-action/10 px-3 py-1.5 text-[12px] font-semibold text-action leading-none mb-1">
               {Math.round((1 - selected.price / PRODUCTS.shower.msrp) * 100)}% off your first order
             </span>
           </div>
 
-          {/* Plan choice — two clear options, selected one in ink */}
+          {/* Plan choice — two clear options, selected one outlined in the action colour */}
           <div className="mt-5 grid grid-cols-2 gap-2">
             {(Object.keys(PLANS) as Plan[]).map((p) => {
               const isActive = plan === p;
@@ -252,23 +254,26 @@ export default function ShowerHeroV2() {
                     track("plan_switch", { plan: p });
                   }}
                   aria-pressed={isActive}
-                  className={`relative text-left rounded-md border px-4 py-3.5 transition-colors ${
+                  className={`relative text-left rounded-xl border-2 px-4 py-3.5 transition-colors ${
                     isActive
-                      ? "border-ink bg-ink text-bone"
-                      : "border-ink/20 bg-bone text-ink hover:border-ink/50"
+                      ? "border-action bg-action/[0.06] text-ink"
+                      : "border-ink/10 bg-white text-ink hover:border-ink/30"
                   }`}
                 >
                   {isSub && (
-                    <span className={`absolute -top-2.5 left-3 rounded-full px-2 py-0.5 text-[10px] font-medium tracking-wide ${
-                      isActive ? "bg-deep text-bone" : "bg-mist text-deep"
+                    <span className={`absolute -top-2.5 left-3 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-wide ${
+                      isActive ? "bg-action text-white" : "bg-mist text-deeper"
                     }`}>
                       Refills included
                     </span>
                   )}
-                  <span className="block text-[15px] font-medium leading-tight">
+                  <span className="flex items-center gap-2 text-[15px] font-semibold leading-tight">
+                    <span className={`h-4 w-4 rounded-full border-2 flex-shrink-0 ${isActive ? "border-action bg-action" : "border-ink/25"}`}>
+                      {isActive && <span className="block h-full w-full rounded-full bg-white scale-[0.45]" />}
+                    </span>
                     {isSub ? "Subscribe" : "One-time"}
                   </span>
-                  <span className={`mt-1 block text-[12px] leading-snug ${isActive ? "text-bone/75" : "text-muted"}`}>
+                  <span className="mt-1.5 block text-[12px] leading-snug text-muted">
                     {isSub
                       ? `New filter every ${PRODUCTS.shower.refillCadenceMonths} months, $${PRODUCTS.shower.refillPrice}. Skip anytime.`
                       : "Just the shower head. Reorder filters when you like."}
@@ -288,7 +293,7 @@ export default function ShowerHeroV2() {
                   aria-label={`Select ${COLORS[c].label}`}
                   aria-pressed={color === c}
                   className={`h-8 w-8 rounded-full border border-ink/20 transition-all ${COLORS[c].swatch} ${
-                    color === c ? "ring-2 ring-offset-2 ring-offset-bone ring-ink" : ""
+                    color === c ? "ring-2 ring-offset-2 ring-offset-white ring-action" : ""
                   }`}
                 />
               ))}
@@ -311,7 +316,7 @@ export default function ShowerHeroV2() {
             }
             whileHover={{ scale: 1.005 }}
             whileTap={{ scale: 0.995 }}
-            className="btn-primary w-full justify-center !py-5 mt-5 !text-[15px] !bg-ink hover:!bg-deep"
+            className="btn-primary w-full justify-center !py-[18px] mt-5 !text-[16px]"
           >
             <AnimatePresence mode="wait">
               <motion.span
@@ -331,6 +336,7 @@ export default function ShowerHeroV2() {
           <p className="mt-3 text-center text-[13px] text-ink">
             Free U.S. shipping · 60-day money-back guarantee
           </p>
+          </div>{/* /offer card */}
 
           {/* Accepted payment methods — trust signal, not buttons. Inline logos, no
               borders (borders previously implied clickability + clipped wider PayPal SVG). */}
