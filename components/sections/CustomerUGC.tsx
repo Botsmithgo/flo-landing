@@ -16,7 +16,7 @@ import { track } from "@/lib/analytics";
  * View counts were read from TikTok on 2026-10-12. One video per creator. Posters live in /public/ugc.
  */
 const VIDEOS = [
-  { id: "7528596974069746975", views: "1.4M", hook: "Eczema, irritation, and flaking" },
+  { id: "7528596974069746975", views: "1.4M", hook: "Dry, itchy skin after showering" },
   { id: "7529031516001815838", views: "965K", hook: "Clean enough to drink, not for your skin" },
   { id: "7528254919862684958", views: "616K", hook: "Dandruff that won't quit" },
   { id: "7519729037015649567", views: "358K", hook: "Friends notice the difference" },
