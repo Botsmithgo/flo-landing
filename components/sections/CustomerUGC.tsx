@@ -1,14 +1,14 @@
 "use client";
 
-import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Reveal from "@/components/Reveal";
 import { track } from "@/lib/analytics";
 
 /**
- * Top videos from the Feels Like Om TikTok (@feelslikeom.shop), shown as light
- * poster cards. The TikTok player only loads when a card is tapped, so the page
- * doesn't pay for four embed iframes up front.
+ * Top videos from the Feels Like Om TikTok (@feelslikeom.shop), self-hosted as
+ * 540p H.264 MP4s in /public/ugc (preload="none", so nothing downloads until a
+ * card is tapped). The TikTok embed player errored on iPhone (2026-10-12), so we
+ * serve our own posts directly.
  *
  * These are brand-account posts made with creators, so the section is labelled
  * "from our TikTok", never "real customers, not our ads" (FTC endorsement rules).
@@ -25,34 +25,40 @@ const VIDEOS = [
 const PROFILE = "https://www.tiktok.com/@feelslikeom.shop";
 
 function VideoCard({ id, views, hook }: (typeof VIDEOS)[number]) {
-  const [playing, setPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [started, setStarted] = useState(false);
+
+  function play() {
+    const v = videoRef.current;
+    if (!v) return;
+    setStarted(true);
+    // play() inside the tap handler so iOS treats it as user-initiated (sound allowed)
+    v.play().catch(() => {
+      v.muted = true;
+      v.play().catch(() => {});
+    });
+    track("tiktok_click", { source: "ugc_card", video_id: id });
+  }
 
   return (
     <div className="relative aspect-[9/16] w-full overflow-hidden rounded-2xl bg-ink ring-1 ring-ink/10">
-      {playing ? (
-        <iframe
-          src={`https://www.tiktok.com/player/v1/${id}?autoplay=1&music_info=0&description=0&rel=0`}
-          title={hook}
-          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-          className="absolute inset-0 h-full w-full"
-        />
-      ) : (
+      <video
+        ref={videoRef}
+        src={`/ugc/${id}.mp4`}
+        poster={`/ugc/${id}.webp`}
+        preload="none"
+        playsInline
+        controls={started}
+        className="absolute inset-0 h-full w-full object-cover"
+        aria-label={hook}
+      />
+      {!started && (
         <button
           type="button"
-          onClick={() => {
-            setPlaying(true);
-            track("tiktok_click", { source: "ugc_card", video_id: id });
-          }}
-          aria-label={`Play TikTok: ${hook}`}
+          onClick={play}
+          aria-label={`Play video: ${hook}`}
           className="group absolute inset-0 text-left"
         >
-          <Image
-            src={`/ugc/${id}.webp`}
-            alt=""
-            fill
-            sizes="(max-width: 768px) 70vw, 25vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          />
           <span className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
           <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[12px] font-semibold text-ink">
             {views} views
